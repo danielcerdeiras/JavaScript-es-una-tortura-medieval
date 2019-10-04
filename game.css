@@ -1,3 +1,21 @@
 h1 {
   text-align: center;
+  color: white;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+  background-color: #1E1C1C;
+}
+
+#centeredText {
+  text-align: center;
+  color: white;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+#marginText {
+  text-align: left;
+  color: white;
+  font-family: 'Josefin Sans', sans-serif;
 }

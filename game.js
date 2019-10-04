@@ -12,7 +12,7 @@ export default class Game extends Phaser.Scene {
   }
 }
 
-class Enemigo
+/*class Enemigo
 {
   //dir: 8 direcciones. 5 = todas direcciones; 1 - 9 direcciones singulares; n > 9 combinación de cada dígito
   constructor(pos, tipo, dir)
@@ -28,4 +28,4 @@ class Enemigo
     this.mov = mov;
     this.dir = dir;
   }
-}
+}*/

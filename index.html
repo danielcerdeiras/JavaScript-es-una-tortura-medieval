@@ -2,18 +2,29 @@
 <html lang="es">
 
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="favicon.png" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=2.0">
     <link rel="stylesheet" href="game.css">
     <script src="phaser.min.js"></script>
 
-    <title>¡Juego con Phaser!</title>
+    <title>Título</title>
 </head>
 
 <body>
-    <h1>Juego con Phaser</h1>
-    <script type="module">
+    <h1>Título</h1>
+    
+    <div id ="centeredText">Hola que tal</div>
+    
+    <div id="animation">
+        <div id="titleLeft">
+        </div>
+        <div id="titleRight">
+        </div>
+    </div>
+
+    <!--<script type="module">
         import Game from './game.js';
 
         var config = {
@@ -33,6 +44,26 @@
         };
         new Phaser.Game(config);
     </script>
-</body>
+    -->
 
+
+    <script>
+        function myMove() {
+           var titleRight = document.getElementById("right");   
+           var titleLeft = document.getElementById("left"); 
+           var pos = 0;
+           var id = setInterval(frame, 5);
+           function frame() {
+               if (pos == 350) {
+                   clearInterval(id);
+               }
+               else {
+               pos++; 
+               titleRight.style.right = pos + "px"; 
+               titleLeft.style.left = pos + "px"; 
+                }
+            }
+        }
+    </script>
+</body>
 </html>
