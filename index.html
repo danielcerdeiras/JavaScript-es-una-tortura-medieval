@@ -15,7 +15,7 @@
 <body>
     <h1>Título</h1>
     
-    <div id ="centeredText">Hola que tal</div>
+    <div id ="defaultText">Subtítulo</div>
     
     <div id="animation">
         <div id="titleLeft">
@@ -24,7 +24,14 @@
         </div>
     </div>
 
-    <!--<script type="module">
+    <svg height="40px" width="100vw">
+        <line x1="10vw" y1="20px" x2="90vw" y2="20px" style="stroke:white;stroke-width:2" />
+    </svg>
+
+    <div id = "defaultText">Descripción</div>
+
+    <!---->
+    <script type="module">
         import Game from './game.js';
 
         var config = {
@@ -44,10 +51,14 @@
         };
         new Phaser.Game(config);
     </script>
-    -->
 
+    <div id = "borderedText">
+        Referencias<br>
+        Licencias<br>
+        Etc
+    </div>
 
-    <script>
+    <<!--script>
         function myMove() {
            var titleRight = document.getElementById("right");   
            var titleLeft = document.getElementById("left"); 
@@ -64,6 +75,6 @@
                 }
             }
         }
-    </script>
+    </script>-->
 </body>
 </html>

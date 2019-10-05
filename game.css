@@ -8,14 +8,22 @@ body {
   background-color: #1E1C1C;
 }
 
-#centeredText {
+#defaultText {
   text-align: center;
   color: white;
   font-family: 'Josefin Sans', sans-serif;
 }
 
-#marginText {
-  text-align: left;
+#borderedText {
+  text-align: center;
   color: white;
   font-family: 'Josefin Sans', sans-serif;
+  border-style: solid;
+  border-color: white;
+  border-width: thin;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 40px;
+  margin-right: 10vw;
+  margin-left: 10vw;
 }
