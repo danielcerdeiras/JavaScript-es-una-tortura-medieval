@@ -5,5 +5,17 @@ export default class player extends Phaser.GameObjects.Sprite{
         this.body.SetColliderWorldBounds();
         this.displayWidth = width;
         this.displayHeight = height;
+        this.cursors = scene.cursors.input.keyboard.createCursorKeys();
+    }
+
+    move() {
+        if (this.cursors.up.isDown)
+            this.y -= 10;
+        if (this.cursors.down.isDown)
+            this.y += 10;
+        if (this.cursors.left.isDown)
+            this.x -= 10;
+        if (this.cursors.rigth.isDown)
+            this.x += 10;
     }
 }
