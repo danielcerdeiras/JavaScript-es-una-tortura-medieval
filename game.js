@@ -1,31 +1,27 @@
+import player from './player.js';
+
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'main' });
   }
-  preload() {  
+
+  preload()
+  {
+    this.load.image('player', './sprites/player.png');
+    this.load.image('bg', './sprites/background.png');
+    this.load.image('basicEnemy', './sprites/basicEnemy.png');
   }
 
-  create() {
+  create()
+  {
+    this.background = this.add.image(0, 0, 'bg');
+    this.background.scaleX *= 10;
+    this.background.scaleY *= 10;
+    this.player = new player(this, 300, 300, 100, 100);
   }
 
-  update(time, delta) {    
+  update(time, delta)
+  {   
+    this.player.move();
   }
 }
-
-/*class Enemigo
-{
-  //dir: 8 direcciones. 5 = todas direcciones; 1 - 9 direcciones singulares; n > 9 combinación de cada dígito
-  constructor(pos, tipo, dir)
-  {
-    this.tipo = tipo;
-    this.dir = dir;
-    this.mov = 0;
-  }
-
-  constructor(pos, tipo, mov, dir)
-  {
-    this.tipo = tipo;
-    this.mov = mov;
-    this.dir = dir;
-  }
-}*/
