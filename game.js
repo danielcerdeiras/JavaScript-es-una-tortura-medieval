@@ -2,13 +2,14 @@ import player from './player.js';
 import enemy from './enemy.js';
 
 export default class Game extends Phaser.Scene {
-  constructor() {
+  constructor()
+  {
     super({ key: 'main' });
+    this.squarePixels = 100;
   }
 
   preload()
   {
-    this.squarePixels = 100;
     this.load.image('player', './sprites/player.png');
     this.load.image('bg', './sprites/background.png');
     this.load.image('basicEnemy', './sprites/basicEnemy.png');
@@ -17,11 +18,13 @@ export default class Game extends Phaser.Scene {
 
   create()
   {
+    //this.world.setBounds(0, 0, 800, 2000);
+    //this.cameras.main.setViewport(0, 1000, 800, 1000);
     this.background = this.add.image(0, 0, 'bg');
     this.background.scaleX *= 10;
     this.background.scaleY *= 10;
-    this.player = new player(this, 100, 100, 100, 100);
-    this.enemy = new enemy(this, 500, 500, 100, 100, 3);
+    this.player = new player(this, 400, 950, this.squarePixels, this.squarePixels);
+    this.enemy = new enemy(this, 500, 500, this.squarePixels, this.squarePixels, 3);
   }
 
   update(time, delta)
@@ -31,7 +34,7 @@ export default class Game extends Phaser.Scene {
       let movedPixels = 0;
       while(movedPixels < this.squarePixels)
       {
-        this.player.Move(8);
+        this.player.y--;
         this.enemy.Move();
         movedPixels++;
       }
@@ -42,7 +45,7 @@ export default class Game extends Phaser.Scene {
       let movedPixels = 0;
       while(movedPixels < this.squarePixels)
       {
-        this.player.Move(2);
+        this.player.y++;
         this.enemy.Move();
         movedPixels++;
       }
@@ -53,7 +56,7 @@ export default class Game extends Phaser.Scene {
       let movedPixels = 0;
       while(movedPixels < this.squarePixels)
       {
-        this.player.Move(4);
+        this.player.x--;
         this.enemy.Move();
         movedPixels++;
       }
@@ -64,7 +67,7 @@ export default class Game extends Phaser.Scene {
       let movedPixels = 0;
       while(movedPixels < this.squarePixels)
       {
-        this.player.Move(6);
+        this.player.x++;
         this.enemy.Move();
         movedPixels++;
       }
