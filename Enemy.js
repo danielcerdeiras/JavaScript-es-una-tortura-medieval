@@ -1,15 +1,15 @@
-export default class Enemy extends Phaser.GameObjects.Sprites
+export default class Enemy extends Phaser.GameObjects.Sprite
 {
     constructor(scene, x, y, width, height, d)
     {
-        super(scene, x, y, 'player');
+        super(scene, x, y, 'basicEnemy');
         this.scene.add.existing(this);
         this.displayWidth = width;
         this.displayHeight = height;
         this.dir = d;
     }
 
-    Shoot(dir)
+    Shoot()
     {
 
     }
@@ -54,10 +54,10 @@ export default class Enemy extends Phaser.GameObjects.Sprites
                 this.y = this.y + 1;
                 break;
         }
+    }
 
-        ChangeDir()
-        {
-            this.dir = 10 - this.dir;
-        }
+    ChangeDir()
+    {
+        this.dir = 10 - this.dir;
     }
 }

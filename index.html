@@ -28,18 +28,15 @@
         <line x1="10vw" y1="20px" x2="90vw" y2="20px" style="stroke:white;stroke-width:2" />
     </svg>
 
-    <div id = "defaultText">Descripción</div>
-
-    <!---->
-	<canvas id="canvas" width="1400" height="800"></canvas>
+    <canvas id="canvas" width="900" height="1000"></canvas>
     <script type="module">
         import Game from './game.js';
 
         var config = {
             type: Phaser.WEBGL,
 			canvas: document.getElementById('canvas'),
-            width: 1400,
-            height: 800,
+            width:900,
+            height: 1000,
             pixelArt: true,
             input: {
                 gamepad: true
@@ -54,13 +51,15 @@
         new Phaser.Game(config);
     </script>
 
+    <div id = "defaultText">Descripción</div>
+
     <div id = "borderedText">
         Referencias<br>
         Licencias<br>
         Etc
     </div>
 
-    <<!--script>
+    <!--script>
         function myMove() {
            var titleRight = document.getElementById("right");   
            var titleLeft = document.getElementById("left"); 
