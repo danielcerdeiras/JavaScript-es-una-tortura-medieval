@@ -1,14 +1,12 @@
 export default class Enemy extends Phaser.GameObjects.Sprites
 {
-    let dir;
-
     constructor(scene, x, y, width, height, d)
     {
         super(scene, x, y, 'player');
         this.scene.add.existing(this);
         this.displayWidth = width;
         this.displayHeight = height;
-        dir = d;
+        this.dir = d;
     }
 
     Shoot(dir)
@@ -18,7 +16,7 @@ export default class Enemy extends Phaser.GameObjects.Sprites
 
     Move()
     {
-        switch(dir)
+        switch(this.dir)
         {
             case 1:
                 this.x = this.x - 1;
@@ -59,7 +57,7 @@ export default class Enemy extends Phaser.GameObjects.Sprites
 
         ChangeDir()
         {
-            dir = 10 - dir;
+            this.dir = 10 - this.dir;
         }
     }
 }
