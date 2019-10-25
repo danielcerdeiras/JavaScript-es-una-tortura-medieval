@@ -20,16 +20,16 @@ export default class Enemy extends Phaser.GameObjects.Sprite
         {
             case 1:
                 this.x = this.x - 1;
-                this.y = this.y - 1;
+                this.y = this.y + 1;
                 break;
 
             case 2:
-                this.y = this.y - 1;
+                this.y = this.y + 1;
                 break;
                 
             case 3:
                 this.x = this.x + 1;
-                this.y = this.y - 1;
+                this.y = this.y + 1;
                 break;
 
             case 4:
@@ -42,16 +42,16 @@ export default class Enemy extends Phaser.GameObjects.Sprite
 
             case 7:
                 this.x = this.x - 1;
-                this.y = this.y + 1;
+                this.y = this.y - 1;
                 break;
                     
             case 8:
-                this.y = this.y + 1;
+                this.y = this.y - 1;
                 break;
     
             case 9:
                 this.x = this.x + 1;
-                this.y = this.y + 1;
+                this.y = this.y - 1;
                 break;
         }
     }
