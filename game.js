@@ -1,5 +1,5 @@
 import player from './player.js';
-import enemy from './enemy.js';
+import walker from './walker.js';
 
 export default class Game extends Phaser.Scene {
   constructor()
@@ -24,7 +24,8 @@ export default class Game extends Phaser.Scene {
     this.background.scaleX *= 10;
     this.background.scaleY *= 10;
     this.player = new player(this, 400, 950, this.squarePixels, this.squarePixels);
-    this.enemy = new enemy(this, 500, 500, this.squarePixels, this.squarePixels, 3);
+    this.enemy1 = new walker(this, 500, 500, this.squarePixels, this.squarePixels, 3);
+    this.enemy2 = new walker(this, 300, 300, this.squarePixels, this.squarePixels, 9);
   }
 
   update(time, delta)
@@ -35,7 +36,8 @@ export default class Game extends Phaser.Scene {
       while(movedPixels < this.squarePixels)
       {
         this.player.y--;
-        this.enemy.Move();
+        this.enemy1.Move();
+        this.enemy2.Move();
         movedPixels++;
       }
     }
@@ -46,7 +48,8 @@ export default class Game extends Phaser.Scene {
       while(movedPixels < this.squarePixels)
       {
         this.player.y++;
-        this.enemy.Move();
+        this.enemy1.Move();
+        this.enemy2.Move();
         movedPixels++;
       }
     }
@@ -57,7 +60,8 @@ export default class Game extends Phaser.Scene {
       while(movedPixels < this.squarePixels)
       {
         this.player.x--;
-        this.enemy.Move();
+        this.enemy1.Move();
+        this.enemy2.Move();
         movedPixels++;
       }
     }
@@ -68,9 +72,20 @@ export default class Game extends Phaser.Scene {
       while(movedPixels < this.squarePixels)
       {
         this.player.x++;
-        this.enemy.Move();
+        this.enemy1.Move();
+        this.enemy2.Move();
         movedPixels++;
       }
     }
   }
+
+  /*LoadLevel(level, num)
+  {
+    switch (num)
+    {
+      case 1:
+        break; 
+    }
+    return (enemies);
+  }*/
 }
