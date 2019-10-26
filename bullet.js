@@ -48,5 +48,11 @@ export default class Bullet extends enemy
                 this.y = this.y - 1;
                 break;
         }
+
+        if (this.x > 850 || this.x < 0 || this.y < 0 ||this.y > 1050)
+            return(false);
+
+        else
+            return(true);
     }
 }

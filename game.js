@@ -1,6 +1,7 @@
 import player from './player.js';
 import charger from './charger.js';
 import shooter from './shooter.js';
+import square from './square.js';
 
 export default class Game extends Phaser.Scene {
   constructor()
@@ -14,6 +15,7 @@ export default class Game extends Phaser.Scene {
     this.load.image('player', './sprites/player.png');
     this.load.image('bg', './sprites/background.png');
     this.load.image('basicEnemy', './sprites/basicEnemy.png');
+    this.load.image('square', './sprites/square.png');
     this.load.image('shooter', './sprites/shooter.png');
     this.load.image('bullet', './sprites/bullet.png');
     this.cursors = this.input.keyboard.addKeys('W,A,S,D');
@@ -30,6 +32,7 @@ export default class Game extends Phaser.Scene {
     this.charger_1 = new charger(this, 500, 500, this.squarePixels, this.squarePixels, 'basicEnemy', 3, 1);
     this.charger_2 = new charger(this, 300, 300, this.squarePixels, this.squarePixels, 'basicEnemy', 9, 2);
     this.shooter = new shooter(this, 200, 700, this.squarePixels, this.squarePixels, 'shooter', 'bullet', 6, 3);
+    this.square = new square(this, 700, 200, this.squarePixels, this.squarePixels, 'square', 2, 4);
   }
 
   update(time, delta)
@@ -42,8 +45,12 @@ export default class Game extends Phaser.Scene {
         this.player.Move(8);
         this.charger_1.Act();
         this.charger_2.Act();
+        this.shooter.Act();
+        this.square.Act();
         movedPixels++;
       }
+      this.shooter.Update();
+      this.square.Update(); //Estos métodos son provisionales hasta que se arregle lo de las animaciones
     }
     
     else if (Phaser.Input.Keyboard.JustDown(this.cursors.S))
@@ -54,8 +61,12 @@ export default class Game extends Phaser.Scene {
         this.player.Move(2);
         this.charger_1.Act();
         this.charger_2.Act();
+        this.shooter.Act();
+        this.square.Act();
         movedPixels++;
       }
+      this.shooter.Update();
+      this.square.Update();
     }
 
     else if (Phaser.Input.Keyboard.JustDown(this.cursors.A))
@@ -66,8 +77,12 @@ export default class Game extends Phaser.Scene {
         this.player.Move(4);
         this.charger_1.Act();
         this.charger_2.Act();
+        this.shooter.Act();
+        this.square.Act();
         movedPixels++;
       }
+      this.shooter.Update();
+      this.square.Update();
     }
 
     else if (Phaser.Input.Keyboard.JustDown(this.cursors.D))
@@ -79,8 +94,11 @@ export default class Game extends Phaser.Scene {
         this.charger_1.Act();
         this.charger_2.Act();
         this.shooter.Act();
+        this.square.Act();
         movedPixels++;
       }
+      this.shooter.Update();
+      this.square.Update();
     }
   }
 
