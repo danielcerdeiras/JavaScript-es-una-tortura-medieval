@@ -23,20 +23,44 @@ export default class Shooter extends enemy
     {
         if (this.time >= this.fireRate)
         {
-            let found = false;
-            for (let i = 0; i <= this.ind && !found; i++)
+            let i = 1;
+            while(this.dir === 5 && i < 10)
             {
-                if (this.bullets[i] == null)
+                let found = false;
+                for (let j = 0; j <= this.ind && !found; j++)
                 {
-                    this.bullets[i] = new bullet(this.scene, this.x, this.y, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, 6, this.ind);
-                    found = true;
+                    if (this.bullets[j] == null && i !== 5)
+                    {
+                        this.bullets[j] = new bullet(this.scene, this.x, this.y, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, i);
+                        found = true;
+                    }
                 }
+    
+                if (!found && i !== 5)
+                {
+                    this.ind = this.ind + 1;
+                    this.bullets[this.ind] = new bullet(this.scene, this.x, this.y, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, i);
+                }
+                i++;
             }
 
-            if (!found)
+            if (this.dir !== 5) //La versión sin 5 del disparo es la siguiente sin todo lo anterior quitando el if inicial
             {
-                this.ind = this.ind + 1;
-                this.bullets[this.ind] = new bullet(this.scene, this.x, this.y, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, 6, this.ind);
+                let found = false;
+                for (let j = 0; j <= this.ind && !found; j++)
+                {
+                    if (this.bullets[j] == null)
+                    {
+                        this.bullets[j] = new bullet(this.scene, this.x, this.y, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, this.dir);
+                        found = true;
+                    }
+                }
+    
+                if (!found)
+                {
+                    this.ind = this.ind + 1;
+                    this.bullets[this.ind] = new bullet(this.scene, this.x, this.y, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, this.dir);
+                }
             }
             this.time = 0;
         }
