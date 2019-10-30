@@ -69,20 +69,4 @@ export default class Shooter extends enemy
 
         this.time++;
     }
-
-    /*Act()
-    {
-        if (this.time >= this.fireRate)
-        {
-            this.bullets[ind] = new bullet(this.scene, 50, 50, 50, 50, this.bulletSprite, 6);
-            this.ind++;
-            this.time = 0;
-        }
-        
-        else
-            this.time = this.time + 1;
-
-        for (let i = 0; i < this.ind; i++)
-            this.bullets[i].Act();
-    }*/
 }
