@@ -10,12 +10,6 @@ export default class Square extends enemy
         this.cont = 0;
     }
 
-    Update() //Este método es provisional hasta que se arregle lo de las animaciones
-    {
-        this.cont = this.cont + 1;
-        if (this.cont > 3) this.cont = 0;
-    }
-
     Act()
     {
         switch (this.cont)
@@ -24,19 +18,19 @@ export default class Square extends enemy
                     switch (this.dir)
                     {
                         case 2:
-                            this.y = this.y + 1;
+                            this.posY++;
                             break;
 
                         case 4:
-                            this.x = this.x - 1;
+                            this.posX--;
                             break;
 
                         case 6:
-                            this.x = this.x + 1;
+                            this.posX++;
                             break;
 
                         case 8:
-                            this.y = this.y - 1;
+                            this.posY--;
                             break;
                     }
                 break;
@@ -45,19 +39,19 @@ export default class Square extends enemy
                     switch (this.secDir)
                     {
                         case 2:
-                            this.y = this.y + 1;
+                            this.posY++;
                             break;
 
                         case 4:
-                            this.x = this.x - 1;
+                            this.posX--;
                             break;
     
                         case 6:
-                            this.x = this.x + 1;
+                            this.posX++;
                             break;
     
                         case 8:
-                            this.y = this.y - 1;
+                            this.posY--;
                             break;
                     }
                 break;
@@ -66,19 +60,19 @@ export default class Square extends enemy
                     switch (10 - this.dir)
                     {
                         case 2:
-                            this.y = this.y + 1;
+                            this.posY++;
                             break;
     
                         case 4:
-                            this.x = this.x - 1;
+                            this.posX--;
                             break;
     
                         case 6:
-                            this.x = this.x + 1;
+                            this.posX++;
                             break;
     
                         case 8:
-                            this.y = this.y - 1;
+                            this.posY--;
                             break;
                     }
                 break;
@@ -87,22 +81,28 @@ export default class Square extends enemy
                     switch (10 - this.secDir)
                     {
                         case 2:
-                            this.y = this.y + 1;
+                            this.posY++;
                             break;
         
                         case 4:
-                            this.x = this.x - 1;
+                            this.posX--;
                             break;
         
                         case 6:
-                            this.x = this.x + 1;
+                            this.posX++;
                             break;
         
                         case 8:
-                            this.y = this.y - 1;
+                            this.posY--;
                             break;
                     }
             break;
         }
+
+        this.x = (this.posX * this.displayWidth) + (this.displayWidth / 2);
+        this.y = (this.posY * this.displayHeight) + (this.displayHeight / 2);
+
+        this.cont = this.cont + 1;
+        if (this.cont > 3) this.cont = 0;
     }
 }

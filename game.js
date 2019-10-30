@@ -28,87 +28,49 @@ export default class Game extends Phaser.Scene {
     this.background = this.add.image(0, 0, 'bg');
     this.background.scaleX *= 10;
     this.background.scaleY *= 10;
-    this.player = new player(this, 400, 950, this.squarePixels, this.squarePixels, 'player');
-    this.charger_1 = new charger(this, 500, 500, this.squarePixels, this.squarePixels, 'basicEnemy', 3, 1);
-    this.charger_2 = new charger(this, 300, 300, this.squarePixels, this.squarePixels, 'basicEnemy', 9, 2);
-    this.shooter = new shooter(this, 200, 700, this.squarePixels, this.squarePixels, 'shooter', 'bullet', 6, 3);
-    this.square = new square(this, 700, 200, this.squarePixels, this.squarePixels, 'square', 2, 4);
+    this.player = new player(this, 0, 0, this.squarePixels, this.squarePixels, 'player');
+    this.charger_1 = new charger(this, 2, 2, this.squarePixels, this.squarePixels, 'basicEnemy', 9, 1);
+    this.charger_2 = new charger(this, 2, 3, this.squarePixels, this.squarePixels, 'basicEnemy', 1, 2);
+    this.shooter = new shooter(this, 5, 5, this.squarePixels, this.squarePixels, 'shooter', 'bullet', 6, 3);
+    this.square = new square(this, 5, 7, this.squarePixels, this.squarePixels, 'square', 2, 4);
   }
 
   update(time, delta)
   {   
     if (Phaser.Input.Keyboard.JustDown(this.cursors.W))
     {
-      let movedPixels = 0;
-      while(movedPixels < this.squarePixels)
-      {
-        this.player.Move(8);
-        this.charger_1.Act();
-        this.charger_2.Act();
-        this.shooter.Act();
-        this.square.Act();
-        movedPixels++;
-      }
-      this.shooter.Update();
-      this.square.Update(); //Estos métodos son provisionales hasta que se arregle lo de las animaciones
+      this.player.Move(8);
+      this.charger_1.Act();
+      this.charger_2.Act();
+      this.shooter.Act();
+      this.square.Act();
     }
     
     else if (Phaser.Input.Keyboard.JustDown(this.cursors.S))
     {
-      let movedPixels = 0;
-      while(movedPixels < this.squarePixels)
-      {
-        this.player.Move(2);
-        this.charger_1.Act();
-        this.charger_2.Act();
-        this.shooter.Act();
-        this.square.Act();
-        movedPixels++;
-      }
-      this.shooter.Update();
-      this.square.Update();
+      this.player.Move(2);
+      this.charger_1.Act();
+      this.charger_2.Act();
+      this.shooter.Act();
+      this.square.Act();
     }
 
     else if (Phaser.Input.Keyboard.JustDown(this.cursors.A))
     {
-      let movedPixels = 0;
-      while(movedPixels < this.squarePixels)
-      {
-        this.player.Move(4);
-        this.charger_1.Act();
-        this.charger_2.Act();
-        this.shooter.Act();
-        this.square.Act();
-        movedPixels++;
-      }
-      this.shooter.Update();
-      this.square.Update();
+      this.player.Move(4);
+      this.charger_1.Act();
+      this.charger_2.Act();
+      this.shooter.Act();
+      this.square.Act();
     }
 
     else if (Phaser.Input.Keyboard.JustDown(this.cursors.D))
     {
-      let movedPixels = 0;
-      while(movedPixels < this.squarePixels)
-      {
-        this.player.Move(6);
-        this.charger_1.Act();
-        this.charger_2.Act();
-        this.shooter.Act();
-        this.square.Act();
-        movedPixels++;
-      }
-      this.shooter.Update();
-      this.square.Update();
+      this.player.Move(6);
+      this.charger_1.Act();
+      this.charger_2.Act();
+      this.shooter.Act();
+      this.square.Act();
     }
   }
-
-  /*LoadLevel(level, num)
-  {
-    switch (num)
-    {
-      case 1:
-        break; 
-    }
-    return (enemies);
-  }*/
 }

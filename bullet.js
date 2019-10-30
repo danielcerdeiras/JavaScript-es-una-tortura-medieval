@@ -13,43 +13,46 @@ export default class Bullet extends enemy
         switch(this.dir)
         {
             case 1:
-                this.x = this.x - 1;
-                this.y = this.y + 1;
+                this.posX--;
+                this.posY++;
                 break;
 
             case 2:
-                this.y = this.y + 1;
+                this.posY++;
                 break;
                 
             case 3:
-                this.x = this.x + 1;
-                this.y = this.y + 1;
+                this.posX++;
+                this.posY++;
                 break;
 
             case 4:
-                this.x = this.x - 1;
+                this.posX--;
                 break;
 
             case 6:
-                this.x = this.x + 1;
+                this.posX++;
                 break;
 
             case 7:
-                this.x = this.x - 1;
-                this.y = this.y - 1;
+                this.posX--;
+                this.posY--;
                 break;
                     
             case 8:
-                this.y = this.y - 1;
+                this.posY--;
                 break;
     
             case 9:
-                this.x = this.x + 1;
-                this.y = this.y - 1;
+                this.posX++;
+                this.posY--;
                 break;
         }
 
-        if (this.x > 850 || this.x < 0 || this.y < 0 ||this.y > 1050)
+        this.x = (this.posX * (this.displayWidth * 2)) + (this.displayWidth);
+        this.y = (this.posY * (this.displayHeight * 2)) + (this.displayHeight);
+
+        if (this.posX > 10 || this.posX < 0 || this.posY < 0 ||this.posY > 20)
             return(false);
 
         else
