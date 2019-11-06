@@ -2,9 +2,9 @@ import enemy from './enemy.js';
 
 export default class Bullet extends enemy
 {
-    constructor(scene, x, y, width, height, sprite, dir)
+    constructor(level,scene, x, y, width, height, sprite, dir)
     {
-        super(scene, x, y, width, height, sprite);
+        super(scene, x, y, width, height, sprite, level);
         this.dir = dir;
     }
 
@@ -18,7 +18,9 @@ export default class Bullet extends enemy
                 break;
 
             case 2:
+                if(this.level[this.posY+1] [this.posX]  != 2)
                 this.posY++;
+                else return false;
                 break;
                 
             case 3:
@@ -31,7 +33,9 @@ export default class Bullet extends enemy
                 break;
 
             case 6:
+                if(this.level[this.posY] [this.posX+1]  != 2)
                 this.posX++;
+                else return false;
                 break;
 
             case 7:
@@ -52,7 +56,7 @@ export default class Bullet extends enemy
         this.x = (this.posX * (this.displayWidth * 2)) + (this.displayWidth);
         this.y = (this.posY * (this.displayHeight * 2)) + (this.displayHeight);
 
-        if (this.posX > 10 || this.posX < 0 || this.posY < 0 ||this.posY > 20)
+        if (this.posX > 7 || this.posX < 0 || this.posY < 0 ||this.posY > 10)
             return(false);
 
         else

@@ -15,23 +15,35 @@ export default class Player extends Phaser.GameObjects.Sprite
         switch(dir)
         {
             case 2:
-                if(level[this.posY +1 ][this.posX] == 1)
-                this.posY++; 
+                if(level[this.posY +1 ][this.posX] == 1){
+                    level[this.posY ][this.posX]= 1;
+                    level[this.posY +1 ][this.posX] = 3;
+                this.posY++; }
                 break;
                 
             case 4:
-                    if(level[this.posY][this.posX-1] == 1)
-                this.posX--;
+                    if(level[this.posY][this.posX-1] == 1){
+                        level[this.posY ][this.posX]= 1;
+                        level[this.posY][this.posX-1] = 3;
+                        this.posX--;
+                    }
                 break;
 
             case 6:
-                    if(level[this.posY ][this.posX +1] == 1)
-                this.posX++;
+                    if(level[this.posY ][this.posX +1] == 1){
+                        level[this.posY ][this.posX]= 1;
+                        level[this.posY ][this.posX +1]= 3;
+                        this.posX++;
+
+                    }
                 break;
 
             case 8:
-                    if(level[this.posY -1 ][this.posX] == 1)
-                this.posY--;
+                    if(level[this.posY -1 ][this.posX] == 1){
+                        level[this.posY ][this.posX]= 1;
+                        level[this.posY -1 ][this.posX] = 3;
+                        this.posY--;
+                    }
                 break;
         }
 

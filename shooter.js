@@ -3,9 +3,9 @@ import bullet from './bullet.js';
 
 export default class Shooter extends enemy
 {
-    constructor(scene, x, y, width, height, sprite, bulletSprite, dir, fireRate)
+    constructor(level,scene, x, y, width, height, sprite, bulletSprite, dir, fireRate)
     {
-        super(scene, x, y, width, height, sprite);
+        super(scene, x, y, width, height, sprite, level);
         this.bulletSprite = bulletSprite;
         this.dir = dir;
         this.fireRate = fireRate;
@@ -26,7 +26,7 @@ export default class Shooter extends enemy
                 {
                     if (this.bullets[j] == null && i !== 5)
                     {
-                        this.bullets[j] = new bullet(this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, i);
+                        this.bullets[j] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, i);
                         found = true;
                     }
                 }
@@ -34,7 +34,7 @@ export default class Shooter extends enemy
                 if (!found && i !== 5)
                 {
                     this.ind++;
-                    this.bullets[this.ind] = new bullet(this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, i);
+                    this.bullets[this.ind] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, i);
                 }
                 i++;
             }
@@ -46,7 +46,7 @@ export default class Shooter extends enemy
                 {
                     if (this.bullets[j] == null)
                     {
-                        this.bullets[j] = new bullet(this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, this.dir);
+                        this.bullets[j] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, this.dir);
                         found = true;
                     }
                 }
@@ -54,17 +54,16 @@ export default class Shooter extends enemy
                 if (!found)
                 {
                     this.ind++;
-                    this.bullets[this.ind] = new bullet(this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, this.dir);
+                    this.bullets[this.ind] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, this.dir);
                 }
             }
             this.time = 0;
         }
 
         for (let i = 0; i <= this.ind; i++)
-            if (this.bullets[i] != null && !this.bullets[i].Act())
+            if (!this.bullets[i].Act())
             {
-                delete(this.bullets[i]); //No terminan de destruirse pero ha sido un buen intento.
-                this.bullets[i] = null;
+                this.bullets[i].destroy();
             }
 
         this.time++;

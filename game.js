@@ -11,57 +11,9 @@ export default class Game extends Phaser.Scene {
     this.squarePixels = 100;
   }
 
-  levelChange(level,fil,col){
-    let px, py, fx, fy;
-
-    
-    for (let i = 0; i < fil; i++ ){
-      for (let j = 0; j < col; j++ ){
-        switch(level[i][j]){
-          case 0:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'void');
-            this.background.setOrigin(0,0)
-            break;
-          }
-          case 1:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
-            this.background.setOrigin(0,0)
-            break;
-          }
-          case 2:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'wall');
-            this.background.setOrigin(0,0)
-            break;
-          }
-          case 3:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
-            this.background.setOrigin(0,0)
-            px = j;
-            py = i;
-            break;
-          }
-          case 4:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'end'); //La textura cambiara a 'ground' una vez se implemente la clase finish
-            this.background.setOrigin(0,0)
-            fx = j;
-            fy = i;
-            break;
-          }
-          default:{
-            
-          }
-        }
-      } 
-    }
-    
-    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player');
-  }
-
   preload()
   {
     this.level = [];
-
-    
     this.load.image('end','./sprites/end.png');
     this.load.image('wall','./sprites/wall.png');
     this.load.image('void','./sprites/void.png');
@@ -77,12 +29,6 @@ export default class Game extends Phaser.Scene {
 
   create()
   {
-    this.background = this.add.image(0, 0, 'bg');
-    this.background.scaleX *= 10;
-    this.background.scaleY *= 10;
-
-
-    
     this.enemies = [];
     this.enemies[0] = 0;
 
@@ -104,20 +50,21 @@ export default class Game extends Phaser.Scene {
     4 = meta
     el resto = enemigos
     */
+
    this.level = [
-    [2,2,2,2,2,2,2],
-    [2,1,1,4,1,1,2],
+    [2,2,2,2,2,0,0],
+    [2,1,1,4,2,2,2],
+    [2,1,526,1,1,1,2],
     [2,1,1,1,1,1,2],
-    [2,1,1,0,1,1,2],
-    [2,1,1,0,1,1,2],
-    [2,1,1,0,1,1,2],
-    [2,1,1,0,1,1,2],
+    [2,1,1,2,2,2,2],
+    [2,562,1,2,2,2,2],
+    [2,564,1,1,0,1,2],
     [2,1,1,1,1,1,2],
     [2,1,1,3,1,1,2],
     [2,2,2,2,2,2,2]
-  ];
-
-    this.levelChange(this.level,10,7);
+    ];
+      
+    this.levelChange(this.level);
   }
 
   update(time, delta)
@@ -153,5 +100,63 @@ export default class Game extends Phaser.Scene {
       for (let i = 1; i <= this.enemies[0]; i++)
         this.enemies[i].Act();
     }
+  }
+
+  levelChange(level){
+    let px, py, fx, fy;
+    let fil = level.length;
+    let col = level[0].length;
+
+    for (let i = 0; i < fil; i++ ){
+      for (let j = 0; j < col; j++ ){
+        switch(level[i][j]){
+          case 0:{
+            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'void');
+            break;
+          }
+          case 1:{
+            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
+            break;
+          }
+          case 2:{
+            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'wall');
+            break;
+          }
+          case 3:{
+            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
+            px = j;
+            py = i;
+            break;
+          }
+          case 4:{
+            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'end'); //La textura cambiará a 'ground' una vez se implemente la clase finish
+            fx = j;
+            fy = i;
+            break;
+          }
+          default:{
+            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
+            let temp = level[i][j]%100;
+            
+            switch(Math.floor(level[i][j]/100))
+            {
+              case 5:{
+                this.enemies[0]++;
+                this.enemies[this.enemies[0]] = new shooter(this.level, this, j, i, this.squarePixels, this.squarePixels, 'shooter', 'bullet', Math.floor(temp/10), temp%10);
+                break;
+              }
+              case 6:{
+                this.enemies[0]++;
+                this.enemies[this.enemies[0]] = new charger(this, j, i, this.squarePixels, this.squarePixels, 'basicEnemy', Math.floor(temp/10), temp%10);
+                break;
+              }
+              
+            }
+          }        
+        }
+        this.background.setOrigin(0,0);
+      } 
+    }
+    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player');
   }
 }
