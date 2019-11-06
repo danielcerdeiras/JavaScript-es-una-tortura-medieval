@@ -63,7 +63,7 @@ export default class Shooter extends enemy
         for (let i = 0; i <= this.ind; i++)
             if (this.bullets[i] != null && !this.bullets[i].Act())
             {
-                delete(this.bullets[i]); //No terminan de destruirse pero ha sido un buen intento
+                delete(this.bullets[i]); //No terminan de destruirse pero ha sido un buen intento.
                 this.bullets[i] = null;
             }
 

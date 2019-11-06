@@ -10,23 +10,27 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.displayHeight = height;
     }
 
-    Move(dir)
+    Move(dir, level)
     {
         switch(dir)
         {
             case 2:
-                this.posY++;
+                if(level[this.posY +1 ][this.posX] == 1)
+                this.posY++; 
                 break;
                 
             case 4:
+                    if(level[this.posY][this.posX-1] == 1)
                 this.posX--;
                 break;
 
             case 6:
+                    if(level[this.posY ][this.posX +1] == 1)
                 this.posX++;
                 break;
 
             case 8:
+                    if(level[this.posY -1 ][this.posX] == 1)
                 this.posY--;
                 break;
         }

@@ -28,14 +28,14 @@
         <line x1="10vw" y1="20px" x2="90vw" y2="20px" style="stroke:white;stroke-width:2" />
     </svg>
 
-    <canvas id="canvas" width="800" height="1000"></canvas>
+    <canvas id="canvas" width="700" height="1000"></canvas>
     <script type="module">
         import Game from './game.js';
 
         var config = {
             type: Phaser.WEBGL,
 			canvas: document.getElementById('canvas'),
-            width:800,
+            width:700,
             height: 1000,
             pixelArt: true,
             input: {
@@ -46,7 +46,7 @@
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
             scene: [ Game ],
-            physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: false } }
+            physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: true } }
         };
         new Phaser.Game(config);
     </script>
