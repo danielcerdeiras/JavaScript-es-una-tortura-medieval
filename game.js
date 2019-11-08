@@ -47,7 +47,7 @@ export default class Game extends Phaser.Scene {
     [2,1,1,4,2,2,2],
     [2,1,528,1,1,1,2],
     [2,1,1,1,1,548,2],
-    [2,1,1,2,2,2,2],
+    [2,1,1,1,2,2,2],
     [2,562,1,2,2,2,2],
     [2,564,1,1,0,1,2],
     [2,1,1,1,1,1,2],
@@ -100,6 +100,9 @@ export default class Game extends Phaser.Scene {
 
       this.player.Move(6,this.level);
     }
+
+   if(this.playerDead()) this.scene.restart();
+   else if (this.playerWon()) ;//this.scene.
   }
 
   levelLoad(){
@@ -126,6 +129,7 @@ export default class Game extends Phaser.Scene {
             this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
             px = j;
             py = i;
+            this.level[i][j] = 1;
             break;
           }
           case 4:{
@@ -150,7 +154,6 @@ export default class Game extends Phaser.Scene {
                 this.enemies[this.enemies[0]] = new charger(this.level, this, j, i, this.squarePixels, this.squarePixels, 'basicEnemy', Math.floor(temp/10), temp%10);
                 break;
               }
-              
             }
           }        
         }
@@ -158,5 +161,18 @@ export default class Game extends Phaser.Scene {
       } 
     }
     this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player', 'timeStop');
+    
+  }
+
+  playerDead()
+  {
+    let entity = this.level[this.player.posY][this.player.posX];
+    return (entity !=1 && entity != 4);
+  }
+
+  playerWon()
+  {
+    let entity = this.level[this.player.posY][this.player.posX];
+    return (entity == 4);
   }
 }

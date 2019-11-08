@@ -58,10 +58,12 @@ export default class Bullet extends enemy
         this.x = (this.posX * (this.displayWidth * 2)) + (this.displayWidth);
         this.y = (this.posY * (this.displayHeight * 2)) + (this.displayHeight);
 
-        if (this.posX > 7 || this.posX < 0 || this.posY < 0 ||this.posY > 10)
-            return(false);
+        // if (this.posX > 7 || this.posX < 0 || this.posY < 0 ||this.posY > 10)
+        //     return(false);
 
-        else
-            return(true);
+        // else
+        //     return(true);
+
+        return !(this.posX > 7 || this.posX < 0 || this.posY < 0 ||this.posY > 10)
     }
 }

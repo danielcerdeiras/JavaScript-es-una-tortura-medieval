@@ -17,7 +17,9 @@ export default class Player extends Phaser.GameObjects.Sprite
                 this.cooldown = 10;
                 break;
 
-            //...
+            case 'flash':
+                this.cooldown = 6;
+                break;
         }
 
         this.time = this.cooldown;
@@ -25,40 +27,36 @@ export default class Player extends Phaser.GameObjects.Sprite
 
     Move(dir, level)
     {
+        let speed = 1;
+        if(this.power == 'flash' && this.powerUsed)
+        speed = 2;
+
         switch(dir)
         {
             case 2:
-                if(level[this.posY +1 ][this.posX] == 1){
-                    level[this.posY ][this.posX]= 1;
-                    level[this.posY +1 ][this.posX] = 3;
-                this.posY++; }
+                if(level[this.posY + speed ][this.posX] != 2){
+                this.posY += speed; }
                 break;
                 
             case 4:
-                    if(level[this.posY][this.posX-1] == 1){
-                        level[this.posY ][this.posX]= 1;
-                        level[this.posY][this.posX-1] = 3;
-                        this.posX--;
+                    if(level[this.posY][this.posX-speed] != 2){
+                        this.posX -= speed;
                     }
                 break;
 
             case 6:
-                    if(level[this.posY ][this.posX +1] == 1){
-                        level[this.posY ][this.posX]= 1;
-                        level[this.posY ][this.posX +1]= 3;
-                        this.posX++;
-
+                    if(level[this.posY ][this.posX +speed] != 2){
+                        this.posX += speed;
                     }
                 break;
 
             case 8:
-                    if(level[this.posY -1 ][this.posX] == 1){
-                        level[this.posY ][this.posX]= 1;
-                        level[this.posY -1 ][this.posX] = 3;
-                        this.posY--;
+                    if(level[this.posY -speed ][this.posX] != 2){
+                        this.posY -= speed;
                     }
                 break;
         }
+
         this.x = (this.posX * this.displayWidth) + (this.displayWidth / 2);
         this.y = (this.posY * this.displayHeight) + (this.displayHeight / 2);
 
