@@ -13,7 +13,6 @@ export default class Game extends Phaser.Scene {
 
   preload()
   {
-    this.level = [];
     this.load.image('end','./sprites/end.png');
     this.load.image('wall','./sprites/wall.png');
     this.load.image('void','./sprites/void.png');
@@ -24,22 +23,14 @@ export default class Game extends Phaser.Scene {
     this.load.image('square', './sprites/square.png');
     this.load.image('shooter', './sprites/shooter.png');
     this.load.image('bullet', './sprites/bullet.png');
-    this.cursors = this.input.keyboard.addKeys('W,A,S,D');
+    this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
   }
 
   create()
   {
+    this.powerUsed = false;
     this.enemies = [];
     this.enemies[0] = 0;
-
-    /*
-    this.enemies[1] = new charger(this, 2, 2, this.squarePixels, this.squarePixels, 'basicEnemy', 9, 1); this.enemies[0]++;
-    this.enemies[2] = new charger(this, 2, 3, this.squarePixels, this.squarePixels, 'basicEnemy', 1, 2); this.enemies[0]++;
-    this.enemies[3] = new shooter(this, 5, 5, this.squarePixels, this.squarePixels, 'shooter', 'bullet', 6, 3); this.enemies[0]++;
-    this.enemies[4] = new square(this, 6, 1, this.squarePixels, this.squarePixels, 'square', 2, 4); this.enemies[0]++;
-    this.enemies[5] = new zigzag(this, 0, 7, this.squarePixels, this.squarePixels, 'square', 6, 8); this.enemies[0]++;
-    */
-
 
     /*
     Como funciona el level:
@@ -64,52 +55,61 @@ export default class Game extends Phaser.Scene {
     [2,2,2,2,2,2,2]
     ];
       
-    this.levelChange(this.level);
+    this.levelLoad();
   }
 
   update(time, delta)
   {   
+    if (Phaser.Input.Keyboard.JustDown(this.cursors.SHIFT))
+    {
+      this.player.UsePower();
+    }
+
     if (Phaser.Input.Keyboard.JustDown(this.cursors.W))
     {
+      if (this.player.power != 'timeStop' || !this.player.powerUsed)
+        for (let i = 1; i <= this.enemies[0]; i++)
+          this.enemies[i].Act();
+
       this.player.Move(8,this.level);
-      
-      for (let i = 1; i <= this.enemies[0]; i++)
-        this.enemies[i].Act();
     }
     
     else if (Phaser.Input.Keyboard.JustDown(this.cursors.S))
     {
+      if (this.player.power != 'timeStop' || !this.player.powerUsed)
+        for (let i = 1; i <= this.enemies[0]; i++)
+          this.enemies[i].Act();
+
       this.player.Move(2,this.level);
-      
-      for (let i = 1; i <= this.enemies[0]; i++)
-        this.enemies[i].Act();
     }
 
     else if (Phaser.Input.Keyboard.JustDown(this.cursors.A))
     {
+      if (this.player.power != 'timeStop' || !this.player.powerUsed)
+        for (let i = 1; i <= this.enemies[0]; i++)
+          this.enemies[i].Act();
+
       this.player.Move(4,this.level);
-      
-      for (let i = 1; i <= this.enemies[0]; i++)
-        this.enemies[i].Act();
     }
 
     else if (Phaser.Input.Keyboard.JustDown(this.cursors.D))
     {
+      if (this.player.power != 'timeStop' || !this.player.powerUsed)
+        for (let i = 1; i <= this.enemies[0]; i++)
+          this.enemies[i].Act();
+
       this.player.Move(6,this.level);
-      
-      for (let i = 1; i <= this.enemies[0]; i++)
-        this.enemies[i].Act();
     }
   }
 
-  levelChange(level){
-    let px, py, fx,fy;
-    let fil = level.length;
-    let col = level[0].length;
+  levelLoad(){
+    let px, py, fx, fy;
+    let fil = this.level.length;
+    let col = this.level[0].length;
 
     for (let i = 0; i < fil; i++ ){
       for (let j = 0; j < col; j++ ){
-        switch(level[i][j]){
+        switch(this.level[i][j]){
           case 0:{
             this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'void');
             break;
@@ -136,9 +136,9 @@ export default class Game extends Phaser.Scene {
           }
           default:{
             this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
-            let temp = level[i][j]%100;
+            let temp = this.level[i][j]%100;
             
-            switch(Math.floor(level[i][j]/100))
+            switch(Math.floor(this.level[i][j]/100))
             {
               case 5:{
                 this.enemies[0]++;
@@ -157,7 +157,6 @@ export default class Game extends Phaser.Scene {
         this.background.setOrigin(0,0);
       } 
     }
-
-    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player');
+    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player', 'timeStop');
   }
 }
