@@ -2,9 +2,9 @@ import enemy from './enemy.js';
 
 export default class Charger extends enemy
 {
-    constructor(scene, x, y, width, height, sprite, dir, speed)
+    constructor(level,scene, x, y, width, height, sprite, dir, speed)
     {
-        super(scene, x, y, width, height, sprite);
+        super(scene, x, y, width, height, sprite, level);
         this.dir = dir;
         this.speed = speed;
     }
@@ -19,7 +19,12 @@ export default class Charger extends enemy
                 break;
 
             case 2:
-                this.posY += this.speed;
+                if(this.level[this.posY+1] [this.posX]  != 2){
+                    this.level[this.posY + 1 ][this.posX] = this.level[this.posY][this.posX];
+                    this.level[this.posY ][this.posX] = 1;
+                    this.posY += this.speed;
+                }
+                else (this.dir =8)//this.ChangeDir())
                 break;
                 
             case 3:
@@ -41,7 +46,11 @@ export default class Charger extends enemy
                 break;
                     
             case 8:
-                this.posY -= this.speed;
+                if(this.level[this.posY-1] [this.posX]  != 2){    
+                    this.level[this.posY -1 ][this.posX] = this.level[this.posY][this.posX];
+                    this.level[this.posY][this.posX] = 1;
+                    this.posY -= this.speed;}
+                else (this.dir = 2)
                 break;
     
             case 9:
@@ -56,6 +65,6 @@ export default class Charger extends enemy
 
     ChangeDir()
     {
-        this.dir = 10 - this.dir;
+        this.dir -= 10;
     }
 }

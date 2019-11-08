@@ -54,13 +54,13 @@ export default class Game extends Phaser.Scene {
    this.level = [
     [2,2,2,2,2,0,0],
     [2,1,1,4,2,2,2],
-    [2,1,526,1,1,1,2],
-    [2,1,1,1,1,1,2],
+    [2,1,528,1,1,1,2],
+    [2,1,1,1,1,548,2],
     [2,1,1,2,2,2,2],
     [2,562,1,2,2,2,2],
     [2,564,1,1,0,1,2],
     [2,1,1,1,1,1,2],
-    [2,1,1,3,1,1,2],
+    [2,564,1,3,1,1,2],
     [2,2,2,2,2,2,2]
     ];
       
@@ -103,7 +103,7 @@ export default class Game extends Phaser.Scene {
   }
 
   levelChange(level){
-    let px, py, fx, fy;
+    let px, py, fx,fy;
     let fil = level.length;
     let col = level[0].length;
 
@@ -147,7 +147,7 @@ export default class Game extends Phaser.Scene {
               }
               case 6:{
                 this.enemies[0]++;
-                this.enemies[this.enemies[0]] = new charger(this, j, i, this.squarePixels, this.squarePixels, 'basicEnemy', Math.floor(temp/10), temp%10);
+                this.enemies[this.enemies[0]] = new charger(this.level, this, j, i, this.squarePixels, this.squarePixels, 'basicEnemy', Math.floor(temp/10), temp%10);
                 break;
               }
               
@@ -157,6 +157,7 @@ export default class Game extends Phaser.Scene {
         this.background.setOrigin(0,0);
       } 
     }
+
     this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player');
   }
 }

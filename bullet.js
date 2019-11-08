@@ -29,7 +29,9 @@ export default class Bullet extends enemy
                 break;
 
             case 4:
+                if(this.level[this.posY] [this.posX-1]  != 2)
                 this.posX--;
+                else return false;
                 break;
 
             case 6:
