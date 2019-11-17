@@ -22,6 +22,7 @@ export default class Game extends Phaser.Scene {
     this.load.image('basicEnemy', './sprites/basicEnemy.png');
     this.load.image('square', './sprites/square.png');
     this.load.image('shooter', './sprites/shooter.png');
+    this.load.image('zigzag', './sprites/zigzag.png');
     this.load.image('bullet', './sprites/bullet.png');
     this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
   }
@@ -102,7 +103,7 @@ export default class Game extends Phaser.Scene {
     }
 
    if(this.playerDead()) this.scene.restart();
-   else if (this.playerWon()) ;//this.scene.
+   else if (this.playerWon());
   }
 
   levelLoad(){
@@ -152,6 +153,16 @@ export default class Game extends Phaser.Scene {
               case 6:{
                 this.enemies[0]++;
                 this.enemies[this.enemies[0]] = new charger(this.level, this, j, i, this.squarePixels, this.squarePixels, 'basicEnemy', Math.floor(temp/10), temp%10);
+                break;
+              }
+              case 7:{
+                this.enemies[0]++;
+                this.enemies[this.enemies[0]] = new square(this, j, i, this.squarePixels, this.squarePixels, 'square', Math.floor(temp/10), temp%10);
+                break;
+              }
+              case 8:{
+                this.enemies[0]++;
+                this.enemies[this.enemies[0]] = new zigzag(this, j, i, this.squarePixels, this.squarePixels, 'zigzag', Math.floor(temp/10), temp%10);
                 break;
               }
             }
