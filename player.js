@@ -10,6 +10,8 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.displayHeight = height;
         this.power = power;
         this.powerUsed = false;
+        this.speed = 1;
+        this.tween;
         
         switch (power)
         {
@@ -27,43 +29,55 @@ export default class Player extends Phaser.GameObjects.Sprite
 
     Move(dir, level)
     {
-        let speed = 1;
+        this.speed = 1;
         if(this.power == 'flash' && this.powerUsed)
-        speed = 2;
+        this.speed = 2;
 
         switch(dir)
         {
             case 2:
-                if(level[this.posY + speed ][this.posX] != 2){
-                this.posY += speed; }
+                if(level[this.posY + this.speed ][this.posX] != 2){
+                this.posY += this.speed; }
                 break;
                 
             case 4:
-                    if(level[this.posY][this.posX-speed] != 2){
-                        this.posX -= speed;
+                    if(level[this.posY][this.posX-this.speed] != 2){
+                        this.posX -= this.speed;
                     }
                 break;
 
             case 6:
-                    if(level[this.posY ][this.posX +speed] != 2){
-                        this.posX += speed;
+                    if(level[this.posY ][this.posX +this.speed] != 2){
+                        this.posX += this.speed;
                     }
                 break;
 
             case 8:
-                    if(level[this.posY -speed ][this.posX] != 2){
-                        this.posY -= speed;
+                    if(level[this.posY -this.speed ][this.posX] != 2){
+                        this.posY -= this.speed;
                     }
                 break;
         }
 
-        this.x = (this.posX * this.displayWidth) + (this.displayWidth / 2);
-        this.y = (this.posY * this.displayHeight) + (this.displayHeight / 2);
+        //this.x = (this.posX * this.displayWidth) + (this.displayWidth / 2);
+        //this.y = (this.posY * this.displayHeight) + (this.displayHeight / 2);
 
         if (!this.powerUsed)
             this.time++;
         else
             this.powerUsed = false;
+    }
+
+    Update(delta)
+    {
+         this.tween = this.scene.tweens.add({
+            targets: this,
+            x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
+            y: (this.posY * this.displayHeight) + (this.displayHeight / 2),
+            ease: 'Power1',
+            duration: 200,
+        });
+
     }
 
     UsePower()

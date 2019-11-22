@@ -54,15 +54,14 @@ export default class Bullet extends enemy
                 this.posY--;
                 break;
         }
-
-        this.x = (this.posX * (this.displayWidth * 2)) + (this.displayWidth);
-        this.y = (this.posY * (this.displayHeight * 2)) + (this.displayHeight);
-
-        // if (this.posX > 7 || this.posX < 0 || this.posY < 0 ||this.posY > 10)
-        //     return(false);
-
-        // else
-        //     return(true);
+        
+        var tween = this.scene.tweens.add({
+            targets: this,
+            x: (this.posX * (this.displayWidth * 2)) + (this.displayWidth),
+            y: (this.posY * (this.displayHeight * 2)) + (this.displayHeight),
+            ease: 'Power1',
+            duration: 200,
+        });
 
         return !(this.posX > 7 || this.posX < 0 || this.posY < 0 ||this.posY > 10)
     }

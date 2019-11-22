@@ -22,13 +22,14 @@ export default class Game extends Phaser.Scene {
     this.load.image('basicEnemy', './sprites/basicEnemy.png');
     this.load.image('square', './sprites/square.png');
     this.load.image('shooter', './sprites/shooter.png');
-    this.load.image('zigzag', './sprites/zigzag.png');
     this.load.image('bullet', './sprites/bullet.png');
     this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
   }
 
   create()
   {
+    this.playerTurn = true;
+    this.turnTime = 0;
     this.powerUsed = false;
     this.enemies = [];
     this.enemies[0] = 0;
@@ -60,50 +61,63 @@ export default class Game extends Phaser.Scene {
   }
 
   update(time, delta)
-  {   
-    if (Phaser.Input.Keyboard.JustDown(this.cursors.SHIFT))
+  {
+    if (this.turnTime > 150)
     {
-      this.player.UsePower();
-    }
-
-    if (Phaser.Input.Keyboard.JustDown(this.cursors.W))
-    {
-      if (this.player.power != 'timeStop' || !this.player.powerUsed)
-        for (let i = 1; i <= this.enemies[0]; i++)
-          this.enemies[i].Act();
-
-      this.player.Move(8,this.level);
+      if (Phaser.Input.Keyboard.JustDown(this.cursors.SHIFT))
+      {
+        this.player.UsePower();
+      }
+  
+      if (Phaser.Input.Keyboard.JustDown(this.cursors.W))
+      {
+        if (this.player.power != 'timeStop' || !this.player.powerUsed)
+          for (let i = 1; i <= this.enemies[0]; i++)
+            this.enemies[i].Act();
+  
+        this.player.Move(8,this.level);
+        this.turnTime = 0;
+      }
+      
+      else if (Phaser.Input.Keyboard.JustDown(this.cursors.S))
+      {
+        if (this.player.power != 'timeStop' || !this.player.powerUsed)
+          for (let i = 1; i <= this.enemies[0]; i++)
+            this.enemies[i].Act();
+  
+        this.player.Move(2,this.level);
+        this.turnTime = 0;
+      }
+  
+      else if (Phaser.Input.Keyboard.JustDown(this.cursors.A))
+      {
+        if (this.player.power != 'timeStop' || !this.player.powerUsed)
+          for (let i = 1; i <= this.enemies[0]; i++)
+            this.enemies[i].Act();
+  
+        this.player.Move(4,this.level);
+        this.turnTime = 0;
+      }
+  
+      else if (Phaser.Input.Keyboard.JustDown(this.cursors.D))
+      {
+        if (this.player.power != 'timeStop' || !this.player.powerUsed)
+          for (let i = 1; i <= this.enemies[0]; i++)
+            this.enemies[i].Act();
+  
+        this.player.Move(6,this.level);
+        this.turnTime = 0;
+      }
+  
+     if(this.playerDead()) this.scene.restart();
+     else if (this.playerWon()) ;//this.scene.
     }
     
-    else if (Phaser.Input.Keyboard.JustDown(this.cursors.S))
+    else
     {
-      if (this.player.power != 'timeStop' || !this.player.powerUsed)
-        for (let i = 1; i <= this.enemies[0]; i++)
-          this.enemies[i].Act();
-
-      this.player.Move(2,this.level);
+      this.player.Update(delta);
+      this.turnTime += delta;
     }
-
-    else if (Phaser.Input.Keyboard.JustDown(this.cursors.A))
-    {
-      if (this.player.power != 'timeStop' || !this.player.powerUsed)
-        for (let i = 1; i <= this.enemies[0]; i++)
-          this.enemies[i].Act();
-
-      this.player.Move(4,this.level);
-    }
-
-    else if (Phaser.Input.Keyboard.JustDown(this.cursors.D))
-    {
-      if (this.player.power != 'timeStop' || !this.player.powerUsed)
-        for (let i = 1; i <= this.enemies[0]; i++)
-          this.enemies[i].Act();
-
-      this.player.Move(6,this.level);
-    }
-
-   if(this.playerDead()) this.scene.restart();
-   else if (this.playerWon());
   }
 
   levelLoad(){
@@ -155,23 +169,13 @@ export default class Game extends Phaser.Scene {
                 this.enemies[this.enemies[0]] = new charger(this.level, this, j, i, this.squarePixels, this.squarePixels, 'basicEnemy', Math.floor(temp/10), temp%10);
                 break;
               }
-              case 7:{
-                this.enemies[0]++;
-                this.enemies[this.enemies[0]] = new square(this, j, i, this.squarePixels, this.squarePixels, 'square', Math.floor(temp/10), temp%10);
-                break;
-              }
-              case 8:{
-                this.enemies[0]++;
-                this.enemies[this.enemies[0]] = new zigzag(this, j, i, this.squarePixels, this.squarePixels, 'zigzag', Math.floor(temp/10), temp%10);
-                break;
-              }
             }
           }        
         }
         this.background.setOrigin(0,0);
       } 
     }
-    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player', 'timeStop');
+    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player', 'flash');
     
   }
 
