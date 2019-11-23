@@ -28,9 +28,10 @@ export default class Game extends Phaser.Scene {
 
   create()
   {
+    this.playerDead = false;
     this.playerTurn = true;
-    this.turnTime = 0;
     this.powerUsed = false;
+    this.time = 0;
     this.enemies = [];
     this.enemies[0] = 0;
 
@@ -62,7 +63,7 @@ export default class Game extends Phaser.Scene {
 
   update(time, delta)
   {
-    if (this.turnTime > 150)
+    if (!this.playerDead && this.time > 150)
     {
       if (Phaser.Input.Keyboard.JustDown(this.cursors.SHIFT))
       {
@@ -76,7 +77,7 @@ export default class Game extends Phaser.Scene {
             this.enemies[i].Act();
   
         this.player.Move(8,this.level);
-        this.turnTime = 0;
+        this.time = 0;
       }
       
       else if (Phaser.Input.Keyboard.JustDown(this.cursors.S))
@@ -86,7 +87,7 @@ export default class Game extends Phaser.Scene {
             this.enemies[i].Act();
   
         this.player.Move(2,this.level);
-        this.turnTime = 0;
+        this.time = 0;
       }
   
       else if (Phaser.Input.Keyboard.JustDown(this.cursors.A))
@@ -96,7 +97,7 @@ export default class Game extends Phaser.Scene {
             this.enemies[i].Act();
   
         this.player.Move(4,this.level);
-        this.turnTime = 0;
+        this.time = 0;
       }
   
       else if (Phaser.Input.Keyboard.JustDown(this.cursors.D))
@@ -106,18 +107,15 @@ export default class Game extends Phaser.Scene {
             this.enemies[i].Act();
   
         this.player.Move(6,this.level);
-        this.turnTime = 0;
+        this.time = 0;
       }
-  
-     if(this.playerDead()) this.scene.restart();
-     else if (this.playerWon());//this.scene.
     }
     
     else
-    {
-      this.player.Update(delta);
-      this.turnTime += delta;
-    }
+      this.time += delta;
+
+    this.checkDeath();
+    this.checkVictory();
   }
 
   levelLoad(){
@@ -175,19 +173,38 @@ export default class Game extends Phaser.Scene {
         this.background.setOrigin(0,0);
       } 
     }
-    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player', 'flash');
+    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player', 'timeStop');
+    this.startingX = px;
+    this.startingY = py;
+  }
+
+  checkDeath() //Si el jugador está en un objeto que lo mata lo manda al spawn point
+  {
+    if (!this.playerDead)
+    {
+      let entity = this.level[this.player.posY][this.player.posX];
+      if (entity !=1 && entity != 4)
+      {
+        this.playerDead = true;
+        let tween = this.tweens.add({
+          targets: this.player,
+          x: (this.startingX * this.squarePixels) + (this.squarePixels / 2),
+          y: (this.startingY * this.squarePixels) + (this.squarePixels / 2),
+          ease: 'Power1',
+          duration: 700,
+      });
+      }
+    }
     
+    else
+      if (this.time >= 700)
+        this.scene.restart();
   }
 
-  playerDead()
+  checkVictory()
   {
     let entity = this.level[this.player.posY][this.player.posX];
-    return (entity !=1 && entity != 4);
-  }
-
-  playerWon()
-  {
-    let entity = this.level[this.player.posY][this.player.posX];
-    return (entity == 4);
+    if (entity == 4)
+      ; //change level
   }
 }

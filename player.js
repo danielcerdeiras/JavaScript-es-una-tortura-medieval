@@ -62,15 +62,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         //this.x = (this.posX * this.displayWidth) + (this.displayWidth / 2);
         //this.y = (this.posY * this.displayHeight) + (this.displayHeight / 2);
 
-        if (!this.powerUsed)
-            this.time++;
-        else
-            this.powerUsed = false;
-    }
-
-    Update(delta)
-    {
-         this.tween = this.scene.tweens.add({
+        this.tween = this.scene.tweens.add({
             targets: this,
             x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
             y: (this.posY * this.displayHeight) + (this.displayHeight / 2),
@@ -78,6 +70,10 @@ export default class Player extends Phaser.GameObjects.Sprite
             duration: 200,
         });
 
+        if (!this.powerUsed)
+            this.time++;
+        else
+            this.powerUsed = false;
     }
 
     UsePower()
