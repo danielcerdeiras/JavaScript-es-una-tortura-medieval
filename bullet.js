@@ -7,12 +7,14 @@ export default class Bullet extends enemy
         super(scene, x, y, width, height, sprite, level);
         this.displayWidth = width / 4;
         this.displayHeight = height / 4;
+        this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
         this.dir = dir;
         this.tween;
     }
 
     Act()
     {
+        this.level[this.posY][this.posX] = this.square;
         switch(this.dir)
         {
             case 1:
@@ -65,6 +67,9 @@ export default class Bullet extends enemy
             ease: 'Power1',
             duration: 200,
         });
+
+        this.square = this.level[this.posY][this.posX];
+        this.level[this.posY][this.posX] = -1; //Valor que se reconozca como enemigo
 
         return !(this.posX > 7 || this.posX < 0 || this.posY < 0 ||this.posY > 10)
     }
