@@ -29,6 +29,7 @@ export default class Player extends Phaser.GameObjects.Sprite
 
     Move(dir, level)
     {
+        let moved = true;
         this.speed = 1;
         if(this.power == 'flash' && this.powerUsed)
         this.speed = 2;
@@ -36,31 +37,29 @@ export default class Player extends Phaser.GameObjects.Sprite
         switch(dir)
         {
             case 2:
-                if(level[this.posY + this.speed ][this.posX] != 2){
-                this.posY += this.speed; }
+                if(level[this.posY + this.speed ][this.posX] != 2)
+                    this.posY += this.speed;
+                else moved = false;
                 break;
                 
             case 4:
-                    if(level[this.posY][this.posX-this.speed] != 2){
-                        this.posX -= this.speed;
-                    }
+                if(level[this.posY][this.posX-this.speed] != 2)
+                    this.posX -= this.speed;
+                else moved = false;
                 break;
 
             case 6:
-                    if(level[this.posY ][this.posX +this.speed] != 2){
-                        this.posX += this.speed;
-                    }
+                if(level[this.posY ][this.posX +this.speed] != 2)
+                    this.posX += this.speed;
+                else moved = false;
                 break;
 
             case 8:
-                    if(level[this.posY -this.speed ][this.posX] != 2){
-                        this.posY -= this.speed;
-                    }
+                if(level[this.posY -this.speed ][this.posX] != 2)
+                    this.posY -= this.speed;
+                else moved = false;
                 break;
         }
-
-        //this.x = (this.posX * this.displayWidth) + (this.displayWidth / 2);
-        //this.y = (this.posY * this.displayHeight) + (this.displayHeight / 2);
 
         this.tween = this.scene.tweens.add({
             targets: this,
@@ -70,10 +69,10 @@ export default class Player extends Phaser.GameObjects.Sprite
             duration: 200,
         });
 
-        if (!this.powerUsed)
+        if (!this.powerUsed && moved)
             this.time++;
-        else
-            this.powerUsed = false;
+
+        return (moved);
     }
 
     UsePower()

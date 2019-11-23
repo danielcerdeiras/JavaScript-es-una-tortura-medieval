@@ -72,41 +72,41 @@ export default class Game extends Phaser.Scene {
   
       if (Phaser.Input.Keyboard.JustDown(this.cursors.W))
       {
-        if (this.player.power != 'timeStop' || !this.player.powerUsed)
+        if (this.player.Move(8,this.level) && (this.player.power != 'timeStop' || !this.player.powerUsed))
           for (let i = 1; i <= this.enemies[0]; i++)
             this.enemies[i].Act();
-  
-        this.player.Move(8,this.level);
+        
+        else this.player.powerUsed = false;
         this.time = 0;
       }
       
       else if (Phaser.Input.Keyboard.JustDown(this.cursors.S))
       {
-        if (this.player.power != 'timeStop' || !this.player.powerUsed)
+        if (this.player.Move(2,this.level) && (this.player.power != 'timeStop' || !this.player.powerUsed))
           for (let i = 1; i <= this.enemies[0]; i++)
             this.enemies[i].Act();
-  
-        this.player.Move(2,this.level);
+
+        else this.player.powerUsed = false;
         this.time = 0;
       }
   
       else if (Phaser.Input.Keyboard.JustDown(this.cursors.A))
       {
-        if (this.player.power != 'timeStop' || !this.player.powerUsed)
+        if (this.player.Move(4,this.level) && (this.player.power != 'timeStop' || !this.player.powerUsed))
           for (let i = 1; i <= this.enemies[0]; i++)
             this.enemies[i].Act();
-  
-        this.player.Move(4,this.level);
+
+        else this.player.powerUsed = false;
         this.time = 0;
       }
   
       else if (Phaser.Input.Keyboard.JustDown(this.cursors.D))
       {
-        if (this.player.power != 'timeStop' || !this.player.powerUsed)
+        if (this.player.Move(6,this.level) && (this.player.power != 'timeStop' || !this.player.powerUsed))
           for (let i = 1; i <= this.enemies[0]; i++)
             this.enemies[i].Act();
-  
-        this.player.Move(6,this.level);
+
+        else this.player.powerUsed = false;
         this.time = 0;
       }
     }
