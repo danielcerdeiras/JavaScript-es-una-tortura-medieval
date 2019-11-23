@@ -5,7 +5,10 @@ export default class Bullet extends enemy
     constructor(level,scene, x, y, width, height, sprite, dir)
     {
         super(scene, x, y, width, height, sprite, level);
+        this.displayWidth = width / 4;
+        this.displayHeight = height / 4;
         this.dir = dir;
+        this.tween;
     }
 
     Act()
@@ -55,10 +58,10 @@ export default class Bullet extends enemy
                 break;
         }
         
-        var tween = this.scene.tweens.add({
+        this.tween = this.scene.tweens.add({
             targets: this,
-            x: (this.posX * (this.displayWidth * 2)) + (this.displayWidth),
-            y: (this.posY * (this.displayHeight * 2)) + (this.displayHeight),
+            x: (this.posX * (this.displayWidth * 4)) + (this.displayWidth * 2),
+            y: (this.posY * (this.displayHeight * 4)) + (this.displayWidth * 2),
             ease: 'Power1',
             duration: 200,
         });

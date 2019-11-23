@@ -110,7 +110,7 @@ export default class Game extends Phaser.Scene {
       }
   
      if(this.playerDead()) this.scene.restart();
-     else if (this.playerWon()) ;//this.scene.
+     else if (this.playerWon());//this.scene.
     }
     
     else

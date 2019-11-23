@@ -26,7 +26,7 @@ export default class Shooter extends enemy
                 {
                     if (this.bullets[j] == null && i !== 5)
                     {
-                        this.bullets[j] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, i);
+                        this.bullets[j] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, i);
                         found = true;
                     }
                 }
@@ -34,19 +34,19 @@ export default class Shooter extends enemy
                 if (!found && i !== 5)
                 {
                     this.ind++;
-                    this.bullets[this.ind] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, i);
+                    this.bullets[this.ind] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, i);
                 }
                 i++;
             }
 
-            if (this.dir !== 5) //La versión sin 5 del disparo es la siguiente sin todo lo anterior quitando el if inicial
+            if (this.dir !== 5)
             {
                 let found = false;
                 for (let j = 0; j <= this.ind && !found; j++)
                 {
                     if (this.bullets[j] == null)
                     {
-                        this.bullets[j] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, this.dir);
+                        this.bullets[j] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, this.dir);
                         found = true;
                     }
                 }
@@ -54,7 +54,7 @@ export default class Shooter extends enemy
                 if (!found)
                 {
                     this.ind++;
-                    this.bullets[this.ind] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth / 2, this.displayHeight / 2, this.bulletSprite, this.dir);
+                    this.bullets[this.ind] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, this.dir);
                 }
             }
             this.time = 0;
