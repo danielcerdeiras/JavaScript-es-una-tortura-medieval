@@ -63,6 +63,7 @@ export default class Shooter extends enemy
         for (let i = 0; i <= this.ind; i++)
             if (!this.bullets[i].Act())
             {
+               // this.scene.time.delayedCall(200, this.bullets[i].destroy);
                 this.bullets[i].destroy();
             }
 

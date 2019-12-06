@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tileset version="1.2" tiledversion="1.2.5" name="tiles_dungeon" tilewidth="16" tileheight="16" tilecount="480" columns="20">
+ <grid orientation="orthogonal" width="32" height="32"/>
+ <image source="../../../Assets/rpgdungeontilesetplus2bonuscharacters/Assets/tiles_dungeon.png" width="320" height="384"/>
+ <terraintypes>
+  <terrain name="Suelo" tile="-1"/>
+  <terrain name="Vacio" tile="0"/>
+  <terrain name="Suelo Bien" tile="0"/>
+ </terraintypes>
+ <tile id="0" terrain="2,2,2,2"/>
+ <tile id="4" terrain="2,2,2,0"/>
+ <tile id="5" terrain="2,2,0,0"/>
+ <tile id="6" terrain="2,2,0,2"/>
+ <tile id="7" terrain="2,0,0,0"/>
+ <tile id="8" terrain="0,2,0,0"/>
+ <tile id="14" terrain=",,,1"/>
+ <tile id="15" terrain=",,1,1"/>
+ <tile id="16" terrain=",,1,"/>
+ <tile id="17" terrain=",1,1,1"/>
+ <tile id="18" terrain="1,,1,1"/>
+ <tile id="24" terrain="2,0,2,0"/>
+ <tile id="25" terrain="0,0,0,0" probability="60"/>
+ <tile id="26" terrain="0,2,0,2"/>
+ <tile id="27" terrain="0,0,2,0"/>
+ <tile id="28" terrain="0,0,0,2"/>
+ <tile id="34" terrain=",1,,1"/>
+ <tile id="35" terrain="1,1,1,1"/>
+ <tile id="36" terrain="1,,1,"/>
+ <tile id="37" terrain="1,1,,1"/>
+ <tile id="38" terrain="1,1,1,"/>
+ <tile id="44" terrain="2,0,2,2"/>
+ <tile id="45" terrain="0,0,2,2"/>
+ <tile id="46" terrain="0,2,2,2"/>
+ <tile id="47" terrain="0,0,0,0" probability="10"/>
+ <tile id="48" terrain="0,0,0,0" probability="10"/>
+ <tile id="54" terrain=",1,,"/>
+ <tile id="55" terrain="1,1,,"/>
+ <tile id="56" terrain="1,,,"/>
+ <tile id="67" terrain="0,0,0,0" probability="10"/>
+ <tile id="68" terrain="0,0,0,0" probability="10"/>
+ <tile id="200" probability="100"/>
+ <tile id="204" probability="25"/>
+ <tile id="224" probability="25"/>
+ <tile id="283">
+  <animation>
+   <frame tileid="280" duration="70"/>
+   <frame tileid="281" duration="70"/>
+   <frame tileid="283" duration="70"/>
+   <frame tileid="282" duration="70"/>
+   <frame tileid="283" duration="70"/>
+   <frame tileid="281" duration="70"/>
+  </animation>
+ </tile>
+ <tile id="303">
+  <animation>
+   <frame tileid="300" duration="120"/>
+   <frame tileid="301" duration="120"/>
+   <frame tileid="302" duration="120"/>
+   <frame tileid="303" duration="120"/>
+   <frame tileid="302" duration="120"/>
+   <frame tileid="301" duration="120"/>
+  </animation>
+ </tile>
+ <wangsets>
+  <wangset name="Nuevo Conjunto Wang" tile="-1">
+   <wangedgecolor name="" color="#ff0000" tile="-1" probability="1"/>
+   <wangedgecolor name="" color="#00ff00" tile="-1" probability="1"/>
+   <wangcornercolor name="" color="#ff0000" tile="-1" probability="1"/>
+   <wangcornercolor name="" color="#00ff00" tile="-1" probability="1"/>
+   <wangtile tileid="80" wangid="0x11111111"/>
+   <wangtile tileid="81" wangid="0x11111111"/>
+   <wangtile tileid="82" wangid="0x11111111"/>
+   <wangtile tileid="84" wangid="0x11112111"/>
+   <wangtile tileid="85" wangid="0x11222111"/>
+   <wangtile tileid="86" wangid="0x11211111"/>
+   <wangtile tileid="87" wangid="0x12222222"/>
+   <wangtile tileid="88" wangid="0x22222212"/>
+   <wangtile tileid="92" wangid="0x21111111"/>
+   <wangtile tileid="93" wangid="0x11111121"/>
+   <wangtile tileid="100" wangid="0x11111111"/>
+   <wangtile tileid="101" wangid="0x11111111"/>
+   <wangtile tileid="102" wangid="0x11111111"/>
+   <wangtile tileid="103" wangid="0x11111111"/>
+   <wangtile tileid="104" wangid="0x11112221"/>
+   <wangtile tileid="105" wangid="0x22222222"/>
+   <wangtile tileid="106" wangid="0x22211111"/>
+   <wangtile tileid="107" wangid="0x22122222"/>
+   <wangtile tileid="108" wangid="0x22221222"/>
+   <wangtile tileid="112" wangid="0x11211111"/>
+   <wangtile tileid="113" wangid="0x11112111"/>
+   <wangtile tileid="120" wangid="0x11111111"/>
+   <wangtile tileid="121" wangid="0x11111111"/>
+   <wangtile tileid="122" wangid="0x11111111"/>
+   <wangtile tileid="123" wangid="0x11111111"/>
+   <wangtile tileid="124" wangid="0x11111121"/>
+   <wangtile tileid="125" wangid="0x21111122"/>
+   <wangtile tileid="126" wangid="0x21111111"/>
+   <wangtile tileid="127" wangid="0x22222222"/>
+   <wangtile tileid="128" wangid="0x22222222"/>
+   <wangtile tileid="147" wangid="0x22222222"/>
+   <wangtile tileid="148" wangid="0x22222222"/>
+  </wangset>
+  <wangset name="Suelo" tile="-1">
+   <wangedgecolor name="" color="#ff0000" tile="-1" probability="1"/>
+   <wangedgecolor name="" color="#00ff00" tile="-1" probability="1"/>
+   <wangcornercolor name="" color="#ff0000" tile="-1" probability="1"/>
+   <wangcornercolor name="" color="#00ff00" tile="-1" probability="1"/>
+   <wangtile tileid="0" wangid="0x22222222"/>
+   <wangtile tileid="1" wangid="0x22222222"/>
+   <wangtile tileid="2" wangid="0x22222222"/>
+   <wangtile tileid="4" wangid="0x22222222"/>
+   <wangtile tileid="5" wangid="0x2210202"/>
+   <wangtile tileid="6" wangid="0x2020202"/>
+   <wangtile tileid="7" wangid="0x2010102"/>
+   <wangtile tileid="8" wangid="0x1010202"/>
+   <wangtile tileid="20" wangid="0x22222222"/>
+   <wangtile tileid="21" wangid="0x22222222"/>
+   <wangtile tileid="22" wangid="0x22222222"/>
+   <wangtile tileid="23" wangid="0x22222222"/>
+   <wangtile tileid="24" wangid="0x22220102"/>
+   <wangtile tileid="25" wangid="0x1010101"/>
+   <wangtile tileid="26" wangid="0x1020202"/>
+   <wangtile tileid="27" wangid="0x2020101"/>
+   <wangtile tileid="28" wangid="0x1020201"/>
+   <wangtile tileid="40" wangid="0x22222222"/>
+   <wangtile tileid="41" wangid="0x22222222"/>
+   <wangtile tileid="42" wangid="0x22222222"/>
+   <wangtile tileid="43" wangid="0x22222222"/>
+   <wangtile tileid="44" wangid="0x22222222"/>
+   <wangtile tileid="45" wangid="0x2020201"/>
+   <wangtile tileid="46" wangid="0x2020202"/>
+   <wangtile tileid="47" wangid="0x1010101"/>
+   <wangtile tileid="48" wangid="0x1010101"/>
+   <wangtile tileid="67" wangid="0x1010101"/>
+   <wangtile tileid="68" wangid="0x1010101"/>
+  </wangset>
+ </wangsets>
+</tileset>

@@ -23,6 +23,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('square', './sprites/square.png');
     this.load.image('shooter', './sprites/shooter.png');
     this.load.image('bullet', './sprites/bullet.png');
+    this.load.tilemapTiledJSON('tileMapPhaser','sprites/test.json')
+    this.load.image('tileSetPhaser','./sprites/tiles_dungeon.png')
     this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
   }
 
@@ -35,6 +37,14 @@ export default class Game extends Phaser.Scene {
     this.enemies = [];
     this.enemies[0] = 0;
 
+    this.map = this.make.tilemap({
+      key: 'tileMapPhaser',
+      tileWidth:50,
+      tileHeight:50
+    })
+    var tileset = this.map.addTilesetImage('tiles_dungeon','tileSetPhaser',);
+    this.backgroundLayer = this.map.createStaticLayer("Capa de Patrones 1", tileset);
+   
     /*
     Como funciona el level:
     0 = vacio
@@ -54,11 +64,14 @@ export default class Game extends Phaser.Scene {
     [2,562,1,2,2,2,2],
     [2,564,1,1,0,1,2],
     [2,1,1,1,1,1,2],
-    [2,564,1,3,1,1,2],
+    [2,564,1,3,1,2,2],
     [2,2,2,2,2,2,2]
     ];
       
     this.levelLoad();
+
+    this.groundLayer = this.map.createStaticLayer('Pared' , tileset);
+    this.foreground =  this.map.createStaticLayer('OBj', tileset);
   }
 
   update(time, delta)
@@ -127,32 +140,32 @@ export default class Game extends Phaser.Scene {
       for (let j = 0; j < col; j++ ){
         switch(this.level[i][j]){
           case 0:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'void');
+            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'void');
             break;
           }
           case 1:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
+            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
             break;
           }
           case 2:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'wall');
+            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'wall');
             break;
           }
           case 3:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
+            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
             px = j;
             py = i;
             this.level[i][j] = 1;
             break;
           }
           case 4:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'end'); //La textura cambiará a 'ground' una vez se implemente la clase finish
+            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'end'); //La textura cambiará a 'ground' una vez se implemente la clase finish
             fx = j;
             fy = i;
             break;
           }
           default:{
-            this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
+            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
             let temp = this.level[i][j]%100;
             
             switch(Math.floor(this.level[i][j]/100))
@@ -170,10 +183,10 @@ export default class Game extends Phaser.Scene {
             }
           }        
         }
-        this.background.setOrigin(0,0);
+        //this.background.setOrigin(0,0);
       } 
     }
-    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player', 'timeStop');
+    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player', 'flash');
     this.startingX = px;
     this.startingY = py;
   }
