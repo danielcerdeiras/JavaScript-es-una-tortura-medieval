@@ -40,38 +40,37 @@ export default class Player extends Phaser.GameObjects.Sprite
         {
             case 2:
                 value = this.level[this.posY + this.speed][this.posX];
-                if(value != 2 && value / 100 != 5)
+                if(value != 2 && Math.trunc(value / 100) != 5)
                     this.posY += this.speed;
-                else if (value / 100 == 5)
-                    ;//BlockCollision(this.posX, this.posY + this.speed);
+                else if (Math.trunc(value / 100) == 5)
+                    this.scene.BlockCollision(this.posX, this.posY + this.speed);
                 else moved = false;
                 break;
                 
             case 4:
                 value = this.level[this.posY][this.posX - this.speed];
-                if(value != 2 && value / 100 != 5)
+                if(value != 2 && Math.trunc(value / 100) != 5)
                     this.posX -= this.speed;
-                else if (value / 100 == 5)
-                    ; //BlockCollision(this.posX - this.speed, this.posY);
+                else if (Math.trunc(value / 100) == 5)
+                    this.scene.BlockCollision(this.posX - this.speed, this.posY);
                 else moved = false;
                 break;
 
             case 6:
                 value = this.level[this.posY][this.posX + this.speed];
-                if(value != 2 && value / 100 != 5)
+                if(value != 2 && Math.trunc(value / 100) != 5)
                     this.posX += this.speed;
-                else if (value / 100 == 5)
-                    ; //BlockCollision(this.posX + this.speed, this.posY);
+                else if (Math.trunc(value / 100) == 5)
+                    this.scene.BlockCollision(this.posX + this.speed, this.posY);
                 else moved = false;
                 break;
 
             case 8:
                 value = this.level[this.posY - this.speed][this.posX];
-                if(value != 2 && value / 100 != 5)
+                if(value != 2 && Math.trunc(value / 100) != 5)
                     this.posY -= this.speed;
-                else if (value / 100 == 5)
+                else if (Math.trunc(value / 100) == 5)
                     this.scene.BlockCollision(this.posX, this.posY - this.speed);
-                    //BlockCollision(this.posX, this.posY - this.speed);
                 else moved = false;
                 break;
         }

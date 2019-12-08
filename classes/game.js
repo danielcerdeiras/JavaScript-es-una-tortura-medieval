@@ -33,7 +33,6 @@ export default class Game extends Phaser.Scene
 
   create()
   {
-    this.levelFolded = false;
     this.playerDead = false;
     this.playerTurn = true;
     this.powerUsed = false;
@@ -70,9 +69,9 @@ export default class Game extends Phaser.Scene
     [2,1,1,1,1,1,2],
     [2,1,1,1,2,2,2],
     [2,1,1,2,2,2,2],
-    [2,1,500,1,500,1,2],
+    [2,1,501,1,500,1,2],
     [2,1,1,1,1,1,2],
-    [2,1,1,3,1,1,2],
+    [2,1,501,3,500,1,2],
     [2,2,2,2,2,2,2]
     ];
     
@@ -227,23 +226,47 @@ export default class Game extends Phaser.Scene
     let cont = 0;
     for(let i = 1; i <= this.blocks[0] && cont < 2; i++)
     {
-      if (this.blocks[i].link == link && this.blocks[i].active)
+      if (this.blocks[i].link == link)
       {
         if (block1 < 0) block1 = i;
         else block2 = i;
-        cont++;
+
+        if (this.blocks[i].active) cont++;
       }
     }
 
     if (cont >= 2)
+    {
+      this.blocks[block1].folding = true;
+      this.blocks[block2].folding = true;
+
       if (this.blocks[block1].posX == this.blocks[block2].posX)
-        FoldLevel(this.blocks[block1].posY, this.blocks[block2].posY);
+        console.log("Se pliega");//FoldLevel(this.blocks[block1].posY, this.blocks[block2].posY);
       else
-        FoldLevel(this.blocks[block1].posX, this.blocks[block2].posX);
+        console.log("Se pliega");//FoldLevel(this.blocks[block1].posX, this.blocks[block2].posX);
+    }
+    else if (cont == 1)
+    {
+      if (this.blocks[block1].folding)
+      {
+        this.blocks[block1].folding = false;
+        this.blocks[block2].folding = false;
+
+        if (this.blocks[block1].posX == this.blocks[block2].posX)
+          console.log("Se expande");//UnfoldLevel(this.blocks[block1].posY, this.blocks[block2].posY);
+        else
+          console.log("Se expande");//UnfoldLevel(this.blocks[block1].posX, this.blocks[block2].posX);
+      }
+    }
   }
 
   FoldLevel()
   {
-    
+    this.levelFolded = true;
+  }
+
+  UnfoldLevel()
+  {
+    this.levelFolded = false;
   }
 }
