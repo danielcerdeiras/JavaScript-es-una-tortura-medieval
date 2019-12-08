@@ -12,7 +12,6 @@ export default class Charger extends enemy
 
     Act()
     {
-        this.level[this.posY][this.posX] = 1;
         switch(this.dir)
         {
             case 1:

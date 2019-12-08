@@ -3,6 +3,7 @@ import charger from './charger.js';
 import shooter from './shooter.js';
 import square from './square.js';
 import zigzag from './zigzag.js';
+import block from './block.js';
 
 export default class Game extends Phaser.Scene
 {
@@ -24,6 +25,7 @@ export default class Game extends Phaser.Scene
     this.load.image('shooter', './sprites/shooter.png');
     this.load.image('zigzag', './sprites/zigzag.png');
     this.load.image('bullet', './sprites/bullet.png');
+    this.load.image('block', './sprites/block.png');
     this.load.tilemapTiledJSON('tileMapPhaser','sprites/test.json')
     this.load.image('tileSetPhaser','./sprites/tiles_dungeon.png')
     this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
@@ -31,10 +33,13 @@ export default class Game extends Phaser.Scene
 
   create()
   {
+    this.levelFolded = false;
     this.playerDead = false;
     this.playerTurn = true;
     this.powerUsed = false;
     this.time = 0;
+    this.blocks = [];
+    this.blocks[0] = 0;
     this.enemies = [];
     this.enemies[0] = 0;
 
@@ -58,19 +63,20 @@ export default class Game extends Phaser.Scene
     el resto = enemigos
     */
 
-   this.level = [
+   this.copyLevel = [
     [2,2,2,2,2,0,0],
     [2,1,1,4,2,2,2],
-    [2,661,1,1,1,1,2],
+    [2,761,1,1,1,1,2],
     [2,1,1,1,1,1,2],
     [2,1,1,1,2,2,2],
     [2,1,1,2,2,2,2],
-    [2,1,1,1,1,1,2],
+    [2,1,500,1,500,1,2],
     [2,1,1,1,1,1,2],
     [2,1,1,3,1,1,2],
     [2,2,2,2,2,2,2]
     ];
-      
+    
+    this.level = this.copyLevel;
     this.levelLoad();
     this.cursors.W.on('down', event => {this.Turn(8);})
     this.cursors.S.on('down', event => {this.Turn(2);})
@@ -83,6 +89,9 @@ export default class Game extends Phaser.Scene
   {
     if (!(!this.playerDead && this.time > 150))
       this.time += delta;
+
+    this.checkDeath();
+    this.checkVictory();
   }
 
   Turn(dir)
@@ -93,12 +102,12 @@ export default class Game extends Phaser.Scene
           for (let i = 1; i <= this.enemies[0]; i++)
             this.enemies[i].Act();
         
-        this.player.powerUsed = false;
-        this.time = 0;
-    }
+      this.player.powerUsed = false;
+      this.time = 0;
 
-    this.checkDeath();
-    this.checkVictory();
+      if (!this.levelFolded)
+        this.copyLevel = this.level;
+    }
   }
 
   UsePower()
@@ -129,25 +138,28 @@ export default class Game extends Phaser.Scene
 
           default:
             let temp = this.level[i][j]%100;
-            
             switch(Math.floor(this.level[i][j]/100))
             {
               case 5:
+                this.blocks[0]++;
+                this.blocks[this.blocks[0]] = new block(this, j, i, this.squarePixels, this.squarePixels, 'block', Math.floor(temp/10), temp%10);
+                break;
+              case 6:
                 this.enemies[0]++;
                 this.enemies[this.enemies[0]] = new shooter(this.level, this, j, i, this.squarePixels, this.squarePixels, 'shooter', 'bullet', Math.floor(temp/10), temp%10);
                 break;
 
-              case 6:
+              case 7:
                 this.enemies[0]++;
                 this.enemies[this.enemies[0]] = new charger(this.level, this, j, i, this.squarePixels, this.squarePixels, 'charger', Math.floor(temp/10), temp%10);
                 break;
 
-              case 7:
+              case 8:
                 this.enemies[0]++;
                 this.enemies[this.enemies[0]] = new square(this.level, this, j, i, this.squarePixels, this.squarePixels, 'square', Math.floor(temp/10), temp%10);
                 break;
 
-              case 8:
+              case 9:
                 this.enemies[0]++;
                 this.enemies[this.enemies[0]] = new zigzag(this.level, this, j, i, this.squarePixels, this.squarePixels, 'zigzag', Math.floor(temp/10), temp%10);
                 break;
@@ -159,6 +171,8 @@ export default class Game extends Phaser.Scene
     this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', 'flash');
     this.startingX = px;
     this.startingY = py;
+
+    //Comprobar si el mundo está plegado
   }
 
   checkDeath() //Si el jugador está en un objeto que lo mata lo manda al spawn point
@@ -166,7 +180,7 @@ export default class Game extends Phaser.Scene
     if (!this.playerDead)
     {
       let entity = this.level[this.player.posY][this.player.posX];
-      if (entity !=1 && entity != 4)
+      if (entity !=1 && entity != 4 && entity / 100 != 5)
       {
         this.playerDead = true;
         let tween = this.tweens.add({
@@ -189,5 +203,47 @@ export default class Game extends Phaser.Scene
     let entity = this.level[this.player.posY][this.player.posX];
     if (entity == 4)
       ; //change level
+  }
+
+  BlockCollision(x, y)
+  {
+    let found = false;
+    for(let i = 1; i <= this.blocks[0] && !found; i++)
+    {
+      if (this.blocks[i].posX == x)
+        if (this.blocks[i].posY == y)
+        {
+          this.blocks[i].ChangeState();
+          this.CheckBlocks(this.blocks[i].link);
+          found = true;
+        }
+    }
+  }
+  
+  CheckBlocks(link)
+  {
+    let block1 = -1;
+    let block2 = -1;
+    let cont = 0;
+    for(let i = 1; i <= this.blocks[0] && cont < 2; i++)
+    {
+      if (this.blocks[i].link == link && this.blocks[i].active)
+      {
+        if (block1 < 0) block1 = i;
+        else block2 = i;
+        cont++;
+      }
+    }
+
+    if (cont >= 2)
+      if (this.blocks[block1].posX == this.blocks[block2].posX)
+        FoldLevel(this.blocks[block1].posY, this.blocks[block2].posY);
+      else
+        FoldLevel(this.blocks[block1].posX, this.blocks[block2].posX);
+  }
+
+  FoldLevel()
+  {
+    
   }
 }
