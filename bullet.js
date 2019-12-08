@@ -2,9 +2,9 @@ import enemy from './enemy.js';
 
 export default class Bullet extends enemy
 {
-    constructor(level,scene, x, y, width, height, sprite, dir)
+    constructor(level, scene, x, y, width, height, sprite, dir)
     {
-        super(scene, x, y, width, height, sprite, level);
+        super(level, scene, x, y, width, height, sprite);
         this.displayWidth = width / 4;
         this.displayHeight = height / 4;
         this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva

@@ -4,7 +4,8 @@ import shooter from './shooter.js';
 import square from './square.js';
 import zigzag from './zigzag.js';
 
-export default class Game extends Phaser.Scene {
+export default class Game extends Phaser.Scene
+{
   constructor()
   {
     super({ key: 'main' });
@@ -18,10 +19,10 @@ export default class Game extends Phaser.Scene {
     this.load.image('void','./sprites/void.png');
     this.load.image('ground','./sprites/ground.png');
     this.load.image('player', './sprites/player.png');
-    this.load.image('bg', './sprites/background.png');
-    this.load.image('basicEnemy', './sprites/basicEnemy.png');
+    this.load.image('charger', './sprites/charger.png');
     this.load.image('square', './sprites/square.png');
     this.load.image('shooter', './sprites/shooter.png');
+    this.load.image('zigzag', './sprites/zigzag.png');
     this.load.image('bullet', './sprites/bullet.png');
     this.load.tilemapTiledJSON('tileMapPhaser','sprites/test.json')
     this.load.image('tileSetPhaser','./sprites/tiles_dungeon.png')
@@ -42,8 +43,10 @@ export default class Game extends Phaser.Scene {
       tileWidth:50,
       tileHeight:50
     })
-    var tileset = this.map.addTilesetImage('tiles_dungeon','tileSetPhaser',);
-    this.backgroundLayer = this.map.createStaticLayer("Capa de Patrones 1", tileset);
+    this.tileset = this.map.addTilesetImage('tiles_dungeon','tileSetPhaser',);
+    this.backgroundLayer = this.map.createDynamicLayer("Capa de Patrones 1", this.tileset);
+    this.groundLayer = this.map.createDynamicLayer('Pared' , this.tileset);
+    this.foreground =  this.map.createDynamicLayer('OBj', this.tileset);
    
     /*
     Como funciona el level:
@@ -58,80 +61,54 @@ export default class Game extends Phaser.Scene {
    this.level = [
     [2,2,2,2,2,0,0],
     [2,1,1,4,2,2,2],
-    [2,1,528,1,1,1,2],
-    [2,1,1,1,1,548,2],
-    [2,1,1,1,2,2,2],
-    [2,562,1,2,2,2,2],
-    [2,564,1,1,0,1,2],
+    [2,661,1,1,1,1,2],
     [2,1,1,1,1,1,2],
-    [2,564,1,3,1,2,2],
+    [2,1,1,1,2,2,2],
+    [2,1,1,2,2,2,2],
+    [2,1,1,1,1,1,2],
+    [2,1,1,1,1,1,2],
+    [2,1,1,3,1,1,2],
     [2,2,2,2,2,2,2]
     ];
       
     this.levelLoad();
-
-    this.groundLayer = this.map.createStaticLayer('Pared' , tileset);
-    this.foreground =  this.map.createStaticLayer('OBj', tileset);
+    this.cursors.W.on('down', event => {this.Turn(8);})
+    this.cursors.S.on('down', event => {this.Turn(2);})
+    this.cursors.A.on('down', event => {this.Turn(4);})
+    this.cursors.D.on('down', event => {this.Turn(6);})
+    this.cursors.SHIFT.on('down', event => {this.UsePower();})
   }
 
   update(time, delta)
   {
+    if (!(!this.playerDead && this.time > 150))
+      this.time += delta;
+  }
+
+  Turn(dir)
+  {
     if (!this.playerDead && this.time > 150)
     {
-      if (Phaser.Input.Keyboard.JustDown(this.cursors.SHIFT))
-      {
-        this.player.UsePower();
-      }
-  
-      if (Phaser.Input.Keyboard.JustDown(this.cursors.W))
-      {
-        if (this.player.Move(8,this.level) && (this.player.power != 'timeStop' || !this.player.powerUsed))
+      if (this.player.Move(dir) && (this.player.power != 'timeStop' || !this.player.powerUsed))
           for (let i = 1; i <= this.enemies[0]; i++)
             this.enemies[i].Act();
         
-        else this.player.powerUsed = false;
+        this.player.powerUsed = false;
         this.time = 0;
-      }
-      
-      else if (Phaser.Input.Keyboard.JustDown(this.cursors.S))
-      {
-        if (this.player.Move(2,this.level) && (this.player.power != 'timeStop' || !this.player.powerUsed))
-          for (let i = 1; i <= this.enemies[0]; i++)
-            this.enemies[i].Act();
-
-        else this.player.powerUsed = false;
-        this.time = 0;
-      }
-  
-      else if (Phaser.Input.Keyboard.JustDown(this.cursors.A))
-      {
-        if (this.player.Move(4,this.level) && (this.player.power != 'timeStop' || !this.player.powerUsed))
-          for (let i = 1; i <= this.enemies[0]; i++)
-            this.enemies[i].Act();
-
-        else this.player.powerUsed = false;
-        this.time = 0;
-      }
-  
-      else if (Phaser.Input.Keyboard.JustDown(this.cursors.D))
-      {
-        if (this.player.Move(6,this.level) && (this.player.power != 'timeStop' || !this.player.powerUsed))
-          for (let i = 1; i <= this.enemies[0]; i++)
-            this.enemies[i].Act();
-
-        else this.player.powerUsed = false;
-        this.time = 0;
-      }
     }
-    
-    else
-      this.time += delta;
 
     this.checkDeath();
     this.checkVictory();
   }
 
-  levelLoad(){
+  UsePower()
+  {
+    if (!this.playerDead && this.time > 150)
+      this.player.UsePower();
+  }
+
+  levelLoad()
+  {
     let px, py, fx, fy;
     let fil = this.level.length;
     let col = this.level[0].length;
@@ -139,54 +116,47 @@ export default class Game extends Phaser.Scene {
     for (let i = 0; i < fil; i++ ){
       for (let j = 0; j < col; j++ ){
         switch(this.level[i][j]){
-          case 0:{
-            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'void');
-            break;
-          }
-          case 1:{
-            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
-            break;
-          }
-          case 2:{
-            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'wall');
-            break;
-          }
-          case 3:{
-            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
+          case 3:
             px = j;
             py = i;
             this.level[i][j] = 1;
             break;
-          }
-          case 4:{
-            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'end'); //La textura cambiará a 'ground' una vez se implemente la clase finish
+
+          case 4:
             fx = j;
             fy = i;
             break;
-          }
-          default:{
-            //this.background = this.add.image(j*this.squarePixels, i*this.squarePixels, 'ground');
+
+          default:
             let temp = this.level[i][j]%100;
             
             switch(Math.floor(this.level[i][j]/100))
             {
-              case 5:{
+              case 5:
                 this.enemies[0]++;
                 this.enemies[this.enemies[0]] = new shooter(this.level, this, j, i, this.squarePixels, this.squarePixels, 'shooter', 'bullet', Math.floor(temp/10), temp%10);
                 break;
-              }
-              case 6:{
+
+              case 6:
                 this.enemies[0]++;
-                this.enemies[this.enemies[0]] = new charger(this.level, this, j, i, this.squarePixels, this.squarePixels, 'basicEnemy', Math.floor(temp/10), temp%10);
+                this.enemies[this.enemies[0]] = new charger(this.level, this, j, i, this.squarePixels, this.squarePixels, 'charger', Math.floor(temp/10), temp%10);
                 break;
-              }
+
+              case 7:
+                this.enemies[0]++;
+                this.enemies[this.enemies[0]] = new square(this.level, this, j, i, this.squarePixels, this.squarePixels, 'square', Math.floor(temp/10), temp%10);
+                break;
+
+              case 8:
+                this.enemies[0]++;
+                this.enemies[this.enemies[0]] = new zigzag(this.level, this, j, i, this.squarePixels, this.squarePixels, 'zigzag', Math.floor(temp/10), temp%10);
+                break;
             }
-          }        
+            break;    
         }
-        //this.background.setOrigin(0,0);
       } 
     }
-    this.player = new player(this, px, py, this.squarePixels, this.squarePixels, 'player', 'flash');
+    this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', 'flash');
     this.startingX = px;
     this.startingY = py;
   }

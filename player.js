@@ -1,6 +1,6 @@
 export default class Player extends Phaser.GameObjects.Sprite
 {
-    constructor(scene, x, y, width, height, sprite, power)
+    constructor(level, scene, x, y, width, height, sprite, power)
     {
         super(scene, (x * width + width / 2), (y * height + height / 2), sprite);
         this.scene.add.existing(this);
@@ -8,6 +8,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.posY = y;
         this.displayWidth = width;
         this.displayHeight = height;
+        this.level = level;
         this.power = power;
         this.powerUsed = false;
         this.speed = 1;
@@ -27,7 +28,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.time = this.cooldown;
     }
 
-    Move(dir, level)
+    Move(dir)
     {
         let moved = true;
         this.speed = 1;
@@ -37,25 +38,25 @@ export default class Player extends Phaser.GameObjects.Sprite
         switch(dir)
         {
             case 2:
-                if(level[this.posY + this.speed ][this.posX] != 2)
+                if(this.level[this.posY + this.speed ][this.posX] != 2)
                     this.posY += this.speed;
                 else moved = false;
                 break;
                 
             case 4:
-                if(level[this.posY][this.posX-this.speed] != 2)
+                if(this.level[this.posY][this.posX-this.speed] != 2)
                     this.posX -= this.speed;
                 else moved = false;
                 break;
 
             case 6:
-                if(level[this.posY ][this.posX +this.speed] != 2)
+                if(this.level[this.posY ][this.posX +this.speed] != 2)
                     this.posX += this.speed;
                 else moved = false;
                 break;
 
             case 8:
-                if(level[this.posY -this.speed ][this.posX] != 2)
+                if(this.level[this.posY -this.speed ][this.posX] != 2)
                     this.posY -= this.speed;
                 else moved = false;
                 break;

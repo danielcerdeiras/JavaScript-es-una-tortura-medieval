@@ -5,7 +5,7 @@ export default class Shooter extends enemy
 {
     constructor(level,scene, x, y, width, height, sprite, bulletSprite, dir, fireRate)
     {
-        super(scene, x, y, width, height, sprite, level);
+        super(level, scene, x, y, width, height, sprite);
         this.bulletSprite = bulletSprite;
         this.dir = dir;
         this.fireRate = fireRate;
