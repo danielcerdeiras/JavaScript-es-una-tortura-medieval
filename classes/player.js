@@ -8,7 +8,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.posY = y;
         this.displayWidth = width;
         this.displayHeight = height;
-        this.level = level;
+        this.level = level
         this.power = power;
         this.powerUsed = false;
         this.speed = 1;
@@ -96,5 +96,10 @@ export default class Player extends Phaser.GameObjects.Sprite
             this.powerUsed = true;
             this.time = 0;
         }
+    }
+
+    LevelChanged(level)
+    {
+        this.level  = level;
     }
 }
