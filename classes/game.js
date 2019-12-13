@@ -66,14 +66,27 @@ export default class Game extends Phaser.Scene {
       [2, 1, 1, 1, 1, 1, 2],
       [2, 1, 1, 1, 1, 1, 2],
       [2, 1, 1, 1, 2, 2, 2],
-      [2, 1, 1, 2, 2, 2, 2],
+      [2, 500, 1, 2, 2, 2, 2],
       [2, 1, 1, 1, 1, 1, 2],
       [2, 1, 1, 1, 1, 1, 2],
-      [2, 500, 1, 3, 500, 2, 2],
+      [2, 500, 1, 3, 1, 2, 2],
       [2, 2, 2, 2, 2, 2, 2]
     ];
 
-    this.level = this.copyLevel;
+    //this.level = this.copyLevel;
+    this.level = [
+      [2, 2, 2, 2, 2, 0, 0],
+      [2, 1, 1, 4, 2, 2, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 2, 2, 2],
+      [2, 500, 1, 2, 2, 2, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 500, 1, 3, 1, 2, 2],
+      [2, 2, 2, 2, 2, 2, 2]
+    ];
+
     this.levelLoad();
     this.cursors.W.on('down', event => { this.Turn(8); })
     this.cursors.S.on('down', event => { this.Turn(2); })
@@ -101,8 +114,8 @@ export default class Game extends Phaser.Scene {
       this.player.powerUsed = false;
       this.time = 0;
 
-      if (!this.levelFolded)
-        this.level = this.copyLevel;
+      /*if (!this.levelFolded)
+        this.level = this.copyLevel;*/
     }
   }
 
@@ -305,8 +318,6 @@ export default class Game extends Phaser.Scene {
           });
           //*/
         }
-
-      this.player.LevelChanged(this.level);
     }
     else {
 
@@ -314,17 +325,64 @@ export default class Game extends Phaser.Scene {
       this.erasedTilesF = this.foreground.getTilesWithin(0, pos1, 7, pos2);
       this.erasedTilesG = this.groundLayer.getTilesWithin(0, pos1, 7, pos2);
 
-      for (let i = pos1 + 1; i < pos2; i++) {
-        for (let j = 0; j < 7; j++) {
-          this.backgroundLayer.removeTileAt(j, i);
-          this.foreground.removeTileAt(j, i);
-          this.groundLayer.removeTileAt(j, i);
+      for (let i = 0; i < 7; i++)
+        for (let j = pos1 + 1; j < pos2; j++) {
+          this.backgroundLayer.removeTileAt(i, j);
+          this.foreground.removeTileAt(i, j);
+          this.groundLayer.removeTileAt(i, j);
         }
+
+      for (let i = 6; i >= 0; i--) //Los bucles son inversos para que no se sobreescriban los tiles
+        for (let j = pos2 - 3; j >= 0; j--)
+        {
+          this.level[j + (pos2 - pos1 - 1)][i] =  this.copyLevel[j][i];
+
+          tile = this.backgroundLayer.getTileAt(i, j);
+          this.backgroundLayer.putTileAt(tile, i, j + (pos2 - pos1 - 1));
+          this.backgroundLayer.removeTileAt(i, j);
+
+          tile = this.groundLayer.getTileAt(i, j);
+          this.groundLayer.putTileAt(tile, i, j + (pos2 - pos1 - 1));
+          this.groundLayer.removeTileAt(i, j);
+
+          tile = this.foreground.getTileAt(i, j);
+          this.foreground.putTileAt(tile, i, j + (pos2 - pos1 - 1));
+          this.foreground.removeTileAt(i, j);
+
+          /*const tile1 = this.backgroundLayer.getTileAt(i, j);
+          this.tweens.add({
+            targets: tile1,
+            x: x,
+            y: y + (pos2 - pos1 - 1),
+            ease: 'Power1',
+            duration: 400,
+          });
+
+          const tile2 = this.groundLayer.getTileAt(i, j);
+          this.tweens.add({
+            targets: tile2,
+            x: x,
+            y: y + (pos2 - pos1 - 1),
+            ease: 'Power1',
+            duration: 400,
+          });
+
+          const tile3 = this.foreground.getTileAt(i, j);
+          this.tweens.add({
+            targets: tile3,
+            x: x,
+            y: y + (pos2 - pos1 - 1),
+            ease: 'Power1',
+            duration: 400,
+          });*/
       }
     }
+    this.player.LevelChanged(this.level);
   }
 
-  UnfoldLevel(posX, posY) {
+  UnfoldLevel(posX, posY, dir)
+  {
     this.levelFolded = false;
+    this.player.LevelChanged(this.level);
   }
 }
