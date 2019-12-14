@@ -2,7 +2,7 @@ import enemy from './enemy.js';
 
 export default class Bullet extends enemy
 {
-    constructor(level, scene, x, y, width, height, sprite, dir)
+    constructor(level, scene, shooter, x, y, width, height, sprite, dir, ind)
     {
         super(level, scene, x, y, width, height, sprite);
         this.displayWidth = width / 4;
@@ -10,11 +10,14 @@ export default class Bullet extends enemy
         this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
         this.dir = dir;
         this.tween;
+        this.shooter = shooter;
+        this.ind = ind;
+        this.dead = false;
     }
 
     Act()
-    {
-        this.level[this.posY][this.posX] = this.square;
+    {   if(!this.dead)
+        {this.level[this.posY][this.posX] = this.square;
         switch(this.dir)
         {
             case 1:
@@ -23,9 +26,7 @@ export default class Bullet extends enemy
                 break;
 
             case 2:
-                if(this.level[this.posY+1] [this.posX]  != 2)
                 this.posY++;
-                else return false;
                 break;
                 
             case 3:
@@ -34,15 +35,11 @@ export default class Bullet extends enemy
                 break;
 
             case 4:
-                if(this.level[this.posY] [this.posX-1]  != 2)
                 this.posX--;
-                else return false;
                 break;
 
             case 6:
-                if(this.level[this.posY] [this.posX+1]  != 2)
                 this.posX++;
-                else return false;
                 break;
 
             case 7:
@@ -60,8 +57,11 @@ export default class Bullet extends enemy
                 break;
         }
         
+        this.dead = (this.posX > 7 || this.posX < 0 || this.posY < 0 || this.posY > 10 || this.level[this.posY][this.posX] > 1)
+
         this.tween = this.scene.tweens.add({
             targets: this,
+            onComplete: this.KillThis.bind(this),
             x: (this.posX * (this.displayWidth * 4)) + (this.displayWidth * 2),
             y: (this.posY * (this.displayHeight * 4)) + (this.displayWidth * 2),
             ease: 'Power1',
@@ -69,8 +69,42 @@ export default class Bullet extends enemy
         });
 
         this.square = this.level[this.posY][this.posX];
-        this.level[this.posY][this.posX] = -1; //Valor que se reconozca como enemigo
+        if (!this.dead) this.level[this.posY][this.posX] = -1;} //Valor que se reconozca como enemigo
+    }
 
-        return !(this.posX > 7 || this.posX < 0 || this.posY < 0 ||this.posY > 10)
+    CorrectPosition(squares, dir)
+    {
+        this.level[this.posY][this.posX] = this.square;
+        if (dir == 'horizontal')
+        {
+            this.posX += squares;
+            /*this.tween = this.scene.tweens.add({
+                targets: this,
+                onComplete: this.KillThis.bind(this),
+                x: (this.posX * (this.displayWidth * 4)) + (this.displayWidth * 2),
+                y: (this.posY * (this.displayHeight * 4)) + (this.displayWidth * 2),
+                ease: 'Power1',
+                duration: 200,
+            });*/
+        }
+        else
+        {
+            this.posY += squares;
+            /*this.tween = this.scene.tweens.add({
+                targets: this,
+                onComplete: this.KillThis.bind(this),
+                x: (this.posX * (this.displayWidth * 4)) + (this.displayWidth * 2),
+                y: (this.posY * (this.displayHeight * 4)) + (this.displayWidth * 2),
+                ease: 'Power1',
+                duration: 200,
+            });*/
+        }
+        this.square = this.level[this.posY][this.posX];
+        this.level[this.posY][this.posX] = -1; //Valor que se reconozca como enemigo
+    }
+
+    KillThis()
+    {
+        this.shooter.KillBullet(this.dead, this.ind);
     }
 }

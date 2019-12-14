@@ -8,6 +8,7 @@ export default class Charger extends enemy
         this.dir = dir;
         this.speed = speed;
         this.tween;
+        this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
     }
 
     Act()

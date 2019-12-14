@@ -15,4 +15,33 @@ export default class Enemy extends Phaser.GameObjects.Sprite
     {
         this.level = level;
     }
+
+    CorrectPosition(squares, dir)
+    {
+        this.level[this.posY][this.posX] = this.square;
+        if (dir == 'horizontal')
+        {
+            this.posX += squares;
+            this.scene.tweens.add({
+                targets: this,
+                x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
+                y: (this.posY * this.displayHeight) + (this.displayHeight / 2),
+                ease: 'Power1',
+                duration: 200,
+            });
+        }
+        else
+        {
+            this.posY += squares;
+            this.scene.tweens.add({
+                targets: this,
+                x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
+                y: (this.posY * this.displayHeight) + (this.displayHeight / 2),
+                ease: 'Power1',
+                duration: 200,
+            });
+        }
+        this.square = this.level[this.posY][this.posX];
+        this.level[this.posY][this.posX] = -1; //Valor que se reconozca como enemigo
+    }
 }

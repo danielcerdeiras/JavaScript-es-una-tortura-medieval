@@ -26,7 +26,7 @@ export default class Shooter extends enemy
                 {
                     if (this.bullets[j] == null && i !== 5)
                     {
-                        this.bullets[j] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, i);
+                        this.bullets[j] = new bullet(this.level,this.scene, this, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, i, j);
                         found = true;
                     }
                 }
@@ -34,7 +34,7 @@ export default class Shooter extends enemy
                 if (!found && i !== 5)
                 {
                     this.ind++;
-                    this.bullets[this.ind] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, i);
+                    this.bullets[this.ind] = new bullet(this.level,this.scene, this, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, i, this.ind);
                 }
                 i++;
             }
@@ -46,7 +46,7 @@ export default class Shooter extends enemy
                 {
                     if (this.bullets[j] == null)
                     {
-                        this.bullets[j] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, this.dir);
+                        this.bullets[j] = new bullet(this.level,this.scene, this, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, this.dir, j);
                         found = true;
                     }
                 }
@@ -54,20 +54,50 @@ export default class Shooter extends enemy
                 if (!found)
                 {
                     this.ind++;
-                    this.bullets[this.ind] = new bullet(this.level,this.scene, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, this.dir);
+                    this.bullets[this.ind] = new bullet(this.level,this.scene, this, this.posX, this.posY, this.displayWidth, this.displayHeight, this.bulletSprite, this.dir, this.ind);
                 }
             }
             this.time = 0;
         }
 
         for (let i = 0; i <= this.ind; i++)
-            if (!this.bullets[i].Act())
-            {
-                //https://rexrainbow.github.io/phaser3-rex-notes/docs/site/tween/
-               // this.scene.time.delayedCall(200, this.bullets[i].destroy);
-                this.bullets[i].destroy();
-            }
+            this.bullets[i].Act()
 
         this.time++;
+    }
+
+    CorrectPosition(squares, dir)
+    {
+        if (dir == 'horizontal')
+        {
+            this.posX += squares;
+            this.scene.tweens.add({
+                targets: this,
+                x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
+                y: (this.posY * this.displayHeight) + (this.displayHeight / 2),
+                ease: 'Power1',
+                duration: 200,
+            });
+        }
+        else
+        {
+            this.posY += squares;
+            this.scene.tweens.add({
+                targets: this,
+                x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
+                y: (this.posY * this.displayHeight) + (this.displayHeight / 2),
+                ease: 'Power1',
+                duration: 200,
+            });
+        }
+
+        for (let i = 0; i <= this.ind; i++)
+            this.bullets[i].CorrectPosition(squares, dir);
+    }
+
+    KillBullet(dead, ind)
+    {
+        if (dead)
+            this.bullets[ind].destroy();
     }
 }

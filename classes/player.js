@@ -43,7 +43,10 @@ export default class Player extends Phaser.GameObjects.Sprite
                 if(value != 2 && Math.trunc(value / 100) != 5)
                     this.posY += this.speed;
                 else if (Math.trunc(value / 100) == 5)
+                {
                     this.scene.BlockCollision(this.posX, this.posY + this.speed);
+                    moved = false;
+                }
                 else moved = false;
                 break;
                 
@@ -52,7 +55,10 @@ export default class Player extends Phaser.GameObjects.Sprite
                 if(value != 2 && Math.trunc(value / 100) != 5)
                     this.posX -= this.speed;
                 else if (Math.trunc(value / 100) == 5)
+                {
                     this.scene.BlockCollision(this.posX - this.speed, this.posY);
+                    moved = false;
+                }
                 else moved = false;
                 break;
 
@@ -61,7 +67,10 @@ export default class Player extends Phaser.GameObjects.Sprite
                 if(value != 2 && Math.trunc(value / 100) != 5)
                     this.posX += this.speed;
                 else if (Math.trunc(value / 100) == 5)
+                {
                     this.scene.BlockCollision(this.posX + this.speed, this.posY);
+                    moved = false;
+                }
                 else moved = false;
                 break;
 
@@ -70,7 +79,10 @@ export default class Player extends Phaser.GameObjects.Sprite
                 if(value != 2 && Math.trunc(value / 100) != 5)
                     this.posY -= this.speed;
                 else if (Math.trunc(value / 100) == 5)
+                {
                     this.scene.BlockCollision(this.posX, this.posY - this.speed);
+                    moved = false;
+                }
                 else moved = false;
                 break;
         }
@@ -101,5 +113,31 @@ export default class Player extends Phaser.GameObjects.Sprite
     LevelChanged(level)
     {
         this.level  = level;
+    }
+
+    CorrectPosition(squares, dir)
+    {
+        if (dir == 'horizontal')
+            this.posX += squares;
+        else
+            this.posY += squares;
+    }
+
+    Displace(dir)
+    {
+        if (dir == 'horizontal')
+        {
+            if (this.level[this.posY + 1][this.posX] != 2)
+                this.posY++
+            else
+                this.posY--;
+        }
+        else
+        {
+            if (this.level[this.posY][this.posX + 1] != 2)
+                this.posX++
+            else
+                this.posX--; 
+        }
     }
 }

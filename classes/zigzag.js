@@ -8,6 +8,7 @@ export default class Zigzag extends enemy
         this.dir1 = dir1;
         this.dir2 = dir2;
         this.cont = 0;
+        this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
     }
 
     Act()

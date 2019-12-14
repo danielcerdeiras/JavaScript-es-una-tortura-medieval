@@ -9,6 +9,7 @@ export default class Square extends enemy
         this.secDir = dir_2;
         this.cont = 0;
         this.tween;
+        this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
     }
 
     Act()
