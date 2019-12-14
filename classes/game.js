@@ -29,6 +29,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    this.erasedTiles = [];
     this.playerDead = false;
     this.playerTurn = true;
     this.powerUsed = false;
@@ -60,32 +61,32 @@ export default class Game extends Phaser.Scene {
     el resto = enemigos
     */
 
-    this.copyLevel = [
-      [2, 2, 2, 2, 2, 0, 0],
-      [2, 1, 1, 4, 2, 2, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 2, 2, 2],
-      [2, 500, 1, 2, 2, 2, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 500, 1, 3, 1, 2, 2],
-      [2, 2, 2, 2, 2, 2, 2]
-    ];
+   this.copyLevel = [
+    [2, 2, 2, 2, 2, 0, 0],
+    [2, 1, 1, 4, 2, 2, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 2, 2, 2],
+    [2, 500, 1, 2, 2, 2, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 500, 1, 3, 1, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2]
+  ];
 
-    //this.level = this.copyLevel;
-    this.level = [
-      [2, 2, 2, 2, 2, 0, 0],
-      [2, 1, 1, 4, 2, 2, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 2, 2, 2],
-      [2, 500, 1, 2, 2, 2, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 500, 1, 3, 1, 2, 2],
-      [2, 2, 2, 2, 2, 2, 2]
-    ];
+  //this.level = this.copyLevel;
+  this.level = [
+    [2, 2, 2, 2, 2, 0, 0],
+    [2, 1, 1, 4, 2, 2, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 2, 2, 2],
+    [2, 500, 1, 2, 2, 2, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 500, 1, 3, 1, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2]
+  ];
 
     this.levelLoad();
     this.cursors.W.on('down', event => { this.Turn(8); })
@@ -238,9 +239,9 @@ export default class Game extends Phaser.Scene {
       this.blocks[block2].folding = true;
 
       if (this.blocks[block1].posX == this.blocks[block2].posX)
-        this.FoldLevel(this.blocks[block1].posY, this.blocks[block2].posY, 1);
+        this.FoldLevel(this.blocks[block1].posY, this.blocks[block2].posY, 'vertical');
       else
-        this.FoldLevel(this.blocks[block1].posX, this.blocks[block2].posX, 0);
+        this.FoldLevel(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal');
     }
     else if (cont == 1) {
       if (this.blocks[block1].folding) {
@@ -248,9 +249,9 @@ export default class Game extends Phaser.Scene {
         this.blocks[block2].folding = false;
 
         if (this.blocks[block1].posX == this.blocks[block2].posX)
-          console.log("Se expande");//UnfoldLevel(this.blocks[block1].posY, this.blocks[block2].posY);
+          this.UnfoldLevel(this.blocks[block1].posY, this.blocks[block2].posY, 'vertical');
         else
-          console.log("Se expande");//UnfoldLevel(this.blocks[block1].posX, this.blocks[block2].posX);
+          this.UnfoldLevel(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal');
       }
     }
   }
@@ -259,23 +260,15 @@ export default class Game extends Phaser.Scene {
   {
     this.levelFolded = true;
     let tile;
-    if (dir == 0) {
-      this.erasedTilesB = this.backgroundLayer.getTilesWithin(pos1, 0, pos2, 10);
-      this.erasedTilesF = this.foreground.getTilesWithin(pos1, 0, pos2, 10);
-      this.erasedTilesG = this.groundLayer.getTilesWithin(pos1, 0, pos2, 10);
-
-      for (let i = pos1 + 1; i < pos2; i++) {
-        for (let j = 0; j < 10; j++) {
-          this.backgroundLayer.removeTileAt(i, j);
-          this.foreground.removeTileAt(i, j);
-          this.groundLayer.removeTileAt(i, j);
-        }
-      }
+    if (dir == 'horizontal')
+    {
+      this.EraseTiles(pos1 + 1, (pos2 - pos1 - 1), 0, 10);
 
       for (let i = 0; i < pos2 - 2; i++)
-        for (let j = 0; j < 10; j++) {
+        for (let j = 0; j < 10; j++)
+        {
           this.level[j][i + (pos2 - pos1 - 1)] =  this.copyLevel[j][i];
-          //*
+
           tile = this.backgroundLayer.getTileAt(i, j);
           this.backgroundLayer.putTileAt(tile, i + (pos2 - pos1 - 1), j);
           this.backgroundLayer.removeTileAt(i, j);
@@ -287,50 +280,11 @@ export default class Game extends Phaser.Scene {
           tile = this.foreground.getTileAt(i, j);
           this.foreground.putTileAt(tile, i + (pos2 - pos1 - 1), j);
           this.foreground.removeTileAt(i, j);
-
-         /*/
-
-          const tile1 = this.backgroundLayer.getTileAt(i, j);
-          this.tweens.add({
-            targets: tile1,
-            x: x,
-            y: y + (pos2 - pos1 - 1),
-            ease: 'Power1',
-            duration: 400,
-          });
-
-          const tile2 = this.groundLayer.getTileAt(i, j);
-          this.tweens.add({
-            targets: tile2,
-            x: x,
-            y: y + (pos2 - pos1 - 1),
-            ease: 'Power1',
-            duration: 400,
-          });
-
-          const tile3 = this.foreground.getTileAt(i, j);
-          this.tweens.add({
-            targets: tile3,
-            x: x,
-            y: y + (pos2 - pos1 - 1),
-            ease: 'Power1',
-            duration: 400,
-          });
-          //*/
         }
     }
-    else {
-
-      this.erasedTilesB = this.backgroundLayer.getTilesWithin(0, pos1, 7, pos2);
-      this.erasedTilesF = this.foreground.getTilesWithin(0, pos1, 7, pos2);
-      this.erasedTilesG = this.groundLayer.getTilesWithin(0, pos1, 7, pos2);
-
-      for (let i = 0; i < 7; i++)
-        for (let j = pos1 + 1; j < pos2; j++) {
-          this.backgroundLayer.removeTileAt(i, j);
-          this.foreground.removeTileAt(i, j);
-          this.groundLayer.removeTileAt(i, j);
-        }
+    else
+    {
+      this.EraseTiles(0, 7, pos1 + 1, (pos2 - pos1 - 1));
 
       for (let i = 6; i >= 0; i--) //Los bucles son inversos para que no se sobreescriban los tiles
         for (let j = pos2 - 3; j >= 0; j--)
@@ -348,6 +302,95 @@ export default class Game extends Phaser.Scene {
           tile = this.foreground.getTileAt(i, j);
           this.foreground.putTileAt(tile, i, j + (pos2 - pos1 - 1));
           this.foreground.removeTileAt(i, j);
+      }
+    }
+    this.player.LevelChanged(this.level);
+  }
+
+  UnfoldLevel(pos1, pos2, dir)
+  {
+    this.levelFolded = false;
+    let tile;
+    if (dir == 'horizontal')
+    {
+      for (let i = 0; i < pos2 - 2; i++)
+        for (let j = 0; j < 10; j++)
+        {
+          //this.level = this.copyLevel;
+
+          tile = this.backgroundLayer.getTileAt(i + (pos2 - pos1 - 1), j);
+          this.backgroundLayer.putTileAt(tile, i, j);
+          this.backgroundLayer.removeTileAt(i + (pos2 - pos1 - 1), j);
+
+          tile = this.groundLayer.getTileAt(i + (pos2 - pos1 - 1), j);
+          this.groundLayer.putTileAt(tile, i, j);
+          this.groundLayer.removeTileAt(i + (pos2 - pos1 - 1), j);
+
+          tile = this.foreground.getTileAt(i + (pos2 - pos1 - 1), j);
+          this.foreground.putTileAt(tile, i, j);
+          this.foreground.removeTileAt(i + (pos2 - pos1 - 1), j);
+        }
+
+      this.RecoverTiles(pos1 + 1, (pos2 - pos1 - 1), 0, 10);
+    }
+    else
+    {
+      for (let i = 0; i < 7; i++) //Los bucles son inversos para que no se sobreescriban los tiles
+        for (let j = 0; j < pos2 - 2; j++)
+        {
+          //this.level = this.copyLevel;
+
+          tile = this.backgroundLayer.getTileAt(i, j + (pos2 - pos1 - 1));
+          this.backgroundLayer.putTileAt(tile, i, j);
+          this.backgroundLayer.removeTileAt(i, j + (pos2 - pos1 - 1));
+
+          tile = this.groundLayer.getTileAt(i, j + (pos2 - pos1 - 1));
+          this.groundLayer.putTileAt(tile, i, j);
+          this.groundLayer.removeTileAt(i, j + (pos2 - pos1 - 1));
+
+          tile = this.foreground.getTileAt(i, j + (pos2 - pos1 - 1));
+          this.foreground.putTileAt(tile, i, j);
+          this.foreground.removeTileAt(i, j + (pos2 - pos1 - 1));
+        }
+
+      this.RecoverTiles(0, 7, pos1 + 1, (pos2 - pos1 - 1));
+    }
+    this.player.LevelChanged(this.level);
+  }
+
+  EraseTiles(x, height, y, width)
+  {
+    this.erasedTiles = []
+    let cont = 0;
+    for (let i = x; i < height + x; i++)
+      for (let j = y; j < width + y; j++)
+      {
+        this.erasedTiles[cont] = this.backgroundLayer.getTileAt(i, j); cont++;
+        this.backgroundLayer.removeTileAt(i, j);
+        this.erasedTiles[cont] = this.foreground.getTileAt(i, j); cont++;
+        this.foreground.removeTileAt(i, j);
+        this.erasedTiles[cont] = this.groundLayer.getTileAt(i, j); cont++;
+        this.groundLayer.removeTileAt(i, j);
+      }
+  }
+
+  RecoverTiles(x, height, y, width)
+  {
+    let cont = 0;
+    for (let i = x; i < height + x; i++)
+      for (let j = y; j < width + y; j++)
+      {
+        this.backgroundLayer.putTileAt(this.erasedTiles[cont], i, j); cont++;
+        this.foreground.putTileAt(this.erasedTiles[cont], i, j); cont++;
+        this.groundLayer.putTileAt(this.erasedTiles[cont], i, j); cont++;
+      }
+  }
+}
+
+
+
+
+
 
           /*const tile1 = this.backgroundLayer.getTileAt(i, j);
           this.tweens.add({
@@ -375,14 +418,3 @@ export default class Game extends Phaser.Scene {
             ease: 'Power1',
             duration: 400,
           });*/
-      }
-    }
-    this.player.LevelChanged(this.level);
-  }
-
-  UnfoldLevel(posX, posY, dir)
-  {
-    this.levelFolded = false;
-    this.player.LevelChanged(this.level);
-  }
-}
