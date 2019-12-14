@@ -65,11 +65,11 @@ export default class Game extends Phaser.Scene {
     [2, 2, 2, 2, 2, 0, 0],
     [2, 1, 1, 4, 2, 2, 2],
     [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 501, 1, 2, 2, 2],
+    [2, 685, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 2, 2, 2],
     [2, 1, 1, 2, 2, 2, 2],
     [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 501, 1, 1, 1, 2],
+    [2, 1, 501, 1, 501, 1, 2],
     [2, 1, 1, 3, 1, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
   ];
@@ -79,11 +79,11 @@ export default class Game extends Phaser.Scene {
     [2, 2, 2, 2, 2, 0, 0],
     [2, 1, 1, 4, 2, 2, 2],
     [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 501, 1, 2, 2, 2],
+    [2, 685, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 2, 2, 2],
     [2, 1, 1, 2, 2, 2, 2],
     [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 501, 1, 1, 1, 2],
+    [2, 1, 501, 1, 501, 685, 2],
     [2, 1, 1, 3, 1, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
   ];
@@ -270,15 +270,15 @@ export default class Game extends Phaser.Scene {
           let pos2 = this.blocks[block2].oriY;
           this.blocks[block1].CorrectPosition((pos2 - pos1 - 1), 'vertical');
           this.UnfoldLevel(pos1, pos2, 'vertical');
-          this.UpdateEntities(this.blocks[block1].posY, this.blocks[block2].posY, 'vertical');
+          this.UpdateEntities(this.blocks[block1].posY, this.blocks[block2].posY, 'vertical', true);
         }
         else
         {
           let pos1 = this.blocks[block1].oriX;
           let pos2 = this.blocks[block2].oriX;
           this.blocks[block1].CorrectPosition(pos2 - pos1 - 1, 'horizontal');
-          this.UnfoldLevel(pos1, pos2, 'horizontal');//this.UnfoldLevel(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal');
-          this.UpdateEntities(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal');
+          this.UnfoldLevel(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal');
+          this.UpdateEntities(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal', true);
         }
         this.blocks[block1].folding = false;
         this.blocks[block2].folding = false;
@@ -334,7 +334,7 @@ export default class Game extends Phaser.Scene {
           this.foreground.removeTileAt(i, j);
       }
     }
-    this.UpdateEntities(pos1, pos2, dir);
+    this.UpdateEntities(pos1, pos2, dir, false);
     this.player.LevelChanged(this.level);
   }
 
@@ -344,7 +344,7 @@ export default class Game extends Phaser.Scene {
     let tile;
     if (dir == 'horizontal')
     {
-      for (let i = 0; i < pos2 - 2; i++)
+      for (let i = 0; i < pos2 - (pos2 - pos1 - 1); i++)
         for (let j = 0; j < 10; j++)
         {
           //this.level = this.copyLevel;
@@ -417,12 +417,14 @@ export default class Game extends Phaser.Scene {
       }
   }
 
-  UpdateEntities(pos1, pos2, dir)
+  UpdateEntities(pos1, pos2, dir, inv)
   {
+    let dist = pos2 - pos1 - 1;
+    if (inv) dist = -dist;
     if (dir == 'horizontal')
     {
       if (this.player.posX <= pos1 && this.player.posX < pos2)
-        this.player.CorrectPosition(pos2 - pos1 - 1, dir);
+        this.player.CorrectPosition(dist, dir);
       else if (this.player.posX < pos2)
       {
         this.player.Displace(dir);
@@ -433,7 +435,7 @@ export default class Game extends Phaser.Scene {
       for (let i = 1; i <= this.enemies[0]; i++)
       {
         if (this.enemies[i].posX <= pos1)
-          this.enemies[i].CorrectPosition(pos2 - pos1 - 1, dir);
+          this.enemies[i].CorrectPosition(dist, dir);
         else if (this.enemies[i].posX > pos1 && this.enemies[i].posX < pos2)
           this.enemies[i].Freeze();
       }
@@ -441,7 +443,7 @@ export default class Game extends Phaser.Scene {
     else
     {
       if (this.player.posY <= pos1 && this.player.posY < pos2)
-        this.player.CorrectPosition(pos2 - pos1 - 1, dir);
+        this.player.CorrectPosition(dist, dir);
         else if (this.player.posY < pos2)
         {
           this.player.Displace(dir);
@@ -452,7 +454,7 @@ export default class Game extends Phaser.Scene {
       for (let i = 1; i <= this.enemies[0]; i++)
       {
         if (this.enemies[i].posY <= pos1)
-          this.enemies[i].CorrectPosition(pos2 - pos1 - 1, dir);
+          this.enemies[i].CorrectPosition(dist, dir);
         else if (this.enemies[i].posY > pos1 && this.enemies[i].posY < pos2)
           this.enemies[i].Freeze();
       }
