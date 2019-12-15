@@ -14,6 +14,41 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.speed = 1;
         this.tween;
         
+        this.scene.anims.create({
+            key:'standing',
+            frames: this.scene.anims.generateFrameNumbers('player',{ start: 1, end: 1 }),
+            frameRate:15,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'up',
+            frames: this.scene.anims.generateFrameNumbers('player',{ start: 9, end: 11 }),
+            frameRate:15,
+            repeat:0,
+        });
+
+        this.scene.anims.create({
+            key:'down',
+            frames: this.scene.anims.generateFrameNumbers('player',{ start: 0, end: 2 }),
+            frameRate:15,
+            repeat:0,
+        });
+
+        this.scene.anims.create({
+            key:'left',
+            frames: this.scene.anims.generateFrameNumbers('player',{ start: 3, end: 5 }),
+            frameRate:15,
+            repeat:0,
+        });
+
+        this.scene.anims.create({
+            key:'right',
+            frames: this.scene.anims.generateFrameNumbers('player',{ start: 6, end: 8 }),
+            frameRate:15,
+            repeat:0,
+        });
+
         switch (power)
         {
             case 'timeStop':
@@ -26,14 +61,19 @@ export default class Player extends Phaser.GameObjects.Sprite
         }
 
         this.time = this.cooldown;
+
+        this.play('standing')
     }
 
     Move(dir)
     {
         let moved = true;
         this.speed = 1;
-        if(this.power == 'flash' && this.powerUsed)
+        if(this.power == 'flash' && this.powerUsed){
         this.speed = 2;
+        this.scene.flashSound.play()
+        }
+        else this.scene.movementSound.play()
 
         let value;
         switch(dir)
@@ -41,7 +81,10 @@ export default class Player extends Phaser.GameObjects.Sprite
             case 2:
                 value = this.level[this.posY + this.speed][this.posX];
                 if(value != 2 && Math.trunc(value / 100) != 5)
+                {
                     this.posY += this.speed;
+                    this.play('down')
+                }
                 else if (Math.trunc(value / 100) == 5)
                 {
                     this.scene.BlockCollision(this.posX, this.posY + this.speed);
@@ -53,7 +96,10 @@ export default class Player extends Phaser.GameObjects.Sprite
             case 4:
                 value = this.level[this.posY][this.posX - this.speed];
                 if(value != 2 && Math.trunc(value / 100) != 5)
+                {               
                     this.posX -= this.speed;
+                    this.play('left') 
+                }
                 else if (Math.trunc(value / 100) == 5)
                 {
                     this.scene.BlockCollision(this.posX - this.speed, this.posY);
@@ -64,8 +110,10 @@ export default class Player extends Phaser.GameObjects.Sprite
 
             case 6:
                 value = this.level[this.posY][this.posX + this.speed];
-                if(value != 2 && Math.trunc(value / 100) != 5)
+                if(value != 2 && Math.trunc(value / 100) != 5){
                     this.posX += this.speed;
+                    this.play('right') 
+                }   
                 else if (Math.trunc(value / 100) == 5)
                 {
                     this.scene.BlockCollision(this.posX + this.speed, this.posY);
@@ -76,17 +124,18 @@ export default class Player extends Phaser.GameObjects.Sprite
 
             case 8:
                 value = this.level[this.posY - this.speed][this.posX];
-                if(value != 2 && Math.trunc(value / 100) != 5)
+                if(value != 2 && Math.trunc(value / 100) != 5){
                     this.posY -= this.speed;
+                    this.play('up') 
+                }
                 else if (Math.trunc(value / 100) == 5)
                 {
                     this.scene.BlockCollision(this.posX, this.posY - this.speed);
                     moved = false;
                 }
-                else moved = false;
+                else {moved = false;}
                 break;
         }
-
         this.tween = this.scene.tweens.add({
             targets: this,
             x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
@@ -105,6 +154,8 @@ export default class Player extends Phaser.GameObjects.Sprite
     {
         if (this.time >= this.cooldown)
         {
+            if(this.power == 'timeStop')
+                this.scene.timeStopSound.play();
             this.powerUsed = true;
             this.time = 0;
         }

@@ -16,16 +16,25 @@ export default class Game extends Phaser.Scene {
     this.load.image('wall', './sprites/wall.png');
     this.load.image('void', './sprites/void.png');
     this.load.image('ground', './sprites/ground.png');
-    this.load.image('player', './sprites/player.png');
-    this.load.image('charger', './sprites/charger.png');
-    this.load.image('square', './sprites/square.png');
-    this.load.image('shooter', './sprites/shooter.png');
-    this.load.image('zigzag', './sprites/zigzag.png');
-    this.load.image('bullet', './sprites/bullet.png');
-    this.load.image('block', './sprites/block.png');
+    this.load.spritesheet('player', './sprites/player_end.png', {frameWidth: 94, frameHeight: 100 });
+    this.load.spritesheet('charger', './sprites/charger_end.png', {frameWidth: 122, frameHeight: 114 });
+    this.load.spritesheet('square', './sprites/square_end.png', {frameWidth: 94, frameHeight: 100 });
+    this.load.spritesheet('shooter', './sprites/shooter_end.png',{frameWidth: 52, frameHeight: 72 });
+    this.load.spritesheet('zigzag', './sprites/zigzag_end.png', {frameWidth: 94, frameHeight: 100 });
+    this.load.spritesheet('bullet', './sprites/bullet_end.png', {frameWidth: 120, frameHeight: 128 });
+    //this.load.spritesheet('block', './sprites/block_end.png'), {frameWidth: 16, frameHeight: 16 };
     this.load.tilemapTiledJSON('tileMapPhaser', 'sprites/test.json')
     this.load.image('tileSetPhaser', './sprites/tiles_dungeon.png')
     this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
+    this.load.audio('backgroundMusic', './sounds/background.wav');
+    this.load.audio('block_off', './sounds/block_off.wav');
+    this.load.audio('block_on', './sounds/block_on.wav');
+    this.load.audio('death', './sounds/death.wav');
+    this.load.audio('end_fin', './sounds/end_fin.wav');
+    this.load.audio('end_ini', './sounds/end_ini.wav');
+    this.load.audio('flash', './sounds/flash.wav');
+    this.load.audio('movement', './sounds/movement.wav');
+    this.load.audio('timeStopSound', './sounds/timeStop.wav');
   }
 
   create() {
@@ -38,6 +47,48 @@ export default class Game extends Phaser.Scene {
     this.blocks[0] = 0;
     this.enemies = [];
     this.enemies[0] = 0;
+
+    const background_config = {
+      mute: false,
+      volume: 0.35,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0
+    };
+
+    const movementSound_config ={
+      volume: 0.25,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+    }
+
+    const timeStopSound_config ={
+      loop:true,
+    }
+
+    const defaultSound_config = {
+      mute: false,
+      volume: 1,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0
+    }
+
+    this.backgroundMusic = this.sound.add('backgroundMusic', background_config)
+    this.block_onSound = this.sound.add('block_on', defaultSound_config);
+    this.block_offSound = this.sound.add('block_off', defaultSound_config);
+    this.deathSound = this.sound.add('death', defaultSound_config);
+    this.end_finSound = this.sound.add('end_fin', defaultSound_config);
+    this.end_iniSound = this.sound.add('end_ini', defaultSound_config);
+    this.flashSound = this.sound.add('flash', defaultSound_config);
+    this.movementSound = this.sound.add('movement', movementSound_config)
+    this.timeStopSound = this.sound.add('timeStopSound', timeStopSound_config);
+
 
     this.map = this.make.tilemap({
       key: 'tileMapPhaser',
@@ -88,6 +139,7 @@ export default class Game extends Phaser.Scene {
     [2, 2, 2, 2, 2, 2, 2]
   ];
 
+    this.backgroundMusic.play();
     this.levelLoad();
     this.cursors.W.on('down', event => { this.Turn(8); })
     this.cursors.S.on('down', event => { this.Turn(2); })
@@ -108,10 +160,12 @@ export default class Game extends Phaser.Scene {
 
   Turn(dir) {
     if (!this.playerDead && this.time > 150) {
-      if (this.player.Move(dir) && (this.player.power != 'timeStop' || !this.player.powerUsed))
+      if (this.player.Move(dir) && (this.player.power != 'timeStop' || !this.player.powerUsed)){
         for (let i = 1; i <= this.enemies[0]; i++)
           this.enemies[i].Act();
 
+        this.timeStopSound.stop();
+      }
       this.player.powerUsed = false;
       this.time = 0;
 
@@ -175,7 +229,7 @@ export default class Game extends Phaser.Scene {
         }
       }
     }
-    this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', 'flash');
+    this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', 'timeStop');
     this.startingX = px;
     this.startingY = py;
 
@@ -195,6 +249,7 @@ export default class Game extends Phaser.Scene {
           ease: 'Power1',
           duration: 700,
         });
+        this.deathSound.play();
       }
     }
 
@@ -206,11 +261,11 @@ export default class Game extends Phaser.Scene {
   checkVictory() {
     let entity = this.level[this.player.posY][this.player.posX];
     if (entity == 4)
-      ; //change level
+    {
+    this.end_iniSound.play();
+    this.end_finSound.play();
+    } //change level
   }
-
-
-
 
 
 
@@ -289,6 +344,7 @@ export default class Game extends Phaser.Scene {
   FoldLevel(pos1, pos2, dir)
   {
     this.levelFolded = true;
+    this.block_onSound.play();
     let tile;
     if (dir == 'horizontal')
     {
@@ -342,6 +398,7 @@ export default class Game extends Phaser.Scene {
   {
     this.levelFolded = false;
     let tile;
+    this.block_offSound.play();
     if (dir == 'horizontal')
     {
       for (let i = 0; i < pos2 - (pos2 - pos1 - 1); i++)
