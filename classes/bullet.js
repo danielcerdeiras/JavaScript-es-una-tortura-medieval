@@ -16,7 +16,7 @@ export default class Bullet extends enemy
     }
 
     Act()
-    {   if(!this.dead)
+    {   if(!this.dead) //Las balas no se destruyen correctamente
         {this.level[this.posY][this.posX] = this.square;
         switch(this.dir)
         {

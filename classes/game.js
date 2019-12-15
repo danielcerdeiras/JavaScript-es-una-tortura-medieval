@@ -178,7 +178,7 @@ export default class Game extends Phaser.Scene {
     this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', 'flash');
     this.startingX = px;
     this.startingY = py;
-
+    
     //Comprobar si el mundo está plegado
   }
 
