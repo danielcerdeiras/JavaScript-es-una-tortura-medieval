@@ -15,35 +15,35 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.tween;
         
         this.scene.anims.create({
-            key:'standing',
+            key:'standing_player',
             frames: this.scene.anims.generateFrameNumbers('player',{ start: 1, end: 1 }),
             frameRate:15,
             repeat:-1,
         });
 
         this.scene.anims.create({
-            key:'up',
+            key:'up_player',
             frames: this.scene.anims.generateFrameNumbers('player',{ start: 9, end: 11 }),
             frameRate:15,
             repeat:0,
         });
 
         this.scene.anims.create({
-            key:'down',
+            key:'down_player',
             frames: this.scene.anims.generateFrameNumbers('player',{ start: 0, end: 2 }),
             frameRate:15,
             repeat:0,
         });
 
         this.scene.anims.create({
-            key:'left',
+            key:'left_player',
             frames: this.scene.anims.generateFrameNumbers('player',{ start: 3, end: 5 }),
             frameRate:15,
             repeat:0,
         });
 
         this.scene.anims.create({
-            key:'right',
+            key:'right_player',
             frames: this.scene.anims.generateFrameNumbers('player',{ start: 6, end: 8 }),
             frameRate:15,
             repeat:0,
@@ -62,9 +62,9 @@ export default class Player extends Phaser.GameObjects.Sprite
 
         this.time = this.cooldown;
 
-        this.play('standing')
+        this.play('standing_player')
         var style = { font: "40px Arial", align: "center"};
-        this.text = this.scene.add.text(this.posX * width + (width / 2.5), this.posY * height + (height / 3.5), this.cooldown - this.time, style);
+        this.text = this.scene.add.text(this.posX * width + (width / 2.5), this.posY * height + (height / 3), this.cooldown - this.time, style);
     }
 
     Move(dir)
@@ -85,7 +85,7 @@ export default class Player extends Phaser.GameObjects.Sprite
                 if(value != 2 && Math.trunc(value / 100) != 5)
                 {
                     this.posY += this.speed;
-                    this.play('down')
+                    this.play('down_player')
                 }
                 else if (Math.trunc(value / 100) == 5)
                 {
@@ -100,7 +100,7 @@ export default class Player extends Phaser.GameObjects.Sprite
                 if(value != 2 && Math.trunc(value / 100) != 5)
                 {               
                     this.posX -= this.speed;
-                    this.play('left') 
+                    this.play('left_player') 
                 }
                 else if (Math.trunc(value / 100) == 5)
                 {
@@ -114,7 +114,7 @@ export default class Player extends Phaser.GameObjects.Sprite
                 value = this.level[this.posY][this.posX + this.speed];
                 if(value != 2 && Math.trunc(value / 100) != 5){
                     this.posX += this.speed;
-                    this.play('right') 
+                    this.play('right_player') 
                 }   
                 else if (Math.trunc(value / 100) == 5)
                 {
@@ -128,7 +128,7 @@ export default class Player extends Phaser.GameObjects.Sprite
                 value = this.level[this.posY - this.speed][this.posX];
                 if(value != 2 && Math.trunc(value / 100) != 5){
                     this.posY -= this.speed;
-                    this.play('up') 
+                    this.play('up_player') 
                 }
                 else if (Math.trunc(value / 100) == 5)
                 {
@@ -153,7 +153,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.tween = this.scene.tweens.add({
             targets: this.text,
             x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
-            y: (this.posY * this.displayHeight + (this.displayHeight / 3.5)),
+            y: (this.posY * this.displayHeight + (this.displayHeight / 3)),
             ease: 'Power1',
             duration: 200,
             });
@@ -187,7 +187,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.tween = this.scene.tweens.add({
             targets: this.text,
             x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
-            y: (this.posY * this.displayHeight + (this.displayHeight / 3.5)),
+            y: (this.posY * this.displayHeight + (this.displayHeight / 3)),
             ease: 'Power1',
             duration: 200,
             });    
@@ -213,7 +213,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.tween = this.scene.tweens.add({
             targets: this.text,
             x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
-            y: (this.posY * this.displayHeight + (this.displayHeight / 3.5)),
+            y: (this.posY * this.displayHeight + (this.displayHeight / 3)),
             ease: 'Power1',
             duration: 200,
             });

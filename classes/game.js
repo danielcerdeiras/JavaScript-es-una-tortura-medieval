@@ -16,17 +16,13 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('end', './sprites/end.png');
-    this.load.image('wall', './sprites/wall.png');
-    this.load.image('void', './sprites/void.png');
-    this.load.image('ground', './sprites/ground.png');
     this.load.spritesheet('player', './sprites/player_end.png', {frameWidth: 94, frameHeight: 100 });
-    this.load.spritesheet('charger', './sprites/charger_end.png', {frameWidth: 122, frameHeight: 114 });
-    this.load.spritesheet('square', './sprites/square_end.png', {frameWidth: 94, frameHeight: 100 });
+    this.load.spritesheet('charger', './sprites/charger_end.png', {frameWidth: 94, frameHeight: 100 });
+    this.load.spritesheet('square', './sprites/square_end.png', {frameWidth: 122, frameHeight: 114 });
     this.load.spritesheet('shooter', './sprites/shooter_end.png',{frameWidth: 52, frameHeight: 72 });
     this.load.spritesheet('zigzag', './sprites/zigzag_end.png', {frameWidth: 94, frameHeight: 100 });
     this.load.spritesheet('bullet', './sprites/bullet_end.png', {frameWidth: 120, frameHeight: 128 });
-    //this.load.spritesheet('block', './sprites/block_end.png'), {frameWidth: 16, frameHeight: 16 };
+    this.load.image('block', './sprites/block.png');//, {frameWidth: 16, frameHeight: 16 };
     this.load.tilemapTiledJSON('tileMapPhaser', 'sprites/test.json')
     this.load.image('tileSetPhaser', './sprites/tiles_dungeon.png')
     this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
@@ -123,7 +119,7 @@ export default class Game extends Phaser.Scene {
     [2, 685, 1, 1, 1, 1, 2],
     [2, 1, 1, 1, 2, 2, 2],
     [2, 1, 1, 2, 2, 2, 2],
-    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 0, 2],
     [2, 1, 501, 1, 501, 1, 2],
     [2, 1, 1, 3, 1, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
@@ -133,15 +129,28 @@ export default class Game extends Phaser.Scene {
   this.level = [
     [2, 2, 2, 4, 2, 0, 0],
     [2, 1, 1, 1, 2, 2, 2],
+    [2, 1, 1, 1, 821, 1, 2],
     [2, 1, 1, 1, 1, 1, 2],
-    [2, 685, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 2, 2, 2],
+    [2, 664, 1, 2, 2, 2, 2],
+    [2, 762, 1, 1, 0, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 500, 1, 3, 500, 2, 2],
+    [2, 2, 2, 2, 2, 2, 2]
+  ];
+
+  /*this.level = [
+    [2, 2, 2, 4, 2, 0, 0],
+    [2, 1, 1, 1, 2, 2, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
     [2, 1, 1, 1, 2, 2, 2],
     [2, 1, 1, 2, 2, 2, 2],
     [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 501, 1, 501, 685, 2],
-    [2, 1, 1, 3, 1, 2, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 500, 1, 3, 500, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
-  ];
+  ];*/
 
     this.backgroundMusic.play();
     this.levelLoad();
@@ -269,7 +278,8 @@ export default class Game extends Phaser.Scene {
     this.end_iniSound.play();
     this.end_finSound.play();
     this.scene.start('End');
-    } //change level
+    this.backgroundMusic.stop();
+    }
 
   }
 

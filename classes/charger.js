@@ -9,10 +9,38 @@ export default class Charger extends enemy
         this.speed = speed;
         this.tween;
         this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
+
+        this.scene.anims.create({
+            key:'right_charger',
+            frames: this.scene.anims.generateFrameNumbers('charger',{ start: 6, end: 8 }),
+            frameRate:3,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'left_charger',
+            frames: this.scene.anims.generateFrameNumbers('charger',{ start: 3, end: 5 }),
+            frameRate:3,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'up_charger',
+            frames: this.scene.anims.generateFrameNumbers('charger',{ start: 9, end: 11 }),
+            frameRate:3,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'down_charger',
+            frames: this.scene.anims.generateFrameNumbers('charger',{ start: 0, end: 2 }),
+            frameRate:3,
+            repeat:-1,
+        });
     }
 
     Act()
-    {
+    {   
         switch(this.dir)
         {
             case 1:
@@ -26,6 +54,7 @@ export default class Charger extends enemy
             case 2:
                 for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, 0, 1); i++)
                     this.posY++;
+                    this.play('down_charger')
                 break;
                 
             case 3:
@@ -39,11 +68,13 @@ export default class Charger extends enemy
             case 4:
                 for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, -1, 0); i++)
                     this.posX--;
+                    this.play('left_charger')
                 break;
 
             case 6:
                 for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, 1, 0); i++)
                     this.posX++;
+                    this.play('right_charger')
                 break;
 
             case 7:
@@ -57,6 +88,7 @@ export default class Charger extends enemy
             case 8:
                 for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, 0, -1); i++)
                     this.posY--;
+                    this.play('up_charger')
                 break;
     
             case 9:
@@ -79,8 +111,9 @@ export default class Charger extends enemy
 
     Attempt(x, y, xInc, yInc)
     {
-        if (this.level[y + yInc][x + xInc] != 2)
+        if (this.level[y + yInc][x + xInc] != 2 && this.level[y + yInc][x + xInc] != 0)
         {
+            
             this.level[y + yInc][x + xInc] = this.level[y][x];
             this.level[y][x] = 1;
             return (true);

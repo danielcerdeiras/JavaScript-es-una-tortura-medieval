@@ -10,6 +10,34 @@ export default class Square extends enemy
         this.cont = 0;
         this.tween;
         this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
+
+        this.scene.anims.create({
+            key:'right_square',
+            frames: this.scene.anims.generateFrameNumbers('square',{ start: 6, end: 8 }),
+            frameRate:15,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'left_square',
+            frames: this.scene.anims.generateFrameNumbers('square',{ start: 3, end: 5 }),
+            frameRate:15,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'up_square',
+            frames: this.scene.anims.generateFrameNumbers('square',{ start: 9, end: 11 }),
+            frameRate:15,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'down_square',
+            frames: this.scene.anims.generateFrameNumbers('square',{ start: 0, end: 2 }),
+            frameRate:15,
+            repeat:-1,
+        });
     }
 
     Act()
@@ -23,18 +51,22 @@ export default class Square extends enemy
                 {
                     case 2:
                         this.posY++;
+                        this.play('down_square');
                         break;
 
                     case 4:
                         this.posX--;
+                        this.play('left_square');
                         break;
 
                     case 6:
                         this.posX++;
+                        this.play('right_square');
                         break;
 
                     case 8:
                         this.posY--;
+                        this.play('up_square');
                         break;
                 }
                 break;
@@ -44,18 +76,22 @@ export default class Square extends enemy
                 {
                     case 2:
                         this.posY++;
+                        this.play('down_square');
                         break;
 
                     case 4:
                         this.posX--;
+                        this.play('left_square');
                         break;
     
                     case 6:
                         this.posX++;
+                        this.play('right_square');
                         break;
     
                     case 8:
                         this.posY--;
+                        this.play('up_square');
                         break;
                 }
                 break;
@@ -65,18 +101,22 @@ export default class Square extends enemy
                 {
                     case 2:
                         this.posY++;
+                        this.play('down_square');
                         break;
     
                     case 4:
                         this.posX--;
+                        this.play('left_square');
                         break;
     
                     case 6:
                         this.posX++;
+                        this.play('right_square');
                         break;
     
                     case 8:
                         this.posY--;
+                        this.play('up_square');
                         break;
                 }
                 break;
@@ -86,22 +126,27 @@ export default class Square extends enemy
                 {
                     case 2:
                         this.posY++;
+                        this.play('down_square');
                         break;
         
                     case 4:
                         this.posX--;
+                        this.play('left_square');
                         break;
         
                     case 6:
                         this.posX++;
+                        this.play('right_square');
                         break;
         
                     case 8:
                         this.posY--;
+                        this.play('up_square');
                         break;
                 }
                 break;
         }
+
 
         this.tween = this.scene.tweens.add({
             targets: this,

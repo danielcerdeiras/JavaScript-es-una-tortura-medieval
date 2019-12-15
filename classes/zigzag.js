@@ -9,6 +9,34 @@ export default class Zigzag extends enemy
         this.dir2 = dir2;
         this.cont = 0;
         this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
+
+        this.scene.anims.create({
+            key:'right_zigzag',
+            frames: this.scene.anims.generateFrameNumbers('zigzag',{ start: 6, end: 8 }),
+            frameRate:15,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'left_zigzag',
+            frames: this.scene.anims.generateFrameNumbers('zigzag',{ start: 3, end: 5 }),
+            frameRate:15,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'up_zigzag',
+            frames: this.scene.anims.generateFrameNumbers('zigzag',{ start: 9, end: 11 }),
+            frameRate:15,
+            repeat:-1,
+        });
+
+        this.scene.anims.create({
+            key:'down_zigzag',
+            frames: this.scene.anims.generateFrameNumbers('zigzag',{ start: 0, end: 2 }),
+            frameRate:15,
+            repeat:-1,
+        });
     }
 
     Act()
@@ -21,8 +49,10 @@ export default class Zigzag extends enemy
         switch(this.dir1)
         {
             case 2:
-                if (this.Attempt(this.posX, this.posY, 0, 1))
+                if (this.Attempt(this.posX, this.posY, 0, 1)){
                     this.posY++;
+                    this.play('down_zigzag');
+                }
                 else 
                 {
                     this.dir1 = 10 - this.dir1;
@@ -31,8 +61,10 @@ export default class Zigzag extends enemy
                 break;
                 
             case 4:
-                if (this.Attempt(this.posX, this.posY, -1, 0))
+                if (this.Attempt(this.posX, this.posY, -1, 0)){
                     this.posX--;
+                    this.play('left_zigzag');
+                }
                 else 
                 {
                     this.dir1 = 10 - this.dir1;
@@ -41,8 +73,10 @@ export default class Zigzag extends enemy
                 break;
 
             case 6:
-                if (this.Attempt(this.posX, this.posY, 1, 0))
+                if (this.Attempt(this.posX, this.posY, 1, 0)){
                     this.posX++;
+                    this.play('right_zigzag');
+                }
                 else 
                 {
                     this.dir1 = 10 - this.dir1;
@@ -51,8 +85,10 @@ export default class Zigzag extends enemy
                 break;
                     
             case 8:
-                if (this.Attempt(this.posX, this.posY, 0, -1))
+                if (this.Attempt(this.posX, this.posY, 0, -1)){
                     this.posY--;
+                    this.play('up_zigzag');
+                }
                 else 
                 {
                     this.dir1 = 10 - this.dir1;
