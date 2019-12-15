@@ -24,7 +24,9 @@
     <canvas id="canvas" width="700" height="1000"></canvas>
   
     <script type="module">
+        import Menu from './classes/menu.js';
         import Game from './classes/game.js';
+        import End from './classes/end.js';
 
         const config = {
             type: Phaser.WEBGL,
@@ -39,7 +41,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [ Game ],
+            scene: [ Menu, Game, End ],
             physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: true } }
         };
         new Phaser.Game(config);

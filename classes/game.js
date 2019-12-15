@@ -7,15 +7,15 @@ import block from './block.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
-    super({ key: 'main' });
+    super('Game');
     this.squarePixels = 100;
   }
 
+  init(power){
+    this.power = power;
+  }
+
   preload() {
-    this.load.image('end', './sprites/end.png');
-    this.load.image('wall', './sprites/wall.png');
-    this.load.image('void', './sprites/void.png');
-    this.load.image('ground', './sprites/ground.png');
     this.load.image('player', './sprites/player.png');
     this.load.image('charger', './sprites/charger.png');
     this.load.image('square', './sprites/square.png');
@@ -62,8 +62,8 @@ export default class Game extends Phaser.Scene {
     */
 
    this.copyLevel = [
-    [2, 2, 2, 2, 2, 0, 0],
-    [2, 1, 1, 4, 2, 2, 2],
+    [2, 2, 2, 4, 2, 0, 0],
+    [2, 1, 1, 1, 2, 2, 2],
     [2, 1, 1, 1, 1, 1, 2],
     [2, 685, 1, 1, 1, 1, 2],
     [2, 1, 1, 1, 2, 2, 2],
@@ -76,8 +76,8 @@ export default class Game extends Phaser.Scene {
 
   //this.level = this.copyLevel;
   this.level = [
-    [2, 2, 2, 2, 2, 0, 0],
-    [2, 1, 1, 4, 2, 2, 2],
+    [2, 2, 2, 4, 2, 0, 0],
+    [2, 1, 1, 1, 2, 2, 2],
     [2, 1, 1, 1, 1, 1, 2],
     [2, 685, 1, 1, 1, 1, 2],
     [2, 1, 1, 1, 2, 2, 2],
@@ -175,10 +175,10 @@ export default class Game extends Phaser.Scene {
         }
       }
     }
-    this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', 'flash');
+    this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', this.power);
     this.startingX = px;
     this.startingY = py;
-    
+
     //Comprobar si el mundo está plegado
   }
 
@@ -206,7 +206,7 @@ export default class Game extends Phaser.Scene {
   checkVictory() {
     let entity = this.level[this.player.posY][this.player.posX];
     if (entity == 4)
-      ; //change level
+      this.scene.start('End');
   }
 
 
