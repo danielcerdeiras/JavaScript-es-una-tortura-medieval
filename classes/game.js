@@ -7,8 +7,12 @@ import block from './block.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
-    super({ key: 'main' });
+    super('Game');
     this.squarePixels = 100;
+  }
+
+  init(power){
+    this.power = power;
   }
 
   preload() {
@@ -113,8 +117,8 @@ export default class Game extends Phaser.Scene {
     */
 
    this.copyLevel = [
-    [2, 2, 2, 2, 2, 0, 0],
-    [2, 1, 1, 4, 2, 2, 2],
+    [2, 2, 2, 4, 2, 0, 0],
+    [2, 1, 1, 1, 2, 2, 2],
     [2, 1, 1, 1, 1, 1, 2],
     [2, 685, 1, 1, 1, 1, 2],
     [2, 1, 1, 1, 2, 2, 2],
@@ -127,8 +131,8 @@ export default class Game extends Phaser.Scene {
 
   //this.level = this.copyLevel;
   this.level = [
-    [2, 2, 2, 2, 2, 0, 0],
-    [2, 1, 1, 4, 2, 2, 2],
+    [2, 2, 2, 4, 2, 0, 0],
+    [2, 1, 1, 1, 2, 2, 2],
     [2, 1, 1, 1, 1, 1, 2],
     [2, 685, 1, 1, 1, 1, 2],
     [2, 1, 1, 1, 2, 2, 2],
@@ -229,7 +233,7 @@ export default class Game extends Phaser.Scene {
         }
       }
     }
-    this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', 'timeStop');
+    this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', this.power);
     this.startingX = px;
     this.startingY = py;
 
@@ -264,7 +268,9 @@ export default class Game extends Phaser.Scene {
     {
     this.end_iniSound.play();
     this.end_finSound.play();
+    this.scene.start('End');
     } //change level
+
   }
 
 

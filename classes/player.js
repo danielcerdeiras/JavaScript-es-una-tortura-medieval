@@ -63,6 +63,8 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.time = this.cooldown;
 
         this.play('standing')
+        var style = { font: "40px Arial", align: "center"};
+        this.text = this.scene.add.text(this.posX * width + (width / 2.5), this.posY * height + (height / 3.5), this.cooldown - this.time, style);
     }
 
     Move(dir)
@@ -144,8 +146,17 @@ export default class Player extends Phaser.GameObjects.Sprite
             duration: 200,
         });
 
-        if (!this.powerUsed && moved)
+        if (!this.powerUsed && moved && this.time < this.cooldown)
             this.time++;
+
+        this.text.setText(this.cooldown - this.time);
+        this.tween = this.scene.tweens.add({
+            targets: this.text,
+            x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
+            y: (this.posY * this.displayHeight + (this.displayHeight / 3.5)),
+            ease: 'Power1',
+            duration: 200,
+            });
 
         return (moved);
     }
@@ -172,6 +183,14 @@ export default class Player extends Phaser.GameObjects.Sprite
             this.posX += squares;
         else
             this.posY += squares;
+
+        this.tween = this.scene.tweens.add({
+            targets: this.text,
+            x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
+            y: (this.posY * this.displayHeight + (this.displayHeight / 3.5)),
+            ease: 'Power1',
+            duration: 200,
+            });    
     }
 
     Displace(dir)
@@ -190,5 +209,13 @@ export default class Player extends Phaser.GameObjects.Sprite
             else
                 this.posX--; 
         }
+
+        this.tween = this.scene.tweens.add({
+            targets: this.text,
+            x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
+            y: (this.posY * this.displayHeight + (this.displayHeight / 3.5)),
+            ease: 'Power1',
+            duration: 200,
+            });
     }
 }
