@@ -23,7 +23,7 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('zigzag', './sprites/zigzag_end.png', {frameWidth: 94, frameHeight: 100 });
     this.load.spritesheet('bullet', './sprites/bullet_end.png', {frameWidth: 120, frameHeight: 128 });
     this.load.image('block', './sprites/block.png');//, {frameWidth: 16, frameHeight: 16 };
-    this.load.tilemapTiledJSON('tileMapPhaser', 'sprites/test.json')
+    this.load.tilemapTiledJSON('tileMapPhaser', 'sprites/level3.json')
     this.load.image('tileSetPhaser', './sprites/tiles_dungeon.png')
     this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
     this.load.audio('backgroundMusic', './sounds/background.wav');
@@ -114,18 +114,20 @@ export default class Game extends Phaser.Scene {
 
    this.copyLevel = [
     [2, 2, 2, 4, 2, 0, 0],
-    [2, 761, 1, 1, 2, 2, 2],
-    [2, 1, 666, 1, 1, 1, 2],
-    [2, 1, 624, 1, 1, 646, 2],
-    [2, 1, 1, 1, 2, 2, 2],
-    [2, 666, 1, 2, 2, 2, 2],
-    [2, 666, 1, 1, 0, 1, 2],
-    [2, 1, 1, 1, 842, 1, 2],
-    [2, 662, 1, 3, 1, 2, 2],
+    [2, 862, 1, 1, 1, 842, 2],
+    [2, 1, 1, 0, 1, 1, 2],
+    [2, 986, 0, 1, 0, 924, 2],
+    [2, 1, 1, 0, 2, 2, 2],
+    [2, 868, 1, 1, 1, 848, 2],
+    [2, 2, 2, 2, 2, 1, 2],
+    [2, 1, 1, 0, 1, 1, 2],
+    [2, 1, 1, 1, 1, 884, 2],
     [2, 2, 2, 2, 2, 2, 2]
   ];
 
   //this.level = this.copyLevel;
+
+  /*
   this.level = [
     [2, 2, 2, 4, 2, 0, 0],
     [2, 761, 1, 1, 2, 2, 2],
@@ -138,6 +140,40 @@ export default class Game extends Phaser.Scene {
     [2, 662, 1, 3, 1, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
   ];
+
+  /*/
+
+  /*
+    this.level = [
+    [2, 2, 2, 2, 2, 4, 2],
+    [2, 0, 721, 1, 924, 1, 2],
+    [2, 0, 1, 1, 0, 1, 2],
+    [2, 624, 1, 1, 986, 1, 2],
+    [2, 1, 1, 2, 2, 2, 2],
+    [2, 1, 2, 2, 2, 2, 2],
+    [2, 1, 0, 1, 1, 824, 2],
+    [2, 500, 0, 500, 1, 1, 2],
+    [2, 1, 1, 3, 1, 1, 2],
+    [2, 2, 2, 2, 2, 2, 2]
+  ];
+  /*/
+
+      this.level = [
+        [2, 4, 2, 4, 2, 0, 0],
+        [2, 1, 1, 1, 1, 1, 2],
+        [2, 1, 1, 0, 1, 1, 2],
+        [2, 1, 0, 651, 0, 1, 2],
+        [2, 1, 1, 0, 2, 2, 2],
+        [2, 1, 1, 1, 1, 1, 2],
+        [2, 2, 2, 2, 2, 1, 2],
+        [2, 1, 1, 0, 1, 1, 2],
+        [2, 3, 1, 1, 1, 884, 2],
+        [2, 2, 2, 2, 2, 2, 2]
+  ];
+
+  //*/
+
+  //*/
 
   /*this.level = [
     [2, 2, 2, 4, 2, 0, 0],

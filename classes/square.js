@@ -14,28 +14,28 @@ export default class Square extends enemy
         this.scene.anims.create({
             key:'right_square',
             frames: this.scene.anims.generateFrameNumbers('square',{ start: 6, end: 8 }),
-            frameRate:15,
+            frameRate:10,
             repeat:-1,
         });
 
         this.scene.anims.create({
             key:'left_square',
             frames: this.scene.anims.generateFrameNumbers('square',{ start: 3, end: 5 }),
-            frameRate:15,
+            frameRate:10,
             repeat:-1,
         });
 
         this.scene.anims.create({
             key:'up_square',
             frames: this.scene.anims.generateFrameNumbers('square',{ start: 9, end: 11 }),
-            frameRate:15,
+            frameRate:10,
             repeat:-1,
         });
 
         this.scene.anims.create({
             key:'down_square',
             frames: this.scene.anims.generateFrameNumbers('square',{ start: 0, end: 2 }),
-            frameRate:15,
+            frameRate:10,
             repeat:-1,
         });
 

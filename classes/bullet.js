@@ -52,6 +52,7 @@ export default class Bullet extends enemy
             case 1:
                 this.posX--;
                 this.posY++;
+                this.play('left_bullet');
                 break;
 
             case 2:
@@ -62,6 +63,7 @@ export default class Bullet extends enemy
             case 3:
                 this.posX++;
                 this.posY++;
+                this.play('right_bullet');
                 break;
 
             case 4:
@@ -77,6 +79,7 @@ export default class Bullet extends enemy
             case 7:
                 this.posX--;
                 this.posY--;
+                this.play('left_bullet');
                 break;
                     
             case 8:
@@ -87,6 +90,7 @@ export default class Bullet extends enemy
             case 9:
                 this.posX++;
                 this.posY--;
+                this.play('right_bullet');
                 break;
         }
         

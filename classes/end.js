@@ -10,13 +10,13 @@ export default class End extends Phaser.Scene{
 
     create(){
         let bg1 = this.add.image(0, 0, 'bg1');
-        bg1.scaleX = 3.5;
-        bg1.scaleY = 5;
+        bg1.setOrigin(0,0)
+        bg1.setScale(6.25)
 
         let bg2 = this.add.image(350, 500, 'bg2');
         bg2.setOrigin(0.5);
         bg2.alpha = 0.6;
-        bg2.scaleX = 4.5;
+        bg2.scaleX = 4;
         bg2.scaleY = 7;
 
         let text1 = this.add.text(350, 250, 'You made it!', { fontFamily: 'Josefin Sans', fontSize: 65, color: '#ffffff'});

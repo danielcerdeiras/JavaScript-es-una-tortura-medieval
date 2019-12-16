@@ -16,28 +16,28 @@ export default class Shooter extends enemy
         this.scene.anims.create({
             key:'standing_right_shooter',
             frames: this.scene.anims.generateFrameNumbers('shooter',{ start: 28, end: 29 }),
-            frameRate:2,
+            frameRate:3,
             repeat:-1,
         });
 
         this.scene.anims.create({
             key:'standing_left_shooter',
             frames: this.scene.anims.generateFrameNumbers('shooter',{ start: 16, end: 17 }),
-            frameRate:2,
+            frameRate:3,
             repeat:-1,
         });
 
         this.scene.anims.create({
             key:'standing_up_shooter',
             frames: this.scene.anims.generateFrameNumbers('shooter',{ start: 40, end: 41 }),
-            frameRate:2,
+            frameRate:3,
             repeat:-1,
         });
 
         this.scene.anims.create({
             key:'standing_down_shooter',
             frames: this.scene.anims.generateFrameNumbers('shooter',{ start: 4, end: 5 }),
-            frameRate:2,
+            frameRate:3,
             repeat:-1,
         });
 

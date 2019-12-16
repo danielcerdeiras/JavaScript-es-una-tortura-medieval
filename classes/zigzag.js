@@ -13,28 +13,28 @@ export default class Zigzag extends enemy
         this.scene.anims.create({
             key:'right_zigzag',
             frames: this.scene.anims.generateFrameNumbers('zigzag',{ start: 6, end: 8 }),
-            frameRate:15,
+            frameRate:5,
             repeat:-1,
         });
 
         this.scene.anims.create({
             key:'left_zigzag',
             frames: this.scene.anims.generateFrameNumbers('zigzag',{ start: 3, end: 5 }),
-            frameRate:15,
+            frameRate:5,
             repeat:-1,
         });
 
         this.scene.anims.create({
             key:'up_zigzag',
             frames: this.scene.anims.generateFrameNumbers('zigzag',{ start: 9, end: 11 }),
-            frameRate:15,
+            frameRate:5,
             repeat:-1,
         });
 
         this.scene.anims.create({
             key:'down_zigzag',
             frames: this.scene.anims.generateFrameNumbers('zigzag',{ start: 0, end: 2 }),
-            frameRate:15,
+            frameRate:5,
             repeat:-1,
         });
 
