@@ -9,6 +9,8 @@ export default class Game extends Phaser.Scene {
   constructor() {
     super('Game');
     this.squarePixels = 100;
+    this.levelHeight = 10;
+    this.levelWidth = 7;
   }
 
   init(power){
@@ -112,7 +114,33 @@ export default class Game extends Phaser.Scene {
     el resto = enemigos
     */
 
-   this.copyLevel = [
+    this.level = [
+    [2, 2, 2, 2, 2, 2, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 1, 500, 1, 500, 1, 2],
+    [2, 1, 1, 3, 1, 1, 2],
+    [2, 2, 2, 2, 2, 2, 2]
+];
+    this.copyLevel = [
+      [2, 2, 2, 2, 2, 2, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 1, 1, 1, 1, 1, 2],
+      [2, 2, 2, 2, 2, 2, 2]
+  ];
+    this.Copy(this.level, this.copyLevel);
+
+   /*this.level = [
     [2, 2, 2, 4, 2, 0, 0],
     [2, 862, 1, 1, 1, 842, 2],
     [2, 1, 1, 0, 1, 1, 2],
@@ -123,12 +151,9 @@ export default class Game extends Phaser.Scene {
     [2, 1, 1, 0, 1, 1, 2],
     [2, 1, 1, 1, 1, 884, 2],
     [2, 2, 2, 2, 2, 2, 2]
-  ];
+  ];*/
 
-  //this.level = this.copyLevel;
-
-  /*
-  this.level = [
+  /*this.level = [
     [2, 2, 2, 4, 2, 0, 0],
     [2, 761, 1, 1, 2, 2, 2],
     [2, 1, 666, 1, 1, 1, 2],
@@ -139,12 +164,9 @@ export default class Game extends Phaser.Scene {
     [2, 1, 1, 1, 842, 1, 2],
     [2, 662, 1, 3, 1, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
-  ];
+  ];*/
 
-  /*/
-
-  /*
-    this.level = [
+    /*this.level = [
     [2, 2, 2, 2, 2, 4, 2],
     [2, 0, 721, 1, 924, 1, 2],
     [2, 0, 1, 1, 0, 1, 2],
@@ -154,37 +176,6 @@ export default class Game extends Phaser.Scene {
     [2, 1, 0, 1, 1, 824, 2],
     [2, 500, 0, 500, 1, 1, 2],
     [2, 1, 1, 3, 1, 1, 2],
-    [2, 2, 2, 2, 2, 2, 2]
-  ];
-  /*/
-
-      this.level = [
-        [2, 4, 2, 4, 2, 0, 0],
-        [2, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 0, 1, 1, 2],
-        [2, 1, 0, 651, 0, 1, 2],
-        [2, 1, 1, 0, 2, 2, 2],
-        [2, 1, 1, 1, 1, 1, 2],
-        [2, 2, 2, 2, 2, 1, 2],
-        [2, 1, 1, 0, 1, 1, 2],
-        [2, 3, 1, 1, 1, 884, 2],
-        [2, 2, 2, 2, 2, 2, 2]
-  ];
-
-  //*/
-
-  //*/
-
-  /*this.level = [
-    [2, 2, 2, 4, 2, 0, 0],
-    [2, 1, 1, 1, 2, 2, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 1, 1, 2, 2, 2],
-    [2, 1, 1, 2, 2, 2, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 500, 1, 3, 500, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
   ];*/
 
@@ -218,8 +209,8 @@ export default class Game extends Phaser.Scene {
       this.player.powerUsed = false;
       this.time = 0;
 
-      /*if (!this.levelFolded)
-        this.level = this.copyLevel;*/
+      if (!this.levelFolded)
+        this.Copy(this.level, this.copyLevel);
     }
   }
 
@@ -281,8 +272,6 @@ export default class Game extends Phaser.Scene {
     this.player = new player(this.level, this, px, py, this.squarePixels, this.squarePixels, 'player', this.power);
     this.startingX = px;
     this.startingY = py;
-
-    //Comprobar si el mundo está plegado
   }
 
   checkDeath() //Si el jugador está en un objeto que lo mata lo manda al spawn point
@@ -389,7 +378,8 @@ export default class Game extends Phaser.Scene {
           let pos1 = this.blocks[block1].oriX;
           let pos2 = this.blocks[block2].oriX;
           this.blocks[block1].CorrectPosition(pos2 - pos1 - 1, 'horizontal', false);
-          this.UnfoldLevel(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal');
+          //this.UnfoldLevel(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal');
+          this.UnfoldLevel(pos1, pos2, 'horizontal');
           this.UpdateEntities(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal', true);
         }
       }
@@ -403,10 +393,10 @@ export default class Game extends Phaser.Scene {
     let tile;
     if (dir == 'horizontal')
     {
-      this.EraseTiles(pos1 + 1, (pos2 - pos1 - 1), 0, 10);
+      this.EraseTiles(pos1 + 1, (pos2 - pos1 - 1), 0, this.levelHeight);
 
       for (let i = pos2 - (pos2 - pos1); i >= 0; i--)
-        for (let j = 0; j < 10; j++)
+        for (let j = 0; j < this.levelHeight; j++)
         {
           this.level[j][i + (pos2 - pos1 - 1)] = this.copyLevel[j][i];
 
@@ -425,7 +415,7 @@ export default class Game extends Phaser.Scene {
     }
     else
     {
-      this.EraseTiles(0, 7, pos1 + 1, (pos2 - pos1 - 1));
+      this.EraseTiles(0, this.levelWidth, pos1 + 1, (pos2 - pos1 - 1));
 
       for (let i = 6; i >= 0; i--) //Los bucles son inversos para que no se sobreescriban los tiles
         for (let j = pos2 - 3; j >= 0; j--)
@@ -457,9 +447,9 @@ export default class Game extends Phaser.Scene {
     if (dir == 'horizontal')
     {
       for (let i = 0; i < pos2 - (pos2 - pos1 - 1); i++)
-        for (let j = 0; j < 10; j++)
+        for (let j = 0; j < this.levelHeight; j++)
         {
-          //this.level = this.copyLevel;
+          this.level[j][i] = this.level[j][i + (pos2 - pos1 - 1)];
 
           tile = this.backgroundLayer.getTileAt(i + (pos2 - pos1 - 1), j);
           this.backgroundLayer.putTileAt(tile, i, j);
@@ -474,14 +464,14 @@ export default class Game extends Phaser.Scene {
           this.foreground.removeTileAt(i + (pos2 - pos1 - 1), j);
         }
 
-      this.RecoverTiles(pos1 + 1, (pos2 - pos1 - 1), 0, 10);
+      this.RecoverTiles(pos1 + 1, (pos2 - pos1 - 1), 0, this.levelHeight);
     }
     else
     {
-      for (let i = 0; i < 7; i++)
+      for (let i = 0; i < this.levelWidth; i++)
         for (let j = 0; j < pos2 - 2; j++)
         {
-          //this.level = this.copyLevel;
+          this.level[j][i] = this.level[j + (pos2 - pos1 - 1)][i];
 
           tile = this.backgroundLayer.getTileAt(i, j + (pos2 - pos1 - 1));
           this.backgroundLayer.putTileAt(tile, i, j);
@@ -496,8 +486,9 @@ export default class Game extends Phaser.Scene {
           this.foreground.removeTileAt(i, j + (pos2 - pos1 - 1));
         }
 
-      this.RecoverTiles(0, 7, pos1 + 1, (pos2 - pos1 - 1));
+      this.RecoverTiles(0, this.levelWidth, pos1 + 1, (pos2 - pos1 - 1));
     }
+    this.RestoreLevel(pos1, pos2, dir);
     this.player.LevelChanged(this.level);
   }
 
@@ -572,36 +563,29 @@ export default class Game extends Phaser.Scene {
       }
     }
   }
+
+  Copy(from, to)
+  {
+    for (let i = 0; i < this.levelHeight; i++)
+      for (let j = 0; j < this.levelWidth; j++)
+        to[i][j] = from[i][j];
+  }
+
+  RestoreLevel(pos1, pos2, dir)
+  {
+    if (dir == 'horizontal')
+    {
+      for (let i = 0; i < this.levelHeight; i++)
+        for (let j = 0; j < this.levelWidth; j++)
+          if (j > pos1 && j < pos2)
+            this.level[i][j] = this.copyLevel[i][j];
+    }
+    else
+    {
+      for (let i = 0; i < this.levelHeight; i++)
+        for (let j = 0; j < this.levelWidth; j++)
+          if (i > pos1 && i < pos2)
+            this.level[i][j] = this.copyLevel[i][j];
+    }
+  }
 }
-
-
-
-
-
-
-          /*const tile1 = this.backgroundLayer.getTileAt(i, j);
-          this.tweens.add({
-            targets: tile1,
-            x: x,
-            y: y + (pos2 - pos1 - 1),
-            ease: 'Power1',
-            duration: 400,
-          });
-
-          const tile2 = this.groundLayer.getTileAt(i, j);
-          this.tweens.add({
-            targets: tile2,
-            x: x,
-            y: y + (pos2 - pos1 - 1),
-            ease: 'Power1',
-            duration: 400,
-          });
-
-          const tile3 = this.foreground.getTileAt(i, j);
-          this.tweens.add({
-            targets: tile3,
-            x: x,
-            y: y + (pos2 - pos1 - 1),
-            ease: 'Power1',
-            duration: 400,
-          });*/
