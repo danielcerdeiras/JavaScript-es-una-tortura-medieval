@@ -114,28 +114,28 @@ export default class Game extends Phaser.Scene {
 
    this.copyLevel = [
     [2, 2, 2, 4, 2, 0, 0],
+    [2, 761, 1, 1, 2, 2, 2],
+    [2, 1, 666, 1, 1, 1, 2],
+    [2, 1, 624, 1, 1, 646, 2],
     [2, 1, 1, 1, 2, 2, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 685, 1, 1, 1, 1, 2],
-    [2, 1, 1, 1, 2, 2, 2],
-    [2, 1, 1, 2, 2, 2, 2],
-    [2, 1, 1, 1, 1, 0, 2],
-    [2, 1, 501, 1, 501, 1, 2],
-    [2, 1, 1, 3, 1, 2, 2],
+    [2, 666, 1, 2, 2, 2, 2],
+    [2, 666, 1, 1, 0, 1, 2],
+    [2, 1, 1, 1, 842, 1, 2],
+    [2, 662, 1, 3, 1, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
   ];
 
   //this.level = this.copyLevel;
   this.level = [
     [2, 2, 2, 4, 2, 0, 0],
+    [2, 761, 1, 1, 2, 2, 2],
+    [2, 1, 666, 1, 1, 1, 2],
+    [2, 1, 624, 1, 1, 646, 2],
     [2, 1, 1, 1, 2, 2, 2],
-    [2, 1, 1, 1, 821, 1, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 1, 1, 2, 2, 2],
-    [2, 664, 1, 2, 2, 2, 2],
-    [2, 762, 1, 1, 0, 1, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 500, 1, 3, 500, 2, 2],
+    [2, 666, 1, 2, 2, 2, 2],
+    [2, 666, 1, 1, 0, 1, 2],
+    [2, 1, 1, 1, 842, 1, 2],
+    [2, 662, 1, 3, 1, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
   ];
 
@@ -253,7 +253,9 @@ export default class Game extends Phaser.Scene {
   {
     if (!this.playerDead) {
       let entity = this.level[this.player.posY][this.player.posX];
-      if (entity != 1 && entity != 4) {
+      if (entity != 1 && entity != 4)
+      {
+        this.player.KillText(this.startingX, this.startingY);
         this.playerDead = true;
         let tween = this.tweens.add({
           targets: this.player,
@@ -280,7 +282,6 @@ export default class Game extends Phaser.Scene {
     this.scene.start('End');
     this.backgroundMusic.stop();
     }
-
   }
 
 
@@ -314,32 +315,36 @@ export default class Game extends Phaser.Scene {
 
     if (cont >= 2)
     {
+      this.blocks[block1].folding = true;
+      this.blocks[block2].folding = true;
+
       if (this.blocks[block1].posX == this.blocks[block2].posX)
       {
         let pos1 = this.blocks[block1].posY;
         let pos2 = this.blocks[block2].posY;
-        this.blocks[block1].CorrectPosition((pos2 - pos1 - 1), 'vertical');
+        this.blocks[block1].CorrectPosition((pos2 - pos1 - 1), 'vertical', true);
         this.FoldLevel(pos1, pos2, 'vertical');
       }
       else
       {
         let pos1 = this.blocks[block1].posX;
         let pos2 = this.blocks[block2].posX;
-        this.blocks[block1].CorrectPosition(pos2 - pos1 - 1, 'horizontal');
+        this.blocks[block1].CorrectPosition((pos2 - pos1 - 1), 'horizontal', true);
         this.FoldLevel(pos1, pos2, 'horizontal');
       }
-      this.blocks[block1].folding = true;
-      this.blocks[block2].folding = true;
     }
     else if (cont == 1)
     {
       if (this.blocks[block1].folding)
       {
+        this.blocks[block1].folding = false;
+        this.blocks[block2].folding = false;
+
         if (this.blocks[block1].posX == this.blocks[block2].posX)
         {
           let pos1 = this.blocks[block1].oriY;
           let pos2 = this.blocks[block2].oriY;
-          this.blocks[block1].CorrectPosition((pos2 - pos1 - 1), 'vertical');
+          this.blocks[block1].CorrectPosition(pos2 - pos1 - 1, 'vertical', false);
           this.UnfoldLevel(pos1, pos2, 'vertical');
           this.UpdateEntities(this.blocks[block1].posY, this.blocks[block2].posY, 'vertical', true);
         }
@@ -347,12 +352,10 @@ export default class Game extends Phaser.Scene {
         {
           let pos1 = this.blocks[block1].oriX;
           let pos2 = this.blocks[block2].oriX;
-          this.blocks[block1].CorrectPosition(pos2 - pos1 - 1, 'horizontal');
+          this.blocks[block1].CorrectPosition(pos2 - pos1 - 1, 'horizontal', false);
           this.UnfoldLevel(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal');
           this.UpdateEntities(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal', true);
         }
-        this.blocks[block1].folding = false;
-        this.blocks[block2].folding = false;
       }
     }
   }
@@ -369,7 +372,7 @@ export default class Game extends Phaser.Scene {
       for (let i = pos2 - (pos2 - pos1); i >= 0; i--)
         for (let j = 0; j < 10; j++)
         {
-          this.level[j][i + (pos2 - pos1 - 1)] =  this.copyLevel[j][i];
+          this.level[j][i + (pos2 - pos1 - 1)] = this.copyLevel[j][i];
 
           tile = this.backgroundLayer.getTileAt(i, j);
           this.backgroundLayer.putTileAt(tile, i + (pos2 - pos1 - 1), j);
@@ -391,7 +394,7 @@ export default class Game extends Phaser.Scene {
       for (let i = 6; i >= 0; i--) //Los bucles son inversos para que no se sobreescriban los tiles
         for (let j = pos2 - 3; j >= 0; j--)
         {
-          this.level[j + (pos2 - pos1 - 1)][i] =  this.copyLevel[j][i];
+          this.level[j + (pos2 - pos1 - 1)][i] = this.copyLevel[j][i];
 
           tile = this.backgroundLayer.getTileAt(i, j);
           this.backgroundLayer.putTileAt(tile, i, j + (pos2 - pos1 - 1));
@@ -510,7 +513,7 @@ export default class Game extends Phaser.Scene {
         if (this.enemies[i].posX <= pos1)
           this.enemies[i].CorrectPosition(dist, dir);
         else if (this.enemies[i].posX > pos1 && this.enemies[i].posX < pos2)
-          this.enemies[i].Freeze();
+          this.enemies[i].Freeze(inv);
       }
     }
     else
@@ -529,7 +532,7 @@ export default class Game extends Phaser.Scene {
         if (this.enemies[i].posY <= pos1)
           this.enemies[i].CorrectPosition(dist, dir);
         else if (this.enemies[i].posY > pos1 && this.enemies[i].posY < pos2)
-          this.enemies[i].Freeze();
+          this.enemies[i].Freeze(inv);
       }
     }
   }

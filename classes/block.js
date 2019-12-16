@@ -24,10 +24,10 @@ export default class Block extends Phaser.GameObjects.Sprite{
         this.folding = !this.folding;
     }
 
-    CorrectPosition(squares, dir)
+    CorrectPosition(squares, dir, fold)
     {
         let sign = 1;
-        if (this.folding) sign = -1;
+        if (!fold) sign = -1;
         if (dir == 'horizontal')
         {
             //this.posX += squares + (this.oriX - this.posX);

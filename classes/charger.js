@@ -37,6 +37,8 @@ export default class Charger extends enemy
             frameRate:3,
             repeat:-1,
         });
+
+        this.play('down_charger');
     }
 
     Act()

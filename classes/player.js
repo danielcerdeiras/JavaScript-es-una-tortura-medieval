@@ -63,8 +63,8 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.time = this.cooldown;
 
         this.play('standing_player')
-        var style = { font: "40px Arial", align: "center"};
-        this.text = this.scene.add.text(this.posX * width + (width / 2.5), this.posY * height + (height / 3), this.cooldown - this.time, style);
+        var style = { font: "25px Arial", align: "center"};
+        this.text = this.scene.add.text(this.posX * width + (width / 2.5), this.posY * height + (height / 2), this.cooldown - this.time, style);
     }
 
     Move(dir)
@@ -153,7 +153,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.tween = this.scene.tweens.add({
             targets: this.text,
             x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
-            y: (this.posY * this.displayHeight + (this.displayHeight / 3)),
+            y: (this.posY * this.displayHeight + (this.displayHeight / 2)),
             ease: 'Power1',
             duration: 200,
             });
@@ -187,7 +187,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.tween = this.scene.tweens.add({
             targets: this.text,
             x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
-            y: (this.posY * this.displayHeight + (this.displayHeight / 3)),
+            y: (this.posY * this.displayHeight + (this.displayHeight / 2)),
             ease: 'Power1',
             duration: 200,
             });    
@@ -213,9 +213,20 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.tween = this.scene.tweens.add({
             targets: this.text,
             x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
-            y: (this.posY * this.displayHeight + (this.displayHeight / 3)),
+            y: (this.posY * this.displayHeight + (this.displayHeight / 2)),
             ease: 'Power1',
             duration: 200,
+            });
+    }
+
+    KillText(startingX, startingY)
+    {
+        this.tween = this.scene.tweens.add({
+            targets: this.text,
+            x: (startingX * this.displayWidth + (this.displayWidth / 2.5)),
+            y: (startingY * this.displayHeight + (this.displayHeight / 2)),
+            ease: 'Power1',
+            duration: 700,
             });
     }
 }

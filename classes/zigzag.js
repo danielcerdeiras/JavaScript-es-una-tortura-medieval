@@ -37,6 +37,8 @@ export default class Zigzag extends enemy
             frameRate:15,
             repeat:-1,
         });
+
+        this.play('down_zigzag');
     }
 
     Act()
@@ -57,6 +59,7 @@ export default class Zigzag extends enemy
                 {
                     this.dir1 = 10 - this.dir1;
                     this.posY--;
+                    this.play('up_zigzag');
                 }
                 break;
                 
@@ -69,6 +72,7 @@ export default class Zigzag extends enemy
                 {
                     this.dir1 = 10 - this.dir1;
                     this.posX++;
+                    this.play('right_zigzag');
                 }
                 break;
 
@@ -81,6 +85,7 @@ export default class Zigzag extends enemy
                 {
                     this.dir1 = 10 - this.dir1;
                     this.posX--;
+                    this.play('left_zigzag');
                 }
                 break;
                     
@@ -93,6 +98,7 @@ export default class Zigzag extends enemy
                 {
                     this.dir1 = 10 - this.dir1;
                     this.posY++;
+                    this.play('down_zigzag');
                 }
                 break;
         }

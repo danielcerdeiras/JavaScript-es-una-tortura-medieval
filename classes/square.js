@@ -38,6 +38,8 @@ export default class Square extends enemy
             frameRate:15,
             repeat:-1,
         });
+
+        this.play('down_square');
     }
 
     Act()
