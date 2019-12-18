@@ -45,60 +45,29 @@ export default class Charger extends Enemy
     {   
         switch(this.dir)
         {
-            case 1:
-                for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, -1, 1); i++)
-                {
-                    this.posX--;
-                    this.posY++;
-                }
-                break;
 
-            case 2:
+            case 'down':
                 for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, 0, 1); i++)
                     this.posY++;
                     this.play('down_charger')
                 break;
-                
-            case 3:
-                for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, 1, 1); i++)
-                {
-                    this.posX++;
-                    this.posY++;
-                }
-                break;
 
-            case 4:
+            case 'left':
                 for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, -1, 0); i++)
                     this.posX--;
                     this.play('left_charger')
                 break;
 
-            case 6:
+            case 'right':
                 for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, 1, 0); i++)
                     this.posX++;
                     this.play('right_charger')
                 break;
 
-            case 7:
-                for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, -1, -1); i++)
-                {
-                    this.posX--;
-                    this.posY--;
-                }
-                break;
-                    
-            case 8:
+            case 'up':
                 for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, 0, -1); i++)
                     this.posY--;
                     this.play('up_charger')
-                break;
-    
-            case 9:
-                for (let i = 0; i < this.speed && this.Attempt(this.posX, this.posY, 1, -1); i++)
-                {
-                    this.posX++;
-                    this.posY--;
-                }
                 break;
         }
 

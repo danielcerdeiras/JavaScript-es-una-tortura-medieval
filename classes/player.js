@@ -80,14 +80,14 @@ export default class Player extends Phaser.GameObjects.Sprite
         let value;
         switch(dir)
         {
-            case 2:
-                value = this.level[this.posY + this.speed][this.posX];
-                if(value != 2 && Math.trunc(value / 100) != 5)
+            case 'down':
+                value = this.level[this.posY + this.speed][this.posX].type;
+                if(value != 'wall' && value != 'block')
                 {
                     this.posY += this.speed;
                     this.play('down_player')
                 }
-                else if (Math.trunc(value / 100) == 5)
+                else if (value == 'block')
                 {
                     this.scene.BlockCollision(this.posX, this.posY + this.speed);
                     moved = false;
@@ -95,14 +95,14 @@ export default class Player extends Phaser.GameObjects.Sprite
                 else moved = false;
                 break;
                 
-            case 4:
+            case 'left':
                 value = this.level[this.posY][this.posX - this.speed];
-                if(value != 2 && Math.trunc(value / 100) != 5)
+                if(value != 'wall' && value != 'block')
                 {               
                     this.posX -= this.speed;
                     this.play('left_player') 
                 }
-                else if (Math.trunc(value / 100) == 5)
+                else if (value == 'block')
                 {
                     this.scene.BlockCollision(this.posX - this.speed, this.posY);
                     moved = false;
@@ -110,13 +110,14 @@ export default class Player extends Phaser.GameObjects.Sprite
                 else moved = false;
                 break;
 
-            case 6:
+            case 'right':
                 value = this.level[this.posY][this.posX + this.speed];
-                if(value != 2 && Math.trunc(value / 100) != 5){
+                if(value != 'wall' && value != 'block')
+                {
                     this.posX += this.speed;
                     this.play('right_player') 
                 }   
-                else if (Math.trunc(value / 100) == 5)
+                else if (value == 'block')
                 {
                     this.scene.BlockCollision(this.posX + this.speed, this.posY);
                     moved = false;
@@ -124,13 +125,14 @@ export default class Player extends Phaser.GameObjects.Sprite
                 else moved = false;
                 break;
 
-            case 8:
+            case 'up':
                 value = this.level[this.posY - this.speed][this.posX];
-                if(value != 2 && Math.trunc(value / 100) != 5){
+                if(value != 'wall' && value != 'block')
+                {
                     this.posY -= this.speed;
                     this.play('up_player') 
                 }
-                else if (Math.trunc(value / 100) == 5)
+                else if (value == 'block')
                 {
                     this.scene.BlockCollision(this.posX, this.posY - this.speed);
                     moved = false;

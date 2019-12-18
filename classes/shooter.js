@@ -44,16 +44,16 @@ export default class Shooter extends Enemy
 
 
         switch(this.dir){
-            case 2:
+            case 'down':
                 this.play('standing_down_shooter');
                 break;
-            case 4:
+            case 'left':
                 this.play('standing_left_shooter');
                 break;
-            case 6:
+            case 'right':
                 this.play('standing_right_shooter');
                 break;
-            case 8:
+            case 'up':
                 this.play('standing_up_shooter');
                 break;
         }

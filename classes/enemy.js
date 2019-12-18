@@ -43,7 +43,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite
             });
         }
         this.square = this.level[this.posY][this.posX];
-        this.level[this.posY][this.posX] = -1; //Valor que se reconozca como enemigo
+        this.level[this.posY][this.posX] = {type: 'enemy'}; //Valor que se reconozca como enemigo
     }
 
     Freeze(inv)

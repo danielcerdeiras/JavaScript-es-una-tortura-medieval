@@ -55,7 +55,7 @@ export default class Bullet extends Enemy
                 this.play('left_bullet');
                 break;
 
-            case 2:
+            case 'down':
                 this.posY++;
                 this.play('down_bullet');
                 break;
@@ -66,12 +66,12 @@ export default class Bullet extends Enemy
                 this.play('right_bullet');
                 break;
 
-            case 4:
+            case 'left':
                 this.posX--;
                 this.play('left_bullet');
                 break;
 
-            case 6:
+            case 'right':
                 this.posX++;
                 this.play('right_bullet');
                 break;
@@ -82,7 +82,7 @@ export default class Bullet extends Enemy
                 this.play('left_bullet');
                 break;
                     
-            case 8:
+            case 'up':
                 this.posY--;
                 this.play('up_bullet');
                 break;
@@ -106,7 +106,7 @@ export default class Bullet extends Enemy
         });
 
         this.square = this.level[this.posY][this.posX];
-        if (!this.dead) this.level[this.posY][this.posX] = -1;} //Valor que se reconozca como enemigo
+        if (!this.dead) this.level[this.posY][this.posX] = {type: 'enemy'};} //Valor que se reconozca como enemigo
     }
 
     CorrectPosition(squares, dir)

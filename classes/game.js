@@ -5,7 +5,10 @@ import square from './square.js';
 import zigzag from './zigzag.js';
 import block from './block.js';
 
+
+
 export default class Game extends Phaser.Scene {
+
   constructor() {
     super('Game');
     this.squarePixels = 100;
@@ -26,7 +29,7 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('bullet', './sprites/bullet_end.png', {frameWidth: 120, frameHeight: 128 });
     this.load.image('block_act', './sprites/block_act_end.png');//, {frameWidth: 16, frameHeight: 16 };
     this.load.image('block_deact', './sprites/block_deact_end.png');//, {frameWidth: 16, frameHeight: 16 };
-    this.load.tilemapTiledJSON('tileMapPhaser', 'sprites/level2.json')
+    this.load.tilemapTiledJSON('tileMapPhaser', 'sprites/test.json')
     this.load.image('tileSetPhaser', './sprites/tiles_dungeon.png')
     this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
     this.load.audio('backgroundMusic', './sounds/background.wav');
@@ -54,7 +57,7 @@ export default class Game extends Phaser.Scene {
     const background_config = {
       mute: false,
       volume: 0.35,
-      rate: 1,
+      mod: 1,
       detune: 0,
       seek: 0,
       loop: true,
@@ -63,7 +66,7 @@ export default class Game extends Phaser.Scene {
 
     const movementSound_config ={
       volume: 0.25,
-      rate: 1,
+      mod: 1,
       detune: 0,
       seek: 0,
     }
@@ -75,7 +78,7 @@ export default class Game extends Phaser.Scene {
     const defaultSound_config = {
       mute: false,
       volume: 1,
-      rate: 1,
+      mod: 1,
       detune: 0,
       seek: 0,
       loop: false,
@@ -142,18 +145,19 @@ export default class Game extends Phaser.Scene {
 
    /*this.level = [
     [2, 2, 2, 4, 2, 0, 0],
-    [2, 862, 1, 1, 1, 842, 2],
-    [2, 1, 1, 0, 1, 1, 2],
-    [2, 986, 0, 1, 0, 924, 2],
-    [2, 1, 1, 0, 2, 2, 2],
-    [2, 868, 1, 1, 1, 848, 2],
-    [2, 2, 2, 2, 2, 1, 2],
-    [2, 1, 1, 0, 1, 1, 2],
-    [2, 1, 1, 1, 1, 884, 2],
+    [2, 761, 1, 1, 2, 2, 0],
+    [2, 862, 0, 621, 0, 2, 0],
+    [2, 1, 824, 0, 1, 2, 2],
+    [2, 0, 0, 681, 1, 1, 2],
+    [2, 2, 500, 1, 500, 1, 2],
+    [2, 1, 1, 1, 1, 1, 2],
+    [2, 968, 1, 1, 942, 1, 2],
+    [2, 1, 1, 3, 1, 1, 2],
     [2, 2, 2, 2, 2, 2, 2]
   ];*/
 
-  /*this.level = [
+/*
+  this.level = [
     [2, 2, 2, 4, 2, 0, 0],
     [2, 761, 1, 1, 2, 2, 2],
     [2, 1, 666, 1, 1, 1, 2],
@@ -164,9 +168,62 @@ export default class Game extends Phaser.Scene {
     [2, 1, 1, 1, 842, 1, 2],
     [2, 662, 1, 3, 1, 2, 2],
     [2, 2, 2, 2, 2, 2, 2]
-  ];*/
+  ];
+*/
+  let R = 'right'
+  let I = 'left'
+  let D = 'down'
 
-    this.level = [
+  let S = {type: 'floor'}
+  let V = {type: 'void'}
+  let P = {type: 'player'}
+  let F = {type: 'finish'}
+  let W = {type: 'wall'}
+  let SR2 = {type: 'shooter', constructor: shooter,facing: R, mod: 2}
+  let SR6 = {type: 'shooter', constructor: shooter, facing: R, mod: 6}
+  let SI6 = {type: 'shooter', constructor: shooter, facing: I, mod: 6}
+  let SD4 = {type: 'shooter', constructor: shooter, facing: D, mod: 4}
+  let CD1 = {type: 'charger', constructor: charger,facing: D, mod: 1}
+  let SQID = {type: 'square', constructor: square,facing: I, mod: D}
+
+
+  this.level = [
+    [W, W, W, F, W, V, V],
+    [W, CD1, S, S, W, W, W],
+    [W, S, SR6, S, S, S, W],
+    [W, S, SD4, S, S, SI6, W],
+    [W, S, S, S, W, W, W],
+    [W, SR6, S, W, W, W, W],
+    [W, SR6, S, S, V, S, W],
+    [W, S, S, S, SQID, S, W],
+    [W, SR2, S, P, S, W, W],
+    [W, W, W, W, W, W, W]
+  ];
+
+  // for(j) {
+  //   switch(j.type) {
+  //     'wall':
+  //     'cth':
+  //       if(j.facing === R) {
+
+  //       }
+  //   }
+  // }
+
+  // this.level = [
+  //   [W, W, 2, 4, 2, 0, 0],
+  //   [2, 761, 1, 1, 2, 2, 2],
+  //   [2, 1, 666, 1, 1, 1, 2],
+  //   [2, 1, 624, 1, 1, 646, 2],
+  //   [2, 1, 1, 1, 2, 2, 2],
+  //   [2, CD, 1, 2, 2, 2, 2],
+  //   [2, 666, 1, 1, 0, 1, 2],
+  //   [2, 1, 1, 1, 842, 1, 2],
+  //   [2, 662, 1, 3, 1, 2, 2],
+  //   [2, 2, 2, 2, 2, 2, 2]
+  // ];
+
+    /*this.level = [
     [2, 2, 2, 2, 2, 4, 2],
     [2, 0, 721, 1, 924, 1, 2],
     [2, 0, 1, 1, 0, 1, 2],
@@ -177,16 +234,16 @@ export default class Game extends Phaser.Scene {
     [2, 500, 0, 500, 1, 1, 2],
     [2, 1, 1, 3, 1, 1, 2],
     [2, 2, 2, 2, 2, 2, 2]
-  ];
+  ];*/
 
     this.Copy(this.level, this.copyLevel);
 
     this.backgroundMusic.play();
     this.levelLoad();
-    this.cursors.W.on('down', event => { this.Turn(8); })
-    this.cursors.S.on('down', event => { this.Turn(2); })
-    this.cursors.A.on('down', event => { this.Turn(4); })
-    this.cursors.D.on('down', event => { this.Turn(6); })
+    this.cursors.W.on('down', event => { this.Turn('up'); })
+    this.cursors.S.on('down', event => { this.Turn('down'); })
+    this.cursors.A.on('down', event => { this.Turn('left'); })
+    this.cursors.D.on('down', event => { this.Turn('right'); })
     this.cursors.SHIFT.on('down', event => { this.UsePower(); })
     this.foreground = this.map.createDynamicLayer('OBj', this.tileset);
     this.foreground.setScale(6.25);
@@ -221,27 +278,32 @@ export default class Game extends Phaser.Scene {
   }
 
   levelLoad() {
-    let px, py, fx, fy;
+    let px, py;
     let fil = this.level.length;
     let col = this.level[0].length;
 
+    function haz(scene, tipo, i, j) {
+      scene.enemies[scene.enemies[0]] = new tipo.constructor(scene.level, scene, j, i, scene.squarePixels, scene.squarePixels, scene.level[i][j].type , scene.level[i][j].facing , scene.level[i][j].mod);
+   }
+
     for (let i = 0; i < fil; i++) {
       for (let j = 0; j < col; j++) {
-        switch (this.level[i][j]) {
-          case 3:
+        switch (this.level[i][j].type) {
+          case 'player':
             px = j;
             py = i;
-            this.level[i][j] = 1;
-            break;
-
-          case 4:
-            fx = j;
-            fy = i;
+            this.level[i][j] = {type: 'floor'} ;
             break;
 
           default:
-            let temp = this.level[i][j] % 100;
-            switch (Math.floor(this.level[i][j] / 100)) {
+
+            if(this.level[i][j].type != 'wall' && this.level[i][j].type != 'void' && this.level[i][j].type != 'floor'){
+              haz(this,this.level[i][j].type,i,j);
+              if(this.level[i][j].type != 'finish' && this.level[i][j].type != 'player' && this.level[i][j].type != 'block')
+                this.enemies[0]++;
+            }
+
+            /*switch (Math.floor(this.level[i][j] / 100)) {
               case 5:
                 this.blocks[0]++;
                 if (Math.floor(temp / 10) == 0)
@@ -265,10 +327,12 @@ export default class Game extends Phaser.Scene {
                 break;
 
               case 9:
+
                 this.enemies[0]++;
                 this.enemies[this.enemies[0]] = new zigzag(this.level, this, j, i, this.squarePixels, this.squarePixels, 'zigzag', Math.floor(temp / 10), temp % 10);
                 break;
-            }
+            }*/
+
             break;
         }
       }
@@ -282,7 +346,7 @@ export default class Game extends Phaser.Scene {
   {
     if (!this.playerDead) {
       let entity = this.level[this.player.posY][this.player.posX];
-      if (entity != 1 && entity != 4)
+      if (entity.type != 'floor' && entity.type != 'finish') // TODO sin numeros
       {
         this.player.KillText(this.startingX, this.startingY);
         this.playerDead = true;
@@ -304,7 +368,7 @@ export default class Game extends Phaser.Scene {
 
   checkVictory() {
     let entity = this.level[this.player.posY][this.player.posX];
-    if (entity == 4)
+    if (entity.type == 'finish')
     {
     this.end_iniSound.play();
     this.end_finSound.play();
@@ -362,7 +426,7 @@ export default class Game extends Phaser.Scene {
         this.FoldLevel(pos1, pos2, 'horizontal');
       }
     }
-    else if (cont == 1)
+    else if (cont === 1) // poner 3 iguales siempre que se pueda
     {
       if (this.blocks[block1].folding)
       {
@@ -395,7 +459,7 @@ export default class Game extends Phaser.Scene {
     this.levelFolded = true;
     this.block_onSound.play();
     let tile;
-    if (dir == 'horizontal')
+    if (dir == 'horizontal') // 3 iguales
     {
       this.EraseTiles(pos1 + 1, (pos2 - pos1 - 1), 0, this.levelHeight);
 
@@ -421,6 +485,7 @@ export default class Game extends Phaser.Scene {
     {
       this.EraseTiles(0, this.levelWidth, pos1 + 1, (pos2 - pos1 - 1));
 
+      // ESTO SON NUMEROS MAGICOS !!!!
       for (let i = 6; i >= 0; i--) //Los bucles son inversos para que no se sobreescriban los tiles
         for (let j = pos2 - 3; j >= 0; j--)
         {
