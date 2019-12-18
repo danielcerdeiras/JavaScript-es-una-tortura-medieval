@@ -2,16 +2,41 @@ h1 {
   text-align: center;
   color: white;
   font-family: 'Josefin Sans', sans-serif;
+  font-weight: bold;
 }
 
 body {
   background-color: #1E1C1C;
 }
 
+#cursiveText {
+  text-align: center;
+  color: white;
+  font-family: 'Josefin Sans', sans-serif;
+  font-style: italic;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+#greyText {
+  text-align: center;
+  color: rgb(167, 167, 167);
+  font-family: 'Josefin Sans', sans-serif;
+  font-style: italic;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
 #defaultText {
   text-align: center;
   color: white;
   font-family: 'Josefin Sans', sans-serif;
+  margin-left: 20vw;
+  margin-right: 20vw;
   margin-top: 30px;
   margin-bottom: 20px;
 }
