@@ -9,6 +9,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite
         this.displayWidth = width;
         this.displayHeight = height;
         this.level = level
+        this.frozen = false;
     }
 
     LevelChanged(level)
@@ -47,15 +48,15 @@ export default class Enemy extends Phaser.GameObjects.Sprite
 
     Freeze(inv)
     {
-        if (!inv)// && !this.freeze)
+        if (!inv && !this.frozen)
         {
-            //this.freeze = true;
+            this.frozen = true;
             this.setActive(false);
             this.setVisible(false);
         }
-        else if (inv)// && this.freeze)
+        else if (inv && this.frozen)
         {
-            //this.freeze = false;
+            this.frozen = false;
             this.setActive(true);
             this.setVisible(true);
         } 

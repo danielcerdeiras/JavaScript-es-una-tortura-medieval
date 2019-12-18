@@ -17,6 +17,11 @@ export default class Block extends Phaser.GameObjects.Sprite{
     ChangeState()
     {
         this.active = !this.active;
+
+        if(this.active)
+            this.setTexture('block_act');
+        else 
+            this.setTexture('block_deact');
     }
 
     ChangeFolding()

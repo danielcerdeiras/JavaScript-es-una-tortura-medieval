@@ -172,11 +172,6 @@ export default class Player extends Phaser.GameObjects.Sprite
         }
     }
 
-    LevelChanged(level)
-    {
-        this.level  = level;
-    }
-
     CorrectPosition(squares, dir)
     {
         if (dir == 'horizontal')

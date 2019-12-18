@@ -94,7 +94,7 @@ export default class Bullet extends Enemy
                 break;
         }
         
-        this.dead = (this.posX > 7 || this.posX < 0 || this.posY < 0 || this.posY > 10 || this.level[this.posY][this.posX] > 1)
+        this.dead = (this.level[this.posY][this.posX] > 1)
 
         this.tween = this.scene.tweens.add({
             targets: this,
@@ -111,7 +111,8 @@ export default class Bullet extends Enemy
 
     CorrectPosition(squares, dir)
     {
-        this.level[this.posY][this.posX] = this.square;
+        if (!this.dead){
+        //this.level[this.posY][this.posX] = this.square;
         if (dir == 'horizontal')
         {
             this.posX += squares;
@@ -136,9 +137,9 @@ export default class Bullet extends Enemy
                 duration: 200,
             });*/
         }
-        this.square = this.level[this.posY][this.posX];
-        this.level[this.posY][this.posX] = -1; //Valor que se reconozca como enemigo
-    }
+        //this.square = this.level[this.posY][this.posX];
+        //this.level[this.posY][this.posX] = -1;} //Valor que se reconozca como enemigo
+    }}
 
     KillThis()
     {
