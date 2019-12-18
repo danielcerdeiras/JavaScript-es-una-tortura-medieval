@@ -1,6 +1,6 @@
-import enemy from './enemy.js';
+import Enemy from './enemy.js';
 
-export default class Zigzag extends enemy
+export default class Zigzag extends Enemy
 {
     constructor(level, scene, x, y, width, height, sprite, dir1, dir2)
     {

@@ -1,6 +1,6 @@
-import enemy from './enemy.js';
+import Enemy from './enemy.js';
 
-export default class Square extends enemy
+export default class Square extends Enemy
 {
     constructor(level, scene, x, y, width, height, sprite, dir, dir_2)
     {

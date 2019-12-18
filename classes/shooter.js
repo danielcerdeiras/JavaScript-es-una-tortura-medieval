@@ -1,7 +1,7 @@
-import enemy from './enemy.js';
+import Enemy from './enemy.js';
 import bullet from './bullet.js';
 
-export default class Shooter extends enemy
+export default class Shooter extends Enemy
 {
     constructor(level,scene, x, y, width, height, sprite, bulletSprite, dir, fireRate)
     {

@@ -1,6 +1,6 @@
-import enemy from './enemy.js';
+import Enemy from './enemy.js';
 
-export default class Bullet extends enemy
+export default class Bullet extends Enemy
 {
     constructor(level, scene, shooter, x, y, width, height, sprite, dir, ind)
     {
