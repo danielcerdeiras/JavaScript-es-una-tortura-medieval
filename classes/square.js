@@ -8,7 +8,6 @@ export default class Square extends Enemy
         this.dir = dir;
         this.secDir = dir_2;
         this.cont = 0;
-        this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
 
         this.scene.anims.create({
             key:'right_square',
@@ -43,8 +42,7 @@ export default class Square extends Enemy
 
     Act()
     {
-        let label = this.level[this.posY][this.posX];
-        this.level[this.posY][this.posX].type = 'floor';
+        this.level[this.posY][this.posX] = { type: this.square };
         switch (this.cont)
         {
             case 0:
@@ -98,7 +96,7 @@ export default class Square extends Enemy
                 break;
 
             case 2:
-                switch (10 - this.dir)
+                switch (this.OppDir(this.dir))
                 {
                     case 'down':
                         this.posY++;
@@ -123,7 +121,7 @@ export default class Square extends Enemy
                 break;
     
             case 3:
-                switch (10 - this.secDir)
+                switch (this.OppDir(this.secDir))
                 {
                     case 'down':
                         this.posY++;
@@ -156,7 +154,8 @@ export default class Square extends Enemy
             duration: 200,
         });
 
-        this.level[this.posY][this.posX] = label;
+        this.square = this.level[this.posY][this.posX].type;
+        this.level[this.posY][this.posX] = { type: 'square'}
         this.cont = this.cont + 1;
         if (this.cont > 3) this.cont = 0;
     }

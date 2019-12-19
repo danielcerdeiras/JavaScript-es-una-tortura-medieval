@@ -10,6 +10,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite
         this.displayHeight = height;
         this.level = level
         this.frozen = false;
+        this.square = 'floor';
     }
 
     LevelChanged(level)

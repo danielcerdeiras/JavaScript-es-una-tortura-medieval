@@ -17,21 +17,21 @@ export default class Game extends Phaser.Scene {
       [W, F, SD4, F, F, SL6, W],
       [W, F, F, F, W, W, W],
       [W, SR6, F, W, W, W, W],
-      [W, SR6, F, F, V, F, W],
-      [W, F, F, F, SQLD, F, W],
+      [W, SR6, F, F, V, SQLD, W],
+      [W, F, F, F, F, F, W],
       [W, SR2, F, P, F, W, W],
       [W, W, W, W, W, W, W]
     ],
     [
-      [W, W, W, E, W, V, V],
-      [W, F, F, F, W, W, W],
-      [W, F, F, F, F, F, W],
-      [W, F, F, F, F, F, W],
-      [W, F, F, F, W, W, W],
+      [W, W, W, W, W, E, W],
+      [W, V, CD1, F, ZDL, F, W],
+      [W, V, F, F, V, F, W],
+      [W, SD4, F, F, ZUR, F, W],
       [W, F, F, W, W, W, W],
-      [W, F, F, F, F, F, W],
-      [W, F, F, F, F, F, W],
-      [W, F, F, P, F, W, W],
+      [W, F, W, W, W, W, W],
+      [W, F, V, F, F, SQDL, W],
+      [W, B00, V, B00, F, F, W],
+      [W, F, F, P, F, F, W],
       [W, W, W, W, W, W, W]
     ]/*,
     [
@@ -49,9 +49,9 @@ export default class Game extends Phaser.Scene {
   ]
 
   static levelTilemap = [
-    'sprites/test.json',
-    'sprites/level2.json',
-    'sprites/level3.json'
+    './sprites/test.json',
+    './sprites/level2.json',
+    './sprites/level3.json'
   ]
 
   constructor() {
@@ -220,7 +220,7 @@ export default class Game extends Phaser.Scene {
     const CreateBlock = (i, j) => {
       let sprite = 'block_deact';
       if (this.level[i][j].facing > 0) sprite = 'block_act';
-      this.blocks.push(new block(this, j, i, this.squarePixels, this.squarePixels, sprite, this.level[i][j].type, this.level[i][j].facing, this.level[i][j].mod));
+      this.blocks.push(new block(this, j, i, this.squarePixels, this.squarePixels, sprite, this.level[i][j].facing, this.level[i][j].mod));
     }
 
     for (let i = 0; i < fil; i++) {

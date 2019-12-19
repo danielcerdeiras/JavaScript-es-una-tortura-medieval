@@ -95,7 +95,7 @@ export default class Player extends Phaser.GameObjects.Sprite
                 break;
                 
             case 'left':
-                value = this.level[this.posY][this.posX - this.speed];
+                value = this.level[this.posY][this.posX - this.speed].type;
                 if(value != 'wall' && value != 'block')
                 {               
                     this.posX -= this.speed;
@@ -110,7 +110,7 @@ export default class Player extends Phaser.GameObjects.Sprite
                 break;
 
             case 'right':
-                value = this.level[this.posY][this.posX + this.speed];
+                value = this.level[this.posY][this.posX + this.speed].type;
                 if(value != 'wall' && value != 'block')
                 {
                     this.posX += this.speed;
@@ -125,7 +125,7 @@ export default class Player extends Phaser.GameObjects.Sprite
                 break;
 
             case 'up':
-                value = this.level[this.posY - this.speed][this.posX];
+                value = this.level[this.posY - this.speed][this.posX].type;
                 if(value != 'wall' && value != 'block')
                 {
                     this.posY -= this.speed;

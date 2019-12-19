@@ -81,16 +81,15 @@ export default class Charger extends Enemy
 
     Attempt(x, y, xInc, yInc)
     {
-        if (this.level[y + yInc][x + xInc].type !== 'wall' && this.level[y + yInc][x + xInc].type !== 'void')
+        if (this.level[y + yInc][x + xInc].type === 'floor')
         {
-            
-            this.level[y + yInc][x + xInc] = this.level[y][x];
-            this.level[y][x] = 1;
+            this.level[y + yInc][x + xInc] = {type: 'enemy'};
+            this.level[y][x] = {type: 'floor'};
             return (true);
         }
         else
         {
-            this.OppDir(this.dir);
+            this.dir = this.OppDir(this.dir);
             return (false);
         }
     }

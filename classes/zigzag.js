@@ -8,7 +8,6 @@ export default class Zigzag extends Enemy
         this.dir1 = dir1;
         this.dir2 = dir2;
         this.cont = 0;
-        this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
 
         this.scene.anims.create({
             key:'right_zigzag',
@@ -41,88 +40,44 @@ export default class Zigzag extends Enemy
         this.play('down_zigzag');
     }
 
+    Cases(cond, op1, op2, val)
+    {
+        switch(cond)
+        {
+            case 'down':
+                op2 += val;
+                break;
+                
+            case 'left':
+                op1 -= val;
+                break;
+
+            case 'right':
+                op1 += val;
+                break;
+                    
+            case 'up':
+                op2 -= val;
+                break;
+        }
+        return {op1, op2};
+    }
+
     Act()
     {
-        let label = this.level[this.posY][this.posX];
-        this.level[this.posY][this.posX].type = 'floor';
+        this.level[this.posY][this.posX] = { type: this.square };
         let sign = -1;
         if (this.cont % 3 == 0) sign = 1;
 
-        switch(this.dir1)
-        {
-            case 2:
-                if (this.Attempt(this.posX, this.posY, 0, 1)){
-                    this.posY++;
-                    this.play('down_zigzag');
-                }
-                else 
-                {
-                    this.dir1 = this.OppDir(this.dir1);
-                    this.posY--;
-                    this.play('up_zigzag');
-                }
-                break;
-                
-            case 4:
-                if (this.Attempt(this.posX, this.posY, -1, 0)){
-                    this.posX--;
-                    this.play('left_zigzag');
-                }
-                else 
-                {
-                    this.dir1 = this.OppDir(this.dir1);
-                    this.posX++;
-                    this.play('right_zigzag');
-                }
-                break;
+        let result;
+        let xInc = 0;
+        let yInc = 0;
 
-            case 6:
-                if (this.Attempt(this.posX, this.posY, 1, 0)){
-                    this.posX++;
-                    this.play('right_zigzag');
-                }
-                else 
-                {
-                    this.dir1 = this.OppDir(this.dir1);
-                    this.posX--;
-                    this.play('left_zigzag');
-                }
-                break;
-                    
-            case 8:
-                if (this.Attempt(this.posX, this.posY, 0, -1)){
-                    this.posY--;
-                    this.play('up_zigzag');
-                }
-                else 
-                {
-                    this.dir1 = this.OppDir(this.dir1);
-                    this.posY++;
-                    this.play('down_zigzag');
-                }
-                break;
-        }
+        result = this.Cases(this.dir1, xInc, yInc, 1); xInc = result.op1; yInc = result.op2;
+        result = this.Cases(this.dir2, this.posX, this.posY, sign); this.posX = result.op1; this.posY = result.op2;
+        this.Attempt(xInc, yInc);
 
-        switch(this.dir2)
-        {
-            case 2:
-                this.posY += sign;
-                break;
-                
-            case 4:
-                this.posX -= sign;
-                break;
-
-            case 6:
-                this.posX += sign;
-                break;
-                    
-            case 8:
-                this.posY -= sign;
-                break;
-        }
-
-        this.tween = this.scene.tweens.add({
+        this.scene.tweens.add({
             targets: this,
             x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
             y: (this.posY * this.displayHeight) + (this.displayHeight / 2),
@@ -130,20 +85,24 @@ export default class Zigzag extends Enemy
             duration: 200,
         });
 
-        this.level[this.posY][this.posX] = label;
         this.cont++;
         if (this.cont > 3) this.cont = 0;
     }
 
-    Attempt(x, y, xInc, yInc)
+    Attempt(xInc, yInc)
     {
-        if (this.level[y + yInc][x + xInc] != 'wall')
+        if (this.level[this.posY + yInc][this.posX + xInc].type != 'wall')
         {
-            this.level[y + yInc][x + xInc] = this.level[y][x];
-            this.level[y][x] = 1;
-            return (true);
+            this.posX += xInc;
+            this.posY += yInc;
         }
         else
-            return (false);
+        {
+            this.dir1 = this.OppDir(this.dir1);
+            let result;
+            result = this.Cases(this.dir1, this.posX, this.posY, 1); this.posX = result.op1; this.posY = result.op2;
+        }
+        this.square = this.level[this.posY][this.posX].type;
+        this.level[this.posY][this.posX] = { type: 'zigzag' };
     }
 }
