@@ -36,6 +36,6 @@ export default class Menu extends Phaser.Scene{
         let playButton = this.add.text(350, 750, 'Start', { fontFamily: 'Josefin Sans', fontSize: 75, color: '#ffffff'});
         playButton.setOrigin(0.5);
         playButton.setInteractive();
-        playButton.on('pointerdown', () => {if (this.power == 'flash' || this.power == 'timeStop') this.scene.start('Game', this.power)});
+        playButton.on('pointerdown', () => {if (this.power == 'flash' || this.power == 'timeStop') this.scene.start('Game', {power: this.power, level: 0 })});
     }
 }
