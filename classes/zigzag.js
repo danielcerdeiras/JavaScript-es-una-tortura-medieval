@@ -44,7 +44,7 @@ export default class Zigzag extends Enemy
     Act()
     {
         let label = this.level[this.posY][this.posX];
-        this.level[this.posY][this.posX] = 1;
+        this.level[this.posY][this.posX].type = 'floor';
         let sign = -1;
         if (this.cont % 3 == 0) sign = 1;
 
@@ -57,7 +57,7 @@ export default class Zigzag extends Enemy
                 }
                 else 
                 {
-                    this.dir1 = 10 - this.dir1;
+                    this.dir1 = this.OppDir(this.dir1);
                     this.posY--;
                     this.play('up_zigzag');
                 }
@@ -70,7 +70,7 @@ export default class Zigzag extends Enemy
                 }
                 else 
                 {
-                    this.dir1 = 10 - this.dir1;
+                    this.dir1 = this.OppDir(this.dir1);
                     this.posX++;
                     this.play('right_zigzag');
                 }
@@ -83,7 +83,7 @@ export default class Zigzag extends Enemy
                 }
                 else 
                 {
-                    this.dir1 = 10 - this.dir1;
+                    this.dir1 = this.OppDir(this.dir1);
                     this.posX--;
                     this.play('left_zigzag');
                 }
@@ -96,7 +96,7 @@ export default class Zigzag extends Enemy
                 }
                 else 
                 {
-                    this.dir1 = 10 - this.dir1;
+                    this.dir1 = this.OppDir(this.dir1);
                     this.posY++;
                     this.play('down_zigzag');
                 }
@@ -137,7 +137,7 @@ export default class Zigzag extends Enemy
 
     Attempt(x, y, xInc, yInc)
     {
-        if (this.level[y + yInc][x + xInc] != 2)
+        if (this.level[y + yInc][x + xInc] != 'wall')
         {
             this.level[y + yInc][x + xInc] = this.level[y][x];
             this.level[y][x] = 1;

@@ -3,10 +3,10 @@ import bullet from './bullet.js';
 
 export default class Shooter extends Enemy
 {
-    constructor(level,scene, x, y, width, height, sprite, bulletSprite, dir, fireRate)
+    constructor(level,scene, x, y, width, height, sprite, dir, fireRate)
     {
         super(level, scene, x, y, width, height, sprite);
-        this.bulletSprite = bulletSprite;
+        this.bulletSprite = 'bullet';
         this.dir = dir;
         this.fireRate = fireRate;
         this.time = fireRate;

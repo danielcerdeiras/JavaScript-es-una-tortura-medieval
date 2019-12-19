@@ -61,4 +61,19 @@ export default class Enemy extends Phaser.GameObjects.Sprite
             this.setVisible(true);
         } 
     }
+
+    OppDir(dir)
+    {
+        switch(dir)
+        {
+            case 'up':
+                return 'down';
+            case 'down':
+                return 'up';
+            case 'left':
+                return 'right';
+            case 'right':
+                return 'left';
+        }
+    }
 }

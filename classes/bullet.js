@@ -9,7 +9,6 @@ export default class Bullet extends Enemy
         this.displayHeight = height;
         this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
         this.dir = dir;
-        this.tween;
         this.shooter = shooter;
         this.ind = ind;
         this.dead = false;
@@ -49,21 +48,9 @@ export default class Bullet extends Enemy
         {this.level[this.posY][this.posX] = this.square;
         switch(this.dir)
         {
-            case 1:
-                this.posX--;
-                this.posY++;
-                this.play('left_bullet');
-                break;
-
             case 'down':
                 this.posY++;
                 this.play('down_bullet');
-                break;
-                
-            case 3:
-                this.posX++;
-                this.posY++;
-                this.play('right_bullet');
                 break;
 
             case 'left':
@@ -75,28 +62,16 @@ export default class Bullet extends Enemy
                 this.posX++;
                 this.play('right_bullet');
                 break;
-
-            case 7:
-                this.posX--;
-                this.posY--;
-                this.play('left_bullet');
-                break;
                     
             case 'up':
                 this.posY--;
                 this.play('up_bullet');
                 break;
-    
-            case 9:
-                this.posX++;
-                this.posY--;
-                this.play('right_bullet');
-                break;
         }
         
-        this.dead = (this.level[this.posY][this.posX] > 1)
+        this.dead = (this.level[this.posY][this.posX].type !== 'floor')
 
-        this.tween = this.scene.tweens.add({
+        this.scene.tweens.add({
             targets: this,
             onComplete: this.KillThis.bind(this),
             x: (this.posX * (this.displayWidth)) + (this.displayWidth / 2),
@@ -106,7 +81,7 @@ export default class Bullet extends Enemy
         });
 
         this.square = this.level[this.posY][this.posX];
-        if (!this.dead) this.level[this.posY][this.posX] = {type: 'enemy'};} //Valor que se reconozca como enemigo
+        if (!this.dead) this.level[this.posY][this.posX] = {type: 'bullet'};} //Valor que se reconozca como enemigo
     }
 
     CorrectPosition(squares, dir)

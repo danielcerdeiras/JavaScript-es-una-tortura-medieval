@@ -12,7 +12,6 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.power = power;
         this.powerUsed = false;
         this.speed = 1;
-        this.tween;
         
         this.scene.anims.create({
             key:'standing_player',
@@ -140,7 +139,7 @@ export default class Player extends Phaser.GameObjects.Sprite
                 else {moved = false;}
                 break;
         }
-        this.tween = this.scene.tweens.add({
+        this.scene.tweens.add({
             targets: this,
             x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
             y: (this.posY * this.displayHeight) + (this.displayHeight / 2),
@@ -152,7 +151,7 @@ export default class Player extends Phaser.GameObjects.Sprite
             this.time++;
 
         this.text.setText(this.cooldown - this.time);
-        this.tween = this.scene.tweens.add({
+        this.scene.tweens.add({
             targets: this.text,
             x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
             y: (this.posY * this.displayHeight + (this.displayHeight / 2)),
@@ -181,7 +180,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         else
             this.posY += squares;
 
-        this.tween = this.scene.tweens.add({
+        this.scene.tweens.add({
             targets: this.text,
             x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
             y: (this.posY * this.displayHeight + (this.displayHeight / 2)),
@@ -207,7 +206,7 @@ export default class Player extends Phaser.GameObjects.Sprite
                 this.posX--; 
         }
 
-        this.tween = this.scene.tweens.add({
+        this.scene.tweens.add({
             targets: this.text,
             x: (this.posX * this.displayWidth + (this.displayWidth / 2.5)),
             y: (this.posY * this.displayHeight + (this.displayHeight / 2)),
@@ -218,7 +217,7 @@ export default class Player extends Phaser.GameObjects.Sprite
 
     KillText(startingX, startingY)
     {
-        this.tween = this.scene.tweens.add({
+        this.scene.tweens.add({
             targets: this.text,
             x: (startingX * this.displayWidth + (this.displayWidth / 2.5)),
             y: (startingY * this.displayHeight + (this.displayHeight / 2)),

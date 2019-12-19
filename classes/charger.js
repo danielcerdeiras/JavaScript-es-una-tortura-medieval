@@ -7,7 +7,6 @@ export default class Charger extends Enemy
         super(level, scene, x, y, width, height, sprite);
         this.dir = dir;
         this.speed = speed;
-        this.tween;
         this.square = level[y][x]; //Guarda el valor de la casilla que ocupa la bala en la matriz para restaurarlo cuando se mueva
 
         this.scene.anims.create({
@@ -71,7 +70,7 @@ export default class Charger extends Enemy
                 break;
         }
 
-        this.tween = this.scene.tweens.add({
+        this.scene.tweens.add({
             targets: this,
             x: (this.posX * this.displayWidth) + (this.displayWidth / 2),
             y: (this.posY * this.displayHeight) + (this.displayHeight / 2),
@@ -82,7 +81,7 @@ export default class Charger extends Enemy
 
     Attempt(x, y, xInc, yInc)
     {
-        if (this.level[y + yInc][x + xInc] != 2 && this.level[y + yInc][x + xInc] != 0)
+        if (this.level[y + yInc][x + xInc].type !== 'wall' && this.level[y + yInc][x + xInc].type !== 'void')
         {
             
             this.level[y + yInc][x + xInc] = this.level[y][x];
@@ -91,7 +90,7 @@ export default class Charger extends Enemy
         }
         else
         {
-            this.dir = 10 - this.dir; //Dirección opuesta
+            this.OppDir(this.dir);
             return (false);
         }
     }
