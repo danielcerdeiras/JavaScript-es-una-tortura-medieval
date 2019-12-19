@@ -23,15 +23,15 @@ export default class Game extends Phaser.Scene {
       [W, W, W, W, W, W, W]
     ],
     [
-      [W, W, W, W, W, E, W],
-      [W, V, CD1, F, ZDL, F, W],
-      [W, V, F, F, V, F, W],
-      [W, SD4, F, F, ZUR, F, W],
+      [W, W, W, E, W, V, V],
+      [W, F, F, F, W, W, W],
+      [W, F, F, F, F, F, W],
+      [W, F, F, F, F, F, W],
+      [W, F, F, F, W, W, W],
       [W, F, F, W, W, W, W],
-      [W, F, W, W, W, W, W],
-      [W, F, V, F, F, SQDL, W],
-      [W, B00, V, B00, F, F, W],
-      [W, F, F, P, F, F, W],
+      [W, F, F, F, F, F, W],
+      [W, F, F, F, F, F, W],
+      [W, F, F, P, F, W, W],
       [W, W, W, W, W, W, W]
     ]/*,
     [
@@ -56,6 +56,7 @@ export default class Game extends Phaser.Scene {
 
   constructor() {
     super('Game');
+    this.totalLevels = 2;
     this.squarePixels = 100;
     this.levelHeight = 10;
     this.levelWidth = 7;
@@ -79,7 +80,7 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('bullet', './sprites/bullet_end.png', { frameWidth: 120, frameHeight: 128 });
     this.load.image('block_act', './sprites/block_act_end.png');
     this.load.image('block_deact', './sprites/block_deact_end.png');
-    this.load.tilemapTiledJSON('tileMapPhaser', levelTilemap[this.numLevel]);
+    this.load.tilemapTiledJSON('tileMapPhaser', Game.levelTilemap[this.numLevel]);
     this.load.image('tileSetPhaser', './sprites/tiles_dungeon.png')
     this.cursors = this.input.keyboard.addKeys('W,A,S,D,SHIFT');
     this.load.audio('backgroundMusic', './sounds/background.wav');
@@ -157,16 +158,16 @@ export default class Game extends Phaser.Scene {
     this.groundLayer.setScale(6.25);
 
     this.copyLevel = [
-      [2, 2, 2, 2, 2, 2, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 1, 1, 1, 1, 1, 2],
-      [2, 2, 2, 2, 2, 2, 2]
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
     ];
 
     this.Copy(this.level, this.copyLevel);
@@ -185,9 +186,6 @@ export default class Game extends Phaser.Scene {
   update(time, delta) {
     if (!(!this.playerDead && this.time > 150))
       this.time += delta;
-
-    this.checkDeath();
-    this.checkVictory();
   }
 
   Turn(dir) {
@@ -203,6 +201,9 @@ export default class Game extends Phaser.Scene {
     }
     if (!this.levelFolded)
       this.Copy(this.level, this.copyLevel);
+
+    this.checkDeath();
+    this.checkVictory();
   }
 
   UsePower() {
@@ -216,6 +217,11 @@ export default class Game extends Phaser.Scene {
     let col = this.level[0].length;
 
     const CreateEnemy = (tipo, i, j) => { this.enemies.push(new tipo(this.level, this, j, i, this.squarePixels, this.squarePixels, this.level[i][j].type, this.level[i][j].facing, this.level[i][j].mod)); }
+    const CreateBlock = (i, j) => {
+      let sprite = 'block_deact';
+      if (this.level[i][j].facing > 0) sprite = 'block_act';
+      this.blocks.push(new block(this, j, i, this.squarePixels, this.squarePixels, sprite, this.level[i][j].type, this.level[i][j].facing, this.level[i][j].mod));
+    }
 
     for (let i = 0; i < fil; i++) {
       for (let j = 0; j < col; j++) {
@@ -230,7 +236,7 @@ export default class Game extends Phaser.Scene {
             if (this.level[i][j].type === 'shooter' || this.level[i][j].type === 'charger' || this.level[i][j].type === 'zigzag' || this.level[i][j].type === 'square') 
               CreateEnemy(this.level[i][j].constructor, i, j);
             else if (this.level[i][j].type === 'block')
-              this.blocks.push(new Block(this.level, this, j, i, this.squarePixels, this.squarePixels, this.level[i][j].type, this.level[i][j].facing, this.level[i][j].mod));
+              CreateBlock(i, j);
             break;
         }
       }
@@ -248,7 +254,7 @@ export default class Game extends Phaser.Scene {
       {
         this.player.KillText(this.startingX, this.startingY);
         this.playerDead = true;
-        let tween = this.tweens.add({
+        this.tweens.add({
           targets: this.player,
           x: (this.startingX * this.squarePixels) + (this.squarePixels / 2),
           y: (this.startingY * this.squarePixels) + (this.squarePixels / 2),
@@ -261,7 +267,10 @@ export default class Game extends Phaser.Scene {
 
     else
       if (this.time >= 700)
-        this.scene.restart();
+      {
+        //this.scene.restart();
+        this.scene.start('Game', {power: this.power, level: this.numLevel });
+      }
   }
 
   checkVictory() {
@@ -269,7 +278,10 @@ export default class Game extends Phaser.Scene {
     if (entity.type == 'finish') {
       this.end_iniSound.play();
       this.end_finSound.play();
-      this.scene.start('End');
+      if (this.numLevel < (this.totalLevels - 1)) //El primer nivel es el 0 y se incrementa al cambiar -> -1
+        this.scene.start('Game', {power: this.power, level: (this.numLevel + 1) });
+      else
+        this.scene.start('End');
       this.backgroundMusic.stop();
     }
   }

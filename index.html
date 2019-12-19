@@ -49,7 +49,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [Menu, Game, End ],
+            scene: [Menu, Game, Trans, End ],
             physics: { default: 'arcade', arcade: { gravity: { y: 400 }, debug: true } }
         };
         new Phaser.Game(config);
