@@ -44,10 +44,11 @@ export default class Square extends Enemy
 
     Act()
     {
-        let label = this.level[this.posY][this.posX];
-        this.level[this.posY][this.posX] = 1;
+        let label = this.level[this.posY][this.posX]; //Guarda su valor
+        this.level[this.posY][this.posX] = 1; //Escribe suelo en su casilla
         switch (this.cont)
         {
+            //Sigue el patron dir1 -> dir2 -> !dir1 -> !dir2 -> dir1...
             case 0:
                 switch (this.dir)
                 {
@@ -158,7 +159,7 @@ export default class Square extends Enemy
             duration: 200,
         });
 
-        this.level[this.posY][this.posX] = label;
+        this.level[this.posY][this.posX] = label; //Escribe su valor en la nueva casilla
         this.cont = this.cont + 1;
         if (this.cont > 3) this.cont = 0;
     }

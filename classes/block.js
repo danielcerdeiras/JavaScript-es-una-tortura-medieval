@@ -9,12 +9,12 @@ export default class Block extends Phaser.GameObjects.Sprite{
         this.oriY = y;
         this.displayWidth = width;
         this.displayHeight = height;
-        this.link = link;
+        this.link = link; //Valor que indica qué dos bloques están vinculados
         this.active = (active != 0);
         this.folding = false;
     }
 
-    ChangeState()
+    ChangeState() //Cambia el estado del bloque
     {
         this.active = !this.active;
 
@@ -24,18 +24,17 @@ export default class Block extends Phaser.GameObjects.Sprite{
             this.setTexture('block_deact');
     }
 
-    ChangeFolding()
+    ChangeFolding() //Cambia el valor del booleano que indica si está plegando o no
     {
         this.folding = !this.folding;
     }
 
-    CorrectPosition(squares, dir, fold)
+    CorrectPosition(squares, dir, fold) //Corrige la posición del bloque al plegarse/desplegarse el nivel
     {
         let sign = 1;
         if (!fold) sign = -1;
         if (dir == 'horizontal')
         {
-            //this.posX += squares + (this.oriX - this.posX);
             this.posX += (squares * sign);
             this.scene.tweens.add({
                 targets: this,
@@ -47,7 +46,6 @@ export default class Block extends Phaser.GameObjects.Sprite{
         }
         else
         {
-            //this.posY += squares + (this.oriY - this.posY);
             this.posY += (squares * sign);
             this.scene.tweens.add({
                 targets: this,

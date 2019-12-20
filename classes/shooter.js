@@ -59,7 +59,7 @@ export default class Shooter extends Enemy
         }
     }
 
-    Act()
+    Act() //Cada x tiempo crea una bala, la guarda en su vector y las actualiza todas. Si el valor dir = 5 dispara balas en todas las direcciones
     {
         if (this.time >= this.fireRate)
         {
@@ -111,7 +111,7 @@ export default class Shooter extends Enemy
         this.time++;
     }
 
-    CorrectPosition(squares, dir)
+    CorrectPosition(squares, dir) //...
     {
         if (dir == 'horizontal')
         {
@@ -140,7 +140,7 @@ export default class Shooter extends Enemy
             this.bullets[i].CorrectPosition(squares, dir);
     }
 
-    KillBullet(dead, ind)
+    KillBullet(dead, ind) //Le indica al shooter que bala destruir
     {
         if (dead)
             this.bullets[ind].destroy();

@@ -45,8 +45,9 @@ export default class Bullet extends Enemy
     }
 
     Act()
-    {   if(!this.dead) //Las balas no se destruyen correctamente
-        {this.level[this.posY][this.posX] = this.square;
+    {   if(!this.dead)
+        {
+            this.level[this.posY][this.posX] = this.square; //Restaura el valor de la casilla actual
         switch(this.dir)
         {
             case 1:
@@ -105,41 +106,21 @@ export default class Bullet extends Enemy
             duration: 200,
         });
 
-        this.square = this.level[this.posY][this.posX];
-        if (!this.dead) this.level[this.posY][this.posX] = -1;} //Valor que se reconozca como enemigo
+        this.square = this.level[this.posY][this.posX]; //Guarda el valor de la nueva casilla
+        if (!this.dead) this.level[this.posY][this.posX] = -1; //Valor que se reconozca como enemigo
+    }
     }
 
-    CorrectPosition(squares, dir)
+    CorrectPosition(squares, dir) //Corrige la posición de las balas al plegarse el nivel
     {
-        if (!this.dead){
-        //this.level[this.posY][this.posX] = this.square;
-        if (dir == 'horizontal')
+        if (!this.dead)
         {
-            this.posX += squares;
-            /*this.tween = this.scene.tweens.add({
-                targets: this,
-                onComplete: this.KillThis.bind(this),
-                x: (this.posX * (this.displayWidth * 4)) + (this.displayWidth * 2),
-                y: (this.posY * (this.displayHeight * 4)) + (this.displayWidth * 2),
-                ease: 'Power1',
-                duration: 200,
-            });*/
+            if (dir == 'horizontal')
+                this.posX += squares;
+            else
+                this.posY += squares;
         }
-        else
-        {
-            this.posY += squares;
-            /*this.tween = this.scene.tweens.add({
-                targets: this,
-                onComplete: this.KillThis.bind(this),
-                x: (this.posX * (this.displayWidth * 4)) + (this.displayWidth * 2),
-                y: (this.posY * (this.displayHeight * 4)) + (this.displayWidth * 2),
-                ease: 'Power1',
-                duration: 200,
-            });*/
-        }
-        //this.square = this.level[this.posY][this.posX];
-        //this.level[this.posY][this.posX] = -1;} //Valor que se reconozca como enemigo
-    }}
+    }
 
     KillThis()
     {

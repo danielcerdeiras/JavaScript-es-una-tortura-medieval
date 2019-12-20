@@ -72,8 +72,8 @@ export default class Player extends Phaser.GameObjects.Sprite
         let moved = true;
         this.speed = 1;
         if(this.power == 'flash' && this.powerUsed){
-        this.speed = 2;
-        this.scene.flashSound.play()
+            this.speed = 2;
+            this.scene.flashSound.play()
         }
         else this.scene.movementSound.play()
 
@@ -82,17 +82,17 @@ export default class Player extends Phaser.GameObjects.Sprite
         {
             case 2:
                 value = this.level[this.posY + this.speed][this.posX];
-                if(value != 2 && Math.trunc(value / 100) != 5)
+                if(value != 2 && Math.trunc(value / 100) != 5) //Si puede moverse lo hace y pasa un turno
                 {
                     this.posY += this.speed;
                     this.play('down_player')
                 }
-                else if (Math.trunc(value / 100) == 5)
+                else if (Math.trunc(value / 100) == 5) //Si colisiona con un bloque lo activa y no pasa un turno
                 {
                     this.scene.BlockCollision(this.posX, this.posY + this.speed);
                     moved = false;
                 }
-                else moved = false;
+                else moved = false; //Si no puede moverse no lo hace y no pasa un turno
                 break;
                 
             case 4:
@@ -172,7 +172,7 @@ export default class Player extends Phaser.GameObjects.Sprite
         }
     }
 
-    CorrectPosition(squares, dir)
+    CorrectPosition(squares, dir) //Reposiciona al jugador cuando se pliega/despliega el nivel
     {
         if (dir == 'horizontal')
             this.posX += squares;
@@ -188,7 +188,7 @@ export default class Player extends Phaser.GameObjects.Sprite
             });    
     }
 
-    Displace(dir)
+    Displace(dir) //Reposiciona al jugador cuando se encuentra entre 2 bloques que se pliegan
     {
         if (dir == 'horizontal')
         {
@@ -214,7 +214,7 @@ export default class Player extends Phaser.GameObjects.Sprite
             });
     }
 
-    KillText(startingX, startingY)
+    KillText(startingX, startingY) //Hace que el texto siga al jugador al morir
     {
         this.tween = this.scene.tweens.add({
             targets: this.text,

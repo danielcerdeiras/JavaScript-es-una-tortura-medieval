@@ -104,29 +104,6 @@ export default class Game extends Phaser.Scene {
     this.backgroundLayer.setScale(6.25);
     this.groundLayer.setScale(6.25);
 
-    /*
-    Como funciona el level:
-    0 = vacio
-    1 = suelo
-    2 = pared
-    3 = jugador
-    4 = meta
-    5 = bloque
-    el resto = enemigos
-    */
-
-    /*this.level = [
-    [2, 4, 2, 2, 2, 2, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 1, 1, 0, 1, 1, 2],
-    [2, 1, 0, 1, 0, 1, 2],
-    [2, 1, 1, 0, 1, 1, 2],
-    [2, 1, 1, 1, 1, 1, 2],
-    [2, 2, 2, 2, 2, 1, 2],
-    [2, 1, 500, 0, 500, 1, 2],
-    [2, 3, 1, 3, 1, 1, 2],
-    [2, 2, 2, 2, 2, 2, 2]
-];*/
     this.copyLevel = [
       [2, 2, 2, 2, 2, 2, 2],
       [2, 1, 1, 1, 1, 1, 2],
@@ -139,32 +116,6 @@ export default class Game extends Phaser.Scene {
       [2, 1, 1, 1, 1, 1, 2],
       [2, 2, 2, 2, 2, 2, 2]
   ];
-
-   /*this.level = [
-    [2, 2, 2, 4, 2, 0, 0],
-    [2, 862, 1, 1, 1, 842, 2],
-    [2, 1, 1, 0, 1, 1, 2],
-    [2, 986, 0, 1, 0, 924, 2],
-    [2, 1, 1, 0, 2, 2, 2],
-    [2, 868, 1, 1, 1, 848, 2],
-    [2, 2, 2, 2, 2, 1, 2],
-    [2, 1, 1, 0, 1, 1, 2],
-    [2, 1, 1, 1, 1, 884, 2],
-    [2, 2, 2, 2, 2, 2, 2]
-  ];*/
-
-  /*this.level = [
-    [2, 2, 2, 4, 2, 0, 0],
-    [2, 761, 1, 1, 2, 2, 2],
-    [2, 1, 666, 1, 1, 1, 2],
-    [2, 1, 624, 1, 1, 646, 2],
-    [2, 1, 1, 1, 2, 2, 2],
-    [2, 666, 1, 2, 2, 2, 2],
-    [2, 666, 1, 1, 0, 1, 2],
-    [2, 1, 1, 1, 842, 1, 2],
-    [2, 662, 1, 3, 1, 2, 2],
-    [2, 2, 2, 2, 2, 2, 2]
-  ];*/
 
     this.level = [
     [2, 2, 2, 2, 2, 4, 2],
@@ -179,6 +130,8 @@ export default class Game extends Phaser.Scene {
     [2, 2, 2, 2, 2, 2, 2]
   ];
 
+    //level es la matriz actualizada el juego,
+    //copyLevel es la última versión de level antes de plegar el nivel
     this.Copy(this.level, this.copyLevel);
 
     this.backgroundMusic.play();
@@ -201,17 +154,19 @@ export default class Game extends Phaser.Scene {
   }
 
   Turn(dir) {
-    if (!this.playerDead && this.time > 150) {
-      if (this.player.Move(dir) && (this.player.power != 'timeStop' || !this.player.powerUsed)){
+    if (!this.playerDead && this.time > 150) //Si el jugador está vivo y su último turno ya ha acabado
+    {
+      if (this.player.Move(dir) && (this.player.power != 'timeStop' || !this.player.powerUsed)) //Si es pertienente los enemigos actúan
+      {
         for (let i = 1; i <= this.enemies[0]; i++)
-          if (!this.enemies[i].frozen)this.enemies[i].Act();
+          if (!this.enemies[i].frozen) this.enemies[i].Act(); //Solo actúan los enemigos que no se encuentren en una parte plegada del nivel ("frozen")
 
         this.timeStopSound.stop();
       }
       this.player.powerUsed = false;
       this.time = 0;
     }
-    if (!this.levelFolded)
+    if (!this.levelFolded) //Si el nivel no está plegado se actualiza copyLevel
         this.Copy(this.level, this.copyLevel);
   }
 
@@ -220,7 +175,8 @@ export default class Game extends Phaser.Scene {
       this.player.UsePower();
   }
 
-  levelLoad() {
+  levelLoad() //Crea las entidades a partir de la matriz del nivel
+  {
     let px, py, fx, fy;
     let fil = this.level.length;
     let col = this.level[0].length;
@@ -298,11 +254,12 @@ export default class Game extends Phaser.Scene {
     }
 
     else
-      if (this.time >= 700)
+      if (this.time >= 700) //Cuando acaba la aniación de respawn se resetea la escena
         this.scene.restart();
   }
 
-  checkVictory() {
+  checkVictory() //Si el jugador a llegado a la meta se pasa a la siguiente escena
+  {
     let entity = this.level[this.player.posY][this.player.posX];
     if (entity == 4)
     {
@@ -313,10 +270,10 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-
-
   //Métodos relacionados con el mapa y su modificación
-  BlockCollision(x, y) {
+
+  BlockCollision(x, y) //Cuando el jugador colisiona con un bloque este se activa y se mira el estado de el otro cubo vinculado
+  {
     let found = false;
     for (let i = 1; i <= this.blocks[0] && !found; i++) {
       if (this.blocks[i].posX == x)
@@ -328,7 +285,7 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  CheckBlocks(link)
+  CheckBlocks(link) //Se miran los estados de los dos bloques vinculados y se actúa en consecuencia
   {
     let block1 = -1;
     let block2 = -1;
@@ -342,7 +299,7 @@ export default class Game extends Phaser.Scene {
       }
     }
 
-    if (cont >= 2)
+    if (cont >= 2) //2 activados -> Se pliega el nivel
     {
       this.blocks[block1].folding = true;
       this.blocks[block2].folding = true;
@@ -362,7 +319,7 @@ export default class Game extends Phaser.Scene {
         this.FoldLevel(pos1, pos2, 'horizontal');
       }
     }
-    else if (cont == 1)
+    else if (cont == 1) //1 activado -> Se mira si este estaba plegando el nivel; si lo estaba -> Se despliega el nivel
     {
       if (this.blocks[block1].folding)
       {
@@ -382,7 +339,6 @@ export default class Game extends Phaser.Scene {
           let pos1 = this.blocks[block1].oriX;
           let pos2 = this.blocks[block2].oriX;
           this.blocks[block1].CorrectPosition(pos2 - pos1 - 1, 'horizontal', false);
-          //this.UnfoldLevel(this.blocks[block1].posX, this.blocks[block2].posX, 'horizontal');
           this.UnfoldLevel(pos1, pos2, 'horizontal');
           this.UpdateEntitiesUnfold(pos1, pos2, 'horizontal');
         }
@@ -390,16 +346,16 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  FoldLevel(pos1, pos2, dir)
+  FoldLevel(pos1, pos2, dir) //Pliega el nivel, actualizando la matriz de nivel y el tilemap
   {
     this.levelFolded = true;
     this.block_onSound.play();
     let tile;
     if (dir == 'horizontal')
     {
-      this.EraseTiles(pos1 + 1, (pos2 - pos1 - 1), 0, this.levelHeight);
+      this.EraseTiles(pos1 + 1, (pos2 - pos1 - 1), 0, this.levelHeight); //Se eliminan los tiles indicados
 
-      for (let i = pos2 - (pos2 - pos1); i >= 0; i--)
+      for (let i = pos2 - (pos2 - pos1); i >= 0; i--) //Se mueve el contenido de cada casilla a su destino
         for (let j = 0; j < this.levelHeight; j++)
         {
           this.level[j][i + (pos2 - pos1 - 1)] = this.copyLevel[j][i];
@@ -442,14 +398,14 @@ export default class Game extends Phaser.Scene {
     this.UpdateEntitiesFold(pos1, pos2, dir);
   }
 
-  UnfoldLevel(pos1, pos2, dir)
+  UnfoldLevel(pos1, pos2, dir) //Se despliega el nivel, actualizando la matriz y el tilemap
   {
     this.levelFolded = false;
     let tile;
     this.block_offSound.play();
     if (dir == 'horizontal')
     {
-      for (let i = 0; i < pos2 - (pos2 - pos1 - 1); i++)
+      for (let i = 0; i < pos2 - (pos2 - pos1 - 1); i++) //Se devuelven las casillas a sus posiciones originales
         for (let j = 0; j < this.levelHeight; j++)
         {
           this.level[j][i] = this.level[j][i + (pos2 - pos1 - 1)];
@@ -467,7 +423,7 @@ export default class Game extends Phaser.Scene {
           this.foreground.removeTileAt(i + (pos2 - pos1 - 1), j);
         }
 
-      this.RecoverTiles(pos1 + 1, (pos2 - pos1 - 1), 0, this.levelHeight);
+      this.RecoverTiles(pos1 + 1, (pos2 - pos1 - 1), 0, this.levelHeight); //Se restauran los tiles previamente eliminados
     }
     else
     {
@@ -494,7 +450,7 @@ export default class Game extends Phaser.Scene {
     this.RestoreLevel(pos1, pos2, dir);
   }
 
-  EraseTiles(x, height, y, width)
+  EraseTiles(x, height, y, width) //Elimina los tiles en un rectángulo dado y los guarda en un vector
   {
     this.erasedTiles = []
     let cont = 0;
@@ -510,7 +466,7 @@ export default class Game extends Phaser.Scene {
       }
   }
 
-  RecoverTiles(x, height, y, width)
+  RecoverTiles(x, height, y, width) //Dado el vector de tiles los pega en orden en un rectángulo dado
   {
     let cont = 0;
     for (let i = x; i < height + x; i++)
@@ -522,25 +478,25 @@ export default class Game extends Phaser.Scene {
       }
   }
 
-  UpdateEntitiesFold(pos1, pos2, dir)
+  UpdateEntitiesFold(pos1, pos2, dir) //Actualiza a las entidades cuando se pliega en nivel
   {
     let dist = pos2 - pos1 - 1;
     if (dir == 'horizontal')
     {
-      if (this.player.posX <= pos1 && this.player.posX < pos2)
+      if (this.player.posX <= pos1 && this.player.posX < pos2) //Si la posición del jugador es <= primer bloque -> Se corrige su posición
         this.player.CorrectPosition(dist, dir);
-      else if (this.player.posX < pos2)
+      else if (this.player.posX < pos2) //Si no se da lo anterior y es menor que la del segundo bloque -> Se quita de en medio al jugador
       {
         this.player.Displace(dir);
         if (this.player.posX < pos2 - 1)
-          this.player.CorrectPosition(pos2 - pos1 - 2, dir);
+          this.player.CorrectPosition(pos2 - pos1 - 2, dir); //Por consistencia en gameplay también se puede corregir su posición
       }
 
       for (let i = 1; i <= this.enemies[0]; i++)
       {
-        if (this.enemies[i].posX > pos1 && this.enemies[i].posX < pos2)
+        if (this.enemies[i].posX > pos1 && this.enemies[i].posX < pos2) //Si un enemigo se encuentra en una sección de nivel plegada -> Desaparece ("freeze")
           this.enemies[i].Freeze(false);
-        else if (this.enemies[i].posX <= pos1)
+        else if (this.enemies[i].posX <= pos1) //Si no desaparece y su posición es menor a la del primer bloque se corrige
           this.enemies[i].CorrectPosition(dist, dir);
       }
     }
@@ -565,7 +521,7 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  UpdateEntitiesUnfold(pos1, pos2, dir)
+  UpdateEntitiesUnfold(pos1, pos2, dir) //Mismo funcionamiento que UpdateEntitiesFold pero con procesos opuestos
   {
     let dist = pos2 - pos1 - 1;
     if (dir == 'horizontal')
@@ -608,14 +564,14 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  Copy(from, to)
+  Copy(from, to) //Deep copy de un array de arrays
   {
     for (let i = 0; i < this.levelHeight; i++)
       for (let j = 0; j < this.levelWidth; j++)
         to[i][j] = from[i][j];
   }
 
-  RestoreLevel(pos1, pos2, dir)
+  RestoreLevel(pos1, pos2, dir) //Utiliza copyLevel para restaurar las líneas perdidas en level al desplegar el nivel
   {
     if (dir == 'horizontal')
     {

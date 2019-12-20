@@ -12,12 +12,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite
         this.frozen = false;
     }
 
-    LevelChanged(level)
-    {
-        this.level = level;
-    }
-
-    CorrectPosition(squares, dir)
+    CorrectPosition(squares, dir) //Corrige la posición de los enemigos al plegarse/desplegarse el nivel
     {
         this.level[this.posY][this.posX] = this.square;
         if (dir == 'horizontal')
@@ -46,7 +41,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite
         this.level[this.posY][this.posX] = -1; //Valor que se reconozca como enemigo
     }
 
-    Freeze(inv)
+    Freeze(inv) //Activa o desactiva al enemigo
     {
         if (!inv && !this.frozen)
         {

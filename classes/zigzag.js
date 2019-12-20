@@ -43,11 +43,12 @@ export default class Zigzag extends Enemy
 
     Act()
     {
-        let label = this.level[this.posY][this.posX];
+        let label = this.level[this.posY][this.posX]; //...
         this.level[this.posY][this.posX] = 1;
         let sign = -1;
         if (this.cont % 3 == 0) sign = 1;
 
+        //Se mueve en su dir1 hasta encontrarse un obstáculo, que le invierte el valor a dir1, mientras su valor en el eje contrario aumenta y disminuye en 1
         switch(this.dir1)
         {
             case 2:
@@ -135,7 +136,7 @@ export default class Zigzag extends Enemy
         if (this.cont > 3) this.cont = 0;
     }
 
-    Attempt(x, y, xInc, yInc)
+    Attempt(x, y, xInc, yInc) //Indica si puede moverse a la posición indicada o no
     {
         if (this.level[y + yInc][x + xInc] != 2)
         {

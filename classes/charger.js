@@ -113,11 +113,10 @@ export default class Charger extends Enemy
 
     Attempt(x, y, xInc, yInc)
     {
-        if (this.level[y + yInc][x + xInc] != 2 && this.level[y + yInc][x + xInc] != 0)
-        {
-            
-            this.level[y + yInc][x + xInc] = this.level[y][x];
-            this.level[y][x] = 1;
+        if (this.level[y + yInc][x + xInc] != 2 && this.level[y + yInc][x + xInc] != 0) //Si puede moverse
+        { 
+            this.level[y + yInc][x + xInc] = this.level[y][x]; //Graba su valor en la nueva casilla
+            this.level[y][x] = 1; //Deja suelo donde estaba
             return (true);
         }
         else
