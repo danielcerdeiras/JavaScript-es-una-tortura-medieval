@@ -79,7 +79,7 @@ export default class Charger extends Enemy
         });
     }
 
-    Attempt(x, y, xInc, yInc)
+    Attempt(x, y, xInc, yInc) //Compueba si puede moverse a la siguiente casilla y actua acorde a esto
     {
         if (this.level[y + yInc][x + xInc].type === 'floor')
         {

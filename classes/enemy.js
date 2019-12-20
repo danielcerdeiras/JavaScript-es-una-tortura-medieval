@@ -10,15 +10,10 @@ export default class Enemy extends Phaser.GameObjects.Sprite
         this.displayHeight = height;
         this.level = level
         this.frozen = false;
-        this.square = 'floor';
+        this.square = 'floor'; //Se presupone que todos los enemigos empiezan sobre suelo
     }
 
-    LevelChanged(level)
-    {
-        this.level = level;
-    }
-
-    CorrectPosition(squares, dir)
+    CorrectPosition(squares, dir) //Corrige la posición del enemigo al plegarse el nivel
     {
         this.level[this.posY][this.posX] = this.square;
         if (dir == 'horizontal')

@@ -4,6 +4,7 @@ import square from './square.js';
 import zigzag from './zigzag.js';
 import block from './block.js';
 
+//Lista de valores usados para las matrices
 export const R = 'right'
 export const L = 'left'
 export const U = 'up'
@@ -21,7 +22,6 @@ export const SL6 = { type: 'shooter', constructor: shooter, facing: L, mod: 6 }
 export const SD4 = { type: 'shooter', constructor: shooter, facing: D, mod: 4 }
 
 export const CD1 = { type: 'charger', constructor: charger, facing: D, mod: 1 }
-//export const CR1 = { type: 'charger', constructor: charger, facing: R, mod: 1 }
 
 export const SQLD = { type: 'square', constructor: square, facing: L, mod: D }
 export const SQDL = { type: 'square', constructor: square, facing: D, mod: L }

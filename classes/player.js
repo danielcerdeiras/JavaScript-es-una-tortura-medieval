@@ -62,6 +62,8 @@ export default class Player extends Phaser.GameObjects.Sprite
         this.time = this.cooldown;
 
         this.play('standing_player')
+
+        //Texto que indica el cooldown que sigue al jugador
         var style = { font: "25px Arial", align: "center"};
         this.text = this.scene.add.text(this.posX * width + (width / 2.5), this.posY * height + (height / 2), this.cooldown - this.time, style);
     }
@@ -70,9 +72,10 @@ export default class Player extends Phaser.GameObjects.Sprite
     {
         let moved = true;
         this.speed = 1;
-        if(this.power == 'flash' && this.powerUsed){
-        this.speed = 2;
-        this.scene.flashSound.play()
+        if(this.power == 'flash' && this.powerUsed)
+        {
+            this.speed = 2;
+            this.scene.flashSound.play()
         }
         else this.scene.movementSound.play()
 
@@ -81,17 +84,17 @@ export default class Player extends Phaser.GameObjects.Sprite
         {
             case 'down':
                 value = this.level[this.posY + this.speed][this.posX].type;
-                if(value != 'wall' && value != 'block')
+                if(value != 'wall' && value != 'block') //Si no se choca se mueve y se pasa un turno
                 {
                     this.posY += this.speed;
                     this.play('down_player')
                 }
-                else if (value == 'block')
+                else if (value == 'block') //Si colisiona con un bloque este se activa y no se pasa un turno
                 {
                     this.scene.BlockCollision(this.posX, this.posY + this.speed);
                     moved = false;
-                }
-                else moved = false;
+                } 
+                else moved = false; //Si no se puede mover no se pasa turno
                 break;
                 
             case 'left':
@@ -189,7 +192,7 @@ export default class Player extends Phaser.GameObjects.Sprite
             });    
     }
 
-    Displace(dir)
+    Displace(dir) //Si el jugador se encuentra entre dos bloques se le cambia de lugar en el eje
     {
         if (dir == 'horizontal')
         {
@@ -215,7 +218,7 @@ export default class Player extends Phaser.GameObjects.Sprite
             });
     }
 
-    KillText(startingX, startingY)
+    KillText(startingX, startingY) //Se mata al texto que sigue al jugador
     {
         this.scene.tweens.add({
             targets: this.text,

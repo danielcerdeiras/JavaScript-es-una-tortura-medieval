@@ -40,7 +40,7 @@ export default class Zigzag extends Enemy
         this.play('down_zigzag');
     }
 
-    Cases(cond, op1, op2, val)
+    Cases(cond, op1, op2, val) //Refactorización de código :)
     {
         switch(cond)
         {
@@ -63,7 +63,8 @@ export default class Zigzag extends Enemy
         return {op1, op2};
     }
 
-    Act()
+    Act() //Se mueve en la dirección dir1 hasta colisionar con una pared, invirtiendo su dirección
+          //Se mueve constrantemente en el eje contrario a dir1 con valores -1, 0, +1
     {
         this.level[this.posY][this.posX] = { type: this.square };
         let sign = -1;
@@ -89,7 +90,7 @@ export default class Zigzag extends Enemy
         if (this.cont > 3) this.cont = 0;
     }
 
-    Attempt(xInc, yInc)
+    Attempt(xInc, yInc) //Valora la posición a la que intenta moverse y actúa acorde
     {
         if (this.level[this.posY + yInc][this.posX + xInc].type != 'wall')
         {

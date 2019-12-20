@@ -7,7 +7,6 @@ export default class Bullet extends Enemy
         super(level, scene, x, y, width, height, sprite);
         this.displayWidth = width;
         this.displayHeight = height;
-        this.square = level[y][x].type;
         this.dir = dir;
         this.shooter = shooter;
         this.ind = ind;
@@ -47,7 +46,7 @@ export default class Bullet extends Enemy
     {   
         if(!this.dead)
         {
-            this.level[this.posY][this.posX] = {type: this.square};
+            this.level[this.posY][this.posX] = {type: this.square}; //Se restora el valor original de la casilla
             switch(this.dir)
             {
             case 'down':
@@ -83,41 +82,21 @@ export default class Bullet extends Enemy
             });
 
             this.square = this.level[this.posY][this.posX].type;
-            if (!this.dead) this.level[this.posY][this.posX] = {type: 'bullet'}; //Valor que se reconozca como enemigo
+            if (!this.dead) this.level[this.posY][this.posX] = {type: 'bullet'}; //Se sobreescribe el objeto en la casilla por un enemigo
         }
     }
 
-    CorrectPosition(squares, dir)
+    CorrectPosition(squares, dir) //Corrige la posición de bala al plegar el nivel
     {
-        if (!this.dead){
-        //this.level[this.posY][this.posX] = this.square;
-        if (dir == 'horizontal')
+        if (!this.dead)
         {
-            this.posX += squares;
-            /*this.tween = this.scene.tweens.add({
-                targets: this,
-                onComplete: this.KillThis.bind(this),
-                x: (this.posX * (this.displayWidth * 4)) + (this.displayWidth * 2),
-                y: (this.posY * (this.displayHeight * 4)) + (this.displayWidth * 2),
-                ease: 'Power1',
-                duration: 200,
-            });*/
+            if (dir == 'horizontal')
+                this.posX += squares;
+
+            else
+                this.posY += squares;
         }
-        else
-        {
-            this.posY += squares;
-            /*this.tween = this.scene.tweens.add({
-                targets: this,
-                onComplete: this.KillThis.bind(this),
-                x: (this.posX * (this.displayWidth * 4)) + (this.displayWidth * 2),
-                y: (this.posY * (this.displayHeight * 4)) + (this.displayWidth * 2),
-                ease: 'Power1',
-                duration: 200,
-            });*/
-        }
-        //this.square = this.level[this.posY][this.posX];
-        //this.level[this.posY][this.posX] = -1;} //Valor que se reconozca como enemigo
-    }}
+    }
 
     KillThis()
     {

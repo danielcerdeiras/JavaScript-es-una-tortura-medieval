@@ -40,7 +40,7 @@ export default class Square extends Enemy
         this.play('down_square');
     }
 
-    Act()
+    Act() //Se mueve: dir1 -> dir2 -> !dir1 -> !dir2 -> dir1...
     {
         this.level[this.posY][this.posX] = { type: this.square };
         switch (this.cont)
@@ -155,7 +155,7 @@ export default class Square extends Enemy
         });
 
         this.square = this.level[this.posY][this.posX].type;
-        this.level[this.posY][this.posX] = { type: 'square'}
+        this.level[this.posY][this.posX] = { type: 'square'} //Sobreescribe su nueva posición con su valor y restaura el de la casilla anterior que ocupaba
         this.cont = this.cont + 1;
         if (this.cont > 3) this.cont = 0;
     }
